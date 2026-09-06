@@ -1,118 +1,1166 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>فاکتورینو | فاکتور آنلاین</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f7f9fc;color:#172033}
-header{background:#fff;border-bottom:1px solid #e8edf4;position:sticky;top:0;z-index:5}
-.nav{max-width:1150px;margin:auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:23px;font-weight:900;color:#2563eb}.nav a{margin-right:22px;text-decoration:none;color:#475467;font-size:14px}
-.hero{max-width:1150px;margin:55px auto;padding:20px;display:grid;grid-template-columns:1.1fr .9fr;gap:35px;align-items:center}
-.badge{display:inline-block;background:#eaf2ff;color:#2563eb;padding:8px 13px;border-radius:30px;font-size:13px;font-weight:bold}
-h1{font-size:46px;line-height:1.35;margin:18px 0 10px}.hero p{font-size:18px;color:#667085;line-height:2}
-.btn{display:inline-block;border:0;border-radius:12px;padding:14px 22px;background:#2563eb;color:white;text-decoration:none;font-weight:bold;cursor:pointer}
-.preview{background:white;border-radius:22px;padding:25px;box-shadow:0 18px 50px #1d4ed81c;border:1px solid #edf0f5}
-.preview-head{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding-bottom:15px}
-.line{height:10px;background:#edf1f6;border-radius:20px;margin:13px 0}
-.features{max-width:1150px;margin:30px auto 80px;padding:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.feature{background:white;border:1px solid #e8edf4;border-radius:17px;padding:25px}.icon{font-size:28px}.feature h3{margin-bottom:8px}.feature p{color:#667085;line-height:1.8}
-.creator{max-width:900px;margin:0 auto 80px;background:white;padding:30px;border-radius:20px;box-shadow:0 10px 35px #00000009}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{font-weight:bold;font-size:13px;margin-bottom:6px;display:block}
-input{width:100%;padding:12px;border:1px solid #d0d5dd;border-radius:10px;font:inherit}
-table{width:100%;border-collapse:collapse;margin-top:20px}th,td{border:1px solid #e4e7ec;padding:8px;text-align:center}th{background:#f8fafc}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}button{font:inherit}
-footer{text-align:center;padding:30px;background:#111827;color:#cbd5e1}
-@media(max-width:800px){.hero{grid-template-columns:1fr;margin-top:25px}h1{font-size:34px}.features{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.nav a{display:none}}
 
-.founder{max-width:900px;margin:0 auto 80px;padding:20px}
-.founder-card{background:linear-gradient(135deg,#ffffff,#f4fbf8);border:1px solid #dcefe8;border-radius:24px;padding:38px;box-shadow:0 15px 45px #0f766e12;text-align:center;position:relative;overflow:hidden}
-.founder-card:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:#dff5ed;left:-70px;top:-80px}
-.founder-badge{display:inline-block;background:#e5f7ef;color:#087f5b;padding:8px 15px;border-radius:30px;font-size:13px;font-weight:bold;position:relative}
-.founder-card h2{font-size:30px;margin:18px 0 8px;color:#172033}
-.founder-name{font-size:25px;font-weight:900;letter-spacing:1px;color:#087f5b;margin:0 0 16px}
-.founder-card p{max-width:680px;margin:10px auto;color:#667085;line-height:2;font-size:16px}
-.mission{margin:25px auto 0;max-width:700px;background:#fff;border:1px solid #e8edf4;border-radius:17px;padding:20px}
-.mission strong{display:block;color:#087f5b;font-size:18px;margin-bottom:7px}
+body{
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:#f4f7fb;
+    color:#172033;
+}
+
+header{
+    background:#2563eb;
+    color:white;
+    padding:18px 20px;
+    position:sticky;
+    top:0;
+    z-index:20;
+    box-shadow:0 3px 15px #0002;
+}
+
+.nav{
+    max-width:1150px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.nav a{
+    color:white;
+    text-decoration:none;
+    margin-right:18px;
+    font-size:14px;
+}
+
+.hero{
+    max-width:1150px;
+    margin:45px auto 25px;
+    padding:20px;
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:35px;
+    align-items:center;
+}
+
+.badge{
+    display:inline-block;
+    background:#eaf2ff;
+    color:#2563eb;
+    padding:8px 14px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+h1{
+    font-size:44px;
+    line-height:1.35;
+    margin:18px 0;
+}
+
+.hero p{
+    color:#667085;
+    line-height:2;
+}
+
+.btn{
+    border:0;
+    border-radius:10px;
+    padding:12px 18px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn:hover{opacity:.9}
+
+.btn.secondary{
+    background:#eef2f7;
+    color:#172033;
+}
+
+.btn.danger{
+    background:#dc2626;
+}
+
+.btn.success{
+    background:#16a34a;
+}
+
+.preview{
+    background:white;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 18px 50px #1d4ed81c;
+    border:1px solid #e0e7f3;
+}
+
+.features{
+    max-width:1150px;
+    margin:20px auto;
+    padding:20px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.feature{
+    background:white;
+    padding:22px;
+    border-radius:16px;
+    border:1px solid #e5eaf2;
+    text-align:center;
+}
+
+.feature strong{
+    display:block;
+    margin-top:10px;
+}
+
+.container{
+    max-width:1150px;
+    margin:30px auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:20px;
+    border:1px solid #e2e8f0;
+    box-shadow:0 5px 20px #00000008;
+}
+
+.card h2{
+    margin-top:0;
+    font-size:21px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.grid3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+input,textarea,select{
+    width:100%;
+    padding:12px;
+    border:1px solid #d5dce8;
+    border-radius:10px;
+    font-family:inherit;
+    outline:none;
+    background:white;
+}
+
+input:focus,textarea:focus,select:focus{
+    border-color:#2563eb;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th,td{
+    padding:11px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:right;
+}
+
+th{
+    background:#f7f9fc;
+}
+
+.total-box{
+    max-width:430px;
+    margin-right:auto;
+    margin-top:20px;
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid #edf0f5;
+}
+
+.total-row.final{
+    font-size:20px;
+    font-weight:bold;
+    color:#2563eb;
+}
+
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:20px;
+}
+
+.history-item{
+    border:1px solid #e2e8f0;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.history-info{
+    line-height:1.8;
+}
+
+.search{
+    margin-bottom:15px;
+}
+
+.report{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.report-box{
+    background:#f8fafc;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+}
+
+.report-box strong{
+    display:block;
+    font-size:25px;
+    color:#2563eb;
+    margin-top:8px;
+}
+
+.about{
+    text-align:center;
+    padding:40px 20px;
+}
+
+.founder{
+    display:inline-block;
+    background:white;
+    padding:35px 50px;
+    border-radius:22px;
+    box-shadow:0 10px 35px #00000012;
+    border:1px solid #e5e7eb;
+}
+
+.founder-name{
+    font-size:30px;
+    font-weight:bold;
+    color:#2563eb;
+    margin:15px 0 8px;
+}
+
+footer{
+    background:#172033;
+    color:white;
+    text-align:center;
+    padding:30px 20px;
+    margin-top:50px;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:25px;
+}
+
+@media(max-width:800px){
+    .hero{
+        grid-template-columns:1fr;
+        margin-top:20px;
+    }
+
+    h1{
+        font-size:32px;
+    }
+
+    .features{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .grid,.grid3,.report{
+        grid-template-columns:1fr;
+    }
+
+    .nav{
+        flex-direction:column;
+    }
+
+    .nav a{
+        margin:0 6px;
+    }
+
+    .container{
+        padding:10px;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+    .history-item{
+        flex-direction:column;
+        align-items:stretch;
+    }
+}
+
+@media print{
+    header,
+    .hero,
+    .features,
+    .no-print,
+    footer,
+    #historySection,
+    #reportSection,
+    #about{
+        display:none !important;
+    }
+
+    body{
+        background:white;
+    }
+
+    .container{
+        max-width:none;
+        margin:0;
+        padding:0;
+    }
+
+    .card{
+        border:0;
+        box-shadow:none;
+    }
+
+    #invoiceSection{
+        display:block !important;
+    }
+
+    input,textarea,select{
+        border:0;
+        padding:3px;
+        appearance:none;
+    }
+
+    .delete-btn{
+        display:none !important;
+    }
+}
 </style>
 </head>
+
 <body>
-<header><div class="nav"><div class="logo">فاکتورینو</div><nav><a href="#features">امکانات</a><a href="#make">ساخت فاکتور</a><a href="#founder">درباره ما</a></nav></div></header>
+
+<header>
+<div class="nav">
+<div class="logo">🧾 فاکتورینو</div>
+
+<div>
+<a href="#invoiceSection">ساخت فاکتور</a>
+<a href="#historySection">فاکتورهای قبلی</a>
+<a href="#reportSection">گزارش فروش</a>
+<a href="#about">درباره ما</a>
+</div>
+</div>
+</header>
 
 <section class="hero">
 <div>
-<span class="badge">ساده، سریع و فارسی</span>
-<h1>فاکتور حرفه‌ای را در چند دقیقه بساز</h1>
-<p>برای فروشگاه، خدمات و کسب‌وکار کوچک. اطلاعات را وارد کن، مبلغ را خودکار حساب کن و فاکتور را چاپ یا PDF کن.</p>
-<a class="btn" href="#make">ساخت اولین فاکتور</a>
+<span class="badge">فاکتور آنلاین و حرفه‌ای</span>
+<h1>فاکتور خودت را سریع و ساده بساز</h1>
+<p>
+با فاکتورینو بدون پیچیدگی فاکتور ایجاد کن،
+ذخیره کن، چاپ کن و فاکتورهای قبلی را مدیریت کن.
+</p>
+
+<a href="#invoiceSection" class="btn">ساخت فاکتور جدید</a>
 </div>
+
 <div class="preview">
-<div class="preview-head"><b>فاکتور فروش</b><span>شماره ۱۰۰۱</span></div>
-<div class="line" style="width:65%"></div><div class="line"></div>
-<div class="line" style="width:85%"></div><div class="line" style="width:55%"></div>
-<hr><div style="display:flex;justify-content:space-between"><b>مبلغ نهایی</b><b style="color:#2563eb">۱,۲۵۰,۰۰۰ تومان</b></div>
+<h3>فاکتورینو</h3>
+<p>✓ ساخت فاکتور حرفه‌ای</p>
+<p>✓ محاسبه خودکار مبلغ</p>
+<p>✓ ذخیره فاکتورها</p>
+<p>✓ گزارش فروش</p>
+<p>✓ مناسب موبایل</p>
 </div>
 </section>
 
-<section id="features" class="features">
-<div class="feature"><div class="icon">🧾</div><h3>ساخت فاکتور</h3><p>کالا، تعداد و قیمت را وارد کن و مبلغ را خودکار محاسبه کن.</p></div>
-<div class="feature"><div class="icon">📄</div><h3>چاپ و PDF</h3><p>فاکتور آماده چاپ است و می‌توانی آن را به PDF ذخیره کنی.</p></div>
-<div class="feature"><div class="icon">💾</div><h3>ساده و سریع</h3><p>برای شروع، پیچیدگی و نصب برنامه لازم نیست.</p></div>
+<section class="features">
+
+<div class="feature">
+<div>🧾</div>
+<strong>فاکتور حرفه‌ای</strong>
+<span>ساخت سریع فاکتور</span>
+</div>
+
+<div class="feature">
+<div>💾</div>
+<strong>ذخیره فاکتور</strong>
+<span>دسترسی به فاکتورهای قبلی</span>
+</div>
+
+<div class="feature">
+<div>📊</div>
+<strong>گزارش فروش</strong>
+<span>مشاهده آمار فروش</span>
+</div>
+
+<div class="feature">
+<div>📱</div>
+<strong>موبایل</strong>
+<span>قابل استفاده در گوشی</span>
+</div>
+
 </section>
 
-<section id="make" class="creator">
-<h2>ساخت فاکتور</h2>
+
+<div class="container">
+
+<section id="invoiceSection" class="card">
+
+<h2>🧾 ساخت فاکتور</h2>
+
+<div class="grid3">
+
+<div>
+<label>شماره فاکتور</label>
+<input id="invoiceNumber" placeholder="مثلاً 1001">
+</div>
+
+<div>
+<label>تاریخ</label>
+<input id="invoiceDate" type="date">
+</div>
+
+<div>
+<label>روش پرداخت</label>
+<select id="paymentMethod">
+<option>نقدی</option>
+<option>کارت بانکی</option>
+<option>چک</option>
+<option>کارت به کارت</option>
+<option>سایر</option>
+</select>
+</div>
+
+</div>
+
+<br>
+
 <div class="grid">
-<div><label>نام فروشگاه</label><input id="seller" placeholder="مثلاً فروشگاه من"></div>
-<div><label>نام مشتری</label><input id="customer" placeholder="نام مشتری"></div>
+
+<div>
+<label>🏪 اطلاعات فروشنده</label>
+<textarea id="sellerInfo" placeholder="نام فروشگاه یا شرکت
+شماره تماس
+آدرس"></textarea>
 </div>
-<table id="items"><thead><tr><th>کالا / خدمت</th><th>تعداد</th><th>قیمت واحد</th><th>مبلغ</th></tr></thead><tbody></tbody></table>
-<div class="actions">
-<button class="btn" onclick="add()">+ افزودن کالا</button>
-<button class="btn" onclick="window.print()">🖨️ چاپ / PDF</button>
+
+<div>
+<label>👤 اطلاعات مشتری</label>
+<textarea id="customerInfo" placeholder="نام مشتری
+شماره تماس
+آدرس"></textarea>
 </div>
-<h3 style="text-align:left;margin-top:22px">مبلغ نهایی: <span id="total">۰ تومان</span></h3>
+
+</div>
+
+<br>
+
+<h3>📦 کالاها / خدمات</h3>
+
+<div class="table-wrap">
+
+<table id="itemsTable">
+
+<thead>
+<tr>
+<th>شرح کالا / خدمات</th>
+<th>تعداد</th>
+<th>قیمت واحد</th>
+<th>مبلغ</th>
+<th class="no-print">عملیات</th>
+</tr>
+</thead>
+
+<tbody id="itemsBody"></tbody>
+
+</table>
+
+</div>
+
+<button class="btn no-print" onclick="addItem()" style="margin-top:15px">
+➕ افزودن کالا
+</button>
+
+
+<div class="grid3" style="margin-top:25px">
+
+<div>
+<label>تخفیف (تومان)</label>
+<input id="discount" type="number" min="0" value="0" oninput="calculate()">
+</div>
+
+<div>
+<label>مالیات / ارزش افزوده (%)</label>
+<input id="tax" type="number" min="0" value="0" oninput="calculate()">
+</div>
+
+<div>
+<label>توضیحات</label>
+<input id="note" placeholder="مثلاً کالا تحویل شد">
+</div>
+
+</div>
+
+
+<div class="total-box">
+
+<div class="total-row">
+<span>جمع کالاها</span>
+<strong id="subtotal">۰ تومان</strong>
+</div>
+
+<div class="total-row">
+<span>تخفیف</span>
+<strong id="discountView">۰ تومان</strong>
+</div>
+
+<div class="total-row">
+<span>مالیات</span>
+<strong id="taxView">۰ تومان</strong>
+</div>
+
+<div class="total-row final">
+<span>مبلغ نهایی</span>
+<strong id="grandTotal">۰ تومان</strong>
+</div>
+
+</div>
+
+
+<div class="actions no-print">
+
+<button class="btn success" onclick="saveInvoice()">
+💾 ذخیره فاکتور
+</button>
+
+<button class="btn" onclick="printInvoice()">
+🖨️ چاپ / PDF
+</button>
+
+<button class="btn secondary" onclick="newInvoice()">
+🆕 فاکتور جدید
+</button>
+
+</div>
+
 </section>
 
 
-<section id="founder" class="founder">
-  <div class="founder-card">
-    <span class="founder-badge">بنیانگذار فاکتورینو</span>
-    <h2>معرفی بنیانگذار</h2>
-    <div class="founder-name">ALI FIRAN</div>
-    <p>
-      فاکتورینو با هدف ساده‌تر کردن صدور و مدیریت فاکتورها برای
-      فروشگاه‌ها، خدمات و کسب‌وکارهای کوچک راه‌اندازی شده است.
-    </p>
-    <div class="mission">
-      <strong>ماموریت فاکتورینو</strong>
-      <p>ساده‌سازی امور مالی و کمک به مدیریت حرفه‌ای‌تر فاکتورها؛ سریع، ساده و قابل‌دسترس.</p>
-    </div>
-  </div>
+<section id="historySection" class="card">
+
+<h2>🔎 فاکتورهای قبلی</h2>
+
+<div class="search">
+<input id="searchInput" placeholder="جستجو بر اساس شماره فاکتور یا نام مشتری..." oninput="renderHistory()">
+</div>
+
+<div id="historyList"></div>
+
 </section>
 
-<footer>© ۱۴۰۵ فاکتورینو — نسخه اولیه</footer>
+
+<section id="reportSection" class="card">
+
+<h2>📊 گزارش فروش</h2>
+
+<div class="report">
+
+<div class="report-box">
+تعداد فاکتورها
+<strong id="reportCount">۰</strong>
+</div>
+
+<div class="report-box">
+مجموع فروش
+<strong id="reportSales">۰ تومان</strong>
+</div>
+
+<div class="report-box">
+میانگین فاکتور
+<strong id="reportAverage">۰ تومان</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<section id="about" class="card about">
+
+<h2>درباره فاکتورینو</h2>
+
+<p>
+فاکتورینو با هدف ساده‌تر کردن فرآیند صدور و مدیریت فاکتور
+برای فروشگاه‌ها، خدمات و کسب‌وکارهای کوچک راه‌اندازی شده است.
+</p>
+
+<div class="founder">
+
+<div>👤</div>
+
+<div class="founder-name">
+ALI FIRAN
+</div>
+
+<strong>
+بنیانگذار فاکتورینو
+</strong>
+
+<p>
+فاکتورینو با هدف ساده‌سازی امور مالی و مدیریت حرفه‌ای فاکتورها،
+سریع، ساده و در دسترس طراحی شده است.
+</p>
+
+</div>
+
+</section>
+
+</div>
+
+
+<footer>
+<strong>فاکتورینو</strong>
+<br>
+ساخت فاکتور ساده، سریع و حرفه‌ای
+</footer>
+
 
 <script>
-const fa=n=>Number(n||0).toLocaleString('fa-IR');
-function add(){
-const tr=document.createElement('tr');
-tr.innerHTML='<td><input placeholder="نام کالا"></td><td><input type="number" min="0" value="1"></td><td><input type="number" min="0" value="0"></td><td class="amount">۰</td>';
-tr.querySelectorAll('input').forEach(x=>x.oninput=calc);
-document.querySelector('#items tbody').appendChild(tr);calc()
+
+let items = [];
+let editingIndex = -1;
+
+function formatMoney(number){
+
+number = Number(number) || 0;
+
+return new Intl.NumberFormat('fa-IR').format(number) + ' تومان';
+
 }
-function calc(){
-let total=0;
-document.querySelectorAll('#items tbody tr').forEach(t=>{
-const q=+t.children[1].querySelector('input').value||0;
-const p=+t.children[2].querySelector('input').value||0;
-const a=q*p;total+=a;t.querySelector('.amount').textContent=fa(a)
+
+
+function today(){
+
+let d = new Date();
+
+let month = String(d.getMonth()+1).padStart(2,'0');
+let day = String(d.getDate()).padStart(2,'0');
+
+return d.getFullYear() + '-' + month + '-' + day;
+
+}
+
+
+function addItem(name='',qty=1,price=0){
+
+items.push({
+name:name,
+qty:Number(qty) || 1,
+price:Number(price) || 0
 });
-document.getElementById('total').textContent=fa(total)+' تومان'
+
+renderItems();
+
 }
-add()
+
+
+function deleteItem(index){
+
+items.splice(index,1);
+
+renderItems();
+
+}
+
+
+function editItem(index){
+
+let item = items[index];
+
+let name = prompt('شرح کالا:',item.name);
+
+if(name === null) return;
+
+let qty = prompt('تعداد:',item.qty);
+
+if(qty === null) return;
+
+let price = prompt('قیمت واحد:',item.price);
+
+if(price === null) return;
+
+items[index]={
+name:name,
+qty:Number(qty)||0,
+price:Number(price)||0
+};
+
+renderItems();
+
+}
+
+
+function renderItems(){
+
+let body=document.getElementById('itemsBody');
+
+body.innerHTML='';
+
+if(items.length===0){
+
+body.innerHTML=`
+<tr>
+<td colspan="5" class="empty">
+هنوز کالایی اضافه نشده است.
+</td>
+</tr>`;
+
+calculate();
+
+return;
+
+}
+
+
+items.forEach((item,index)=>{
+
+let total=item.qty*item.price;
+
+body.innerHTML+=`
+
+<tr>
+
+<td>${escapeHtml(item.name || 'بدون نام')}</td>
+
+<td>${new Intl.NumberFormat('fa-IR').format(item.qty)}</td>
+
+<td>${formatMoney(item.price)}</td>
+
+<td>${formatMoney(total)}</td>
+
+<td class="no-print">
+
+<button class="btn secondary" onclick="editItem(${index})">
+✏️ ویرایش
+</button>
+
+<button class="btn danger delete-btn" onclick="deleteItem(${index})">
+🗑 حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+calculate();
+
+}
+
+
+function calculate(){
+
+let subtotal=items.reduce((sum,item)=>{
+
+return sum + (Number(item.qty)||0)*(Number(item.price)||0);
+
+},0);
+
+let discount=Number(document.getElementById('discount').value)||0;
+
+let taxPercent=Number(document.getElementById('tax').value)||0;
+
+let afterDiscount=Math.max(0,subtotal-discount);
+
+let tax=afterDiscount*(taxPercent/100);
+
+let total=afterDiscount+tax;
+
+document.getElementById('subtotal').textContent=formatMoney(subtotal);
+
+document.getElementById('discountView').textContent=formatMoney(discount);
+
+document.getElementById('taxView').textContent=formatMoney(tax);
+
+document.getElementById('grandTotal').textContent=formatMoney(total);
+
+return {
+subtotal,
+discount,
+tax,
+total
+};
+
+}
+
+
+function saveInvoice(){
+
+if(items.length===0){
+
+alert('لطفاً حداقل یک کالا اضافه کنید.');
+
+return;
+
+}
+
+let number=document.getElementById('invoiceNumber').value.trim();
+
+if(!number){
+
+alert('لطفاً شماره فاکتور را وارد کنید.');
+
+return;
+
+}
+
+let calculation=calculate();
+
+let invoice={
+
+id:Date.now(),
+
+number:number,
+
+date:document.getElementById('invoiceDate').value,
+
+payment:document.getElementById('paymentMethod').value,
+
+seller:document.getElementById('sellerInfo').value,
+
+customer:document.getElementById('customerInfo').value,
+
+items:items,
+
+discount:calculation.discount,
+
+taxPercent:Number(document.getElementById('tax').value)||0,
+
+tax:calculation.tax,
+
+subtotal:calculation.subtotal,
+
+total:calculation.total,
+
+note:document.getElementById('note').value
+
+};
+
+
+let invoices=JSON.parse(localStorage.getItem('faktorinoInvoices') || '[]');
+
+let existing=invoices.findIndex(x=>x.number===number);
+
+if(existing>=0){
+
+invoice.id=invoices[existing].id;
+
+invoices[existing]=invoice;
+
+}else{
+
+invoices.push(invoice);
+
+}
+
+localStorage.setItem('faktorinoInvoices',JSON.stringify(invoices));
+
+renderHistory();
+updateReport();
+
+alert('فاکتور با موفقیت ذخیره شد. ✅');
+
+}
+
+
+function getInvoices(){
+
+return JSON.parse(localStorage.getItem('faktorinoInvoices') || '[]');
+
+}
+
+
+function renderHistory(){
+
+let list=document.getElementById('historyList');
+
+let search=(document.getElementById('searchInput').value || '').toLowerCase();
+
+let invoices=getInvoices();
+
+invoices=invoices.filter(invoice=>{
+
+return String(invoice.number).toLowerCase().includes(search) ||
+
+String(invoice.customer || '').toLowerCase().includes(search);
+
+});
+
+if(invoices.length===0){
+
+list.innerHTML='<div class="empty">فاکتوری پیدا نشد.</div>';
+
+return;
+
+}
+
+list.innerHTML='';
+
+invoices.slice().reverse().forEach(invoice=>{
+
+list.innerHTML+=`
+
+<div class="history-item">
+
+<div class="history-info">
+
+<strong>فاکتور شماره ${escapeHtml(invoice.number)}</strong><br>
+
+تاریخ: ${escapeHtml(invoice.date || '-')}
+
+<br>
+
+مشتری: ${escapeHtml(invoice.customer || '-')}
+
+<br>
+
+مبلغ: <strong>${formatMoney(invoice.total)}</strong>
+
+</div>
+
+<div class="actions no-print">
+
+<button class="btn" onclick="loadInvoice(${invoice.id})">
+✏️ ویرایش
+</button>
+
+<button class="btn secondary" onclick="printSavedInvoice(${invoice.id})">
+🖨️ چاپ
+</button>
+
+<button class="btn danger" onclick="deleteInvoice(${invoice.id})">
+🗑 حذف
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+function loadInvoice(id){
+
+let invoice=getInvoices().find(x=>x.id===id);
+
+if(!invoice) return;
+
+document.getElementById('invoiceNumber').value=invoice.number || '';
+
+document.getElementById('invoiceDate').value=invoice.date || '';
+
+document.getElementById('paymentMethod').value=invoice.payment || 'نقدی';
+
+document.getElementById('sellerInfo').value=invoice.seller || '';
+
+document.getElementById('customerInfo').value=invoice.customer || '';
+
+document.getElementById('discount').value=invoice.discount || 0;
+
+document.getElementById('tax').value=invoice.taxPercent || 0;
+
+document.getElementById('note').value=invoice.note || '';
+
+items=invoice.items || [];
+
+renderItems();
+
+document.getElementById('invoiceSection').scrollIntoView({
+behavior:'smooth'
+});
+
+}
+
+
+function deleteInvoice(id){
+
+if(!confirm('این فاکتور حذف شود؟')) return;
+
+let invoices=getInvoices();
+
+invoices=invoices.filter(x=>x.id!==id);
+
+localStorage.setItem('faktorinoInvoices',JSON.stringify(invoices));
+
+renderHistory();
+
+updateReport();
+
+}
+
+
+function updateReport(){
+
+let invoices=getInvoices();
+
+let count=invoices.length;
+
+let sales=invoices.reduce((sum,x)=>sum+(Number(x.total)||0),0);
+
+let average=count ? sales/count : 0;
+
+document.getElementById('reportCount').textContent=
+new Intl.NumberFormat('fa-IR').format(count);
+
+document.getElementById('reportSales').textContent=
+formatMoney(sales);
+
+document.getElementById('reportAverage').textContent=
+formatMoney(average);
+
+}
+
+
+function printInvoice(){
+
+calculate();
+
+window.print();
+
+}
+
+
+function printSavedInvoice(id){
+
+loadInvoice(id);
+
+setTimeout(()=>{
+
+window.print();
+
+},300);
+
+}
+
+
+function newInvoice(){
+
+if(!confirm('فاکتور فعلی پاک شود و فاکتور جدید ساخته شود؟')) return;
+
+document.getElementById('invoiceNumber').value='';
+
+document.getElementById('invoiceDate').value=today();
+
+document.getElementById('paymentMethod').value='نقدی';
+
+document.getElementById('sellerInfo').value='';
+
+document.getElementById('customerInfo').value='';
+
+document.getElementById('discount').value=0;
+
+document.getElementById('tax').value=0;
+
+document.getElementById('note').value='';
+
+items=[];
+
+addItem();
+
+}
+
+
+function escapeHtml(text){
+
+return String(text)
+
+.replaceAll('&','&amp;')
+
+.replaceAll('<','&lt;')
+
+.replaceAll('>','&gt;')
+
+.replaceAll('"','&quot;')
+
+.replaceAll("'","&#039;");
+
+}
+
+
+document.getElementById('invoiceDate').value=today();
+
+addItem();
+
+renderHistory();
+
+updateReport();
+
 </script>
+
 </body>
 </html>
