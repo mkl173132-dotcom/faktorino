@@ -2,394 +2,187 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>فاکتورینو | فاکتور آنلاین</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>فاکتورینو | ساخت فاکتور آنلاین</title>
 
 <style>
 *{box-sizing:border-box}
-
 body{
-    margin:0;
-    font-family:Tahoma,Arial,sans-serif;
-    background:#f4f7fb;
-    color:#172033;
+ margin:0;
+ font-family:Tahoma,Arial,sans-serif;
+ background:#f4f7fb;
+ color:#172033;
 }
-
 header{
-    background:#2563eb;
-    color:white;
-    padding:18px 20px;
-    position:sticky;
-    top:0;
-    z-index:20;
-    box-shadow:0 3px 15px #0002;
+ background:#2563eb;
+ color:white;
+ position:sticky;
+ top:0;
+ z-index:10;
+ box-shadow:0 3px 15px #0002;
 }
-
 .nav{
-    max-width:1150px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
+ max-width:1150px;
+ margin:auto;
+ padding:16px 20px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
 }
-
-.logo{
-    font-size:24px;
-    font-weight:bold;
-}
-
+.logo{font-size:25px;font-weight:bold}
 .nav a{
-    color:white;
-    text-decoration:none;
-    margin-right:18px;
-    font-size:14px;
+ color:white;
+ text-decoration:none;
+ margin-right:18px;
+ font-size:14px;
+ cursor:pointer;
 }
-
+.container{max-width:1150px;margin:auto;padding:25px 20px}
 .hero{
-    max-width:1150px;
-    margin:45px auto 25px;
-    padding:20px;
-    display:grid;
-    grid-template-columns:1.1fr .9fr;
-    gap:35px;
-    align-items:center;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:35px;
+ align-items:center;
+ padding:45px 0;
 }
-
-.badge{
-    display:inline-block;
-    background:#eaf2ff;
-    color:#2563eb;
-    padding:8px 14px;
-    border-radius:30px;
-    font-size:13px;
-    font-weight:bold;
-}
-
-h1{
-    font-size:44px;
-    line-height:1.35;
-    margin:18px 0;
-}
-
-.hero p{
-    color:#667085;
-    line-height:2;
-}
-
+.hero h1{font-size:42px;line-height:1.5;margin:0 0 15px}
+.hero p{line-height:2;color:#64748b}
 .btn{
-    border:0;
-    border-radius:10px;
-    padding:12px 18px;
-    background:#2563eb;
-    color:white;
-    cursor:pointer;
-    font-weight:bold;
+ border:0;
+ border-radius:10px;
+ padding:12px 20px;
+ background:#2563eb;
+ color:white;
+ font-weight:bold;
+ cursor:pointer;
 }
-
-.btn:hover{opacity:.9}
-
-.btn.secondary{
-    background:#eef2f7;
-    color:#172033;
-}
-
-.btn.danger{
-    background:#dc2626;
-}
-
-.btn.success{
-    background:#16a34a;
-}
-
-.preview{
-    background:white;
-    border-radius:22px;
-    padding:25px;
-    box-shadow:0 18px 50px #1d4ed81c;
-    border:1px solid #e0e7f3;
-}
-
-.features{
-    max-width:1150px;
-    margin:20px auto;
-    padding:20px;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-}
-
-.feature{
-    background:white;
-    padding:22px;
-    border-radius:16px;
-    border:1px solid #e5eaf2;
-    text-align:center;
-}
-
-.feature strong{
-    display:block;
-    margin-top:10px;
-}
-
-.container{
-    max-width:1150px;
-    margin:30px auto;
-    padding:20px;
-}
-
+.btn.green{background:#16a34a}
+.btn.red{background:#dc2626}
+.btn.gray{background:#64748b}
 .card{
-    background:white;
-    border-radius:18px;
-    padding:22px;
-    margin-bottom:20px;
-    border:1px solid #e2e8f0;
-    box-shadow:0 5px 20px #00000008;
+ background:white;
+ border:1px solid #dbe4f0;
+ border-radius:18px;
+ padding:20px;
+ margin-bottom:22px;
+ box-shadow:0 5px 20px #1d4ed80b;
 }
-
-.card h2{
-    margin-top:0;
-    font-size:21px;
+.features{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:15px;
+ margin:20px 0 45px;
 }
-
+.feature{
+ background:white;
+ border:1px solid #dbe4f0;
+ border-radius:16px;
+ padding:25px 15px;
+ text-align:center;
+}
+.feature .icon{font-size:28px}
+h2{margin-top:0}
 .grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:15px;
 }
-
-.grid3{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-
+.field{margin-bottom:15px}
 label{
-    display:block;
-    font-size:13px;
-    font-weight:bold;
-    margin-bottom:7px;
+ display:block;
+ font-weight:bold;
+ margin-bottom:8px;
+ font-size:14px;
 }
-
 input,textarea,select{
-    width:100%;
-    padding:12px;
-    border:1px solid #d5dce8;
-    border-radius:10px;
-    font-family:inherit;
-    outline:none;
-    background:white;
+ width:100%;
+ padding:12px;
+ border:1px solid #cbd5e1;
+ border-radius:10px;
+ font-family:inherit;
+ background:white;
 }
-
-input:focus,textarea:focus,select:focus{
-    border-color:#2563eb;
-}
-
-textarea{
-    min-height:100px;
-    resize:vertical;
-}
-
-.table-wrap{
-    overflow-x:auto;
-}
-
+textarea{min-height:90px;resize:vertical}
+.table-wrap{overflow-x:auto}
 table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:700px;
+ width:100%;
+ border-collapse:collapse;
+ min-width:650px;
 }
-
 th,td{
-    padding:11px;
-    border-bottom:1px solid #e5e7eb;
-    text-align:right;
+ padding:12px 8px;
+ border-bottom:1px solid #e2e8f0;
+ text-align:center;
 }
-
-th{
-    background:#f7f9fc;
+th{background:#f1f5f9}
+.total{
+ display:flex;
+ justify-content:space-between;
+ padding:10px 0;
+ border-bottom:1px solid #e2e8f0;
 }
-
-.total-box{
-    max-width:430px;
-    margin-right:auto;
-    margin-top:20px;
+.final-total{
+ font-size:22px;
+ color:#2563eb;
+ font-weight:bold;
 }
-
-.total-row{
-    display:flex;
-    justify-content:space-between;
-    padding:10px 0;
-    border-bottom:1px solid #edf0f5;
-}
-
-.total-row.final{
-    font-size:20px;
-    font-weight:bold;
-    color:#2563eb;
-}
-
 .actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-top:20px;
+ display:flex;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-top:20px;
 }
-
-.history-item{
-    border:1px solid #e2e8f0;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:10px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-}
-
-.history-info{
-    line-height:1.8;
-}
-
 .search{
-    margin-bottom:15px;
+ margin-bottom:15px;
 }
-
-.report{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
+.history-item{
+ border:1px solid #dbe4f0;
+ border-radius:12px;
+ padding:15px;
+ margin:10px 0;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ flex-wrap:wrap;
 }
-
-.report-box{
-    background:#f8fafc;
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
-}
-
-.report-box strong{
-    display:block;
-    font-size:25px;
-    color:#2563eb;
-    margin-top:8px;
-}
-
 .about{
-    text-align:center;
-    padding:40px 20px;
+ text-align:center;
+ padding:45px 20px;
 }
-
 .founder{
-    display:inline-block;
-    background:white;
-    padding:35px 50px;
-    border-radius:22px;
-    box-shadow:0 10px 35px #00000012;
-    border:1px solid #e5e7eb;
+ display:inline-block;
+ background:#eff6ff;
+ color:#2563eb;
+ padding:8px 18px;
+ border-radius:30px;
+ font-weight:bold;
+ margin-bottom:12px;
 }
-
-.founder-name{
-    font-size:30px;
-    font-weight:bold;
-    color:#2563eb;
-    margin:15px 0 8px;
-}
-
 footer{
-    background:#172033;
-    color:white;
-    text-align:center;
-    padding:30px 20px;
-    margin-top:50px;
+ background:#172033;
+ color:white;
+ text-align:center;
+ padding:25px;
+ margin-top:40px;
 }
-
-.empty{
-    text-align:center;
-    color:#777;
-    padding:25px;
-}
-
 @media(max-width:800px){
-    .hero{
-        grid-template-columns:1fr;
-        margin-top:20px;
-    }
-
-    h1{
-        font-size:32px;
-    }
-
-    .features{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .grid,.grid3,.report{
-        grid-template-columns:1fr;
-    }
-
-    .nav{
-        flex-direction:column;
-    }
-
-    .nav a{
-        margin:0 6px;
-    }
-
-    .container{
-        padding:10px;
-    }
-
-    .card{
-        padding:15px;
-    }
-
-    .history-item{
-        flex-direction:column;
-        align-items:stretch;
-    }
+ .hero{grid-template-columns:1fr}
+ .hero h1{font-size:30px}
+ .features{grid-template-columns:repeat(2,1fr)}
+ .grid{grid-template-columns:1fr}
+ .nav{flex-direction:column}
+ .nav a{margin:0 7px;font-size:12px}
 }
-
+@media(max-width:500px){
+ .features{grid-template-columns:1fr}
+ .container{padding:15px 10px}
+}
 @media print{
-    header,
-    .hero,
-    .features,
-    .no-print,
-    footer,
-    #historySection,
-    #reportSection,
-    #about{
-        display:none !important;
-    }
-
-    body{
-        background:white;
-    }
-
-    .container{
-        max-width:none;
-        margin:0;
-        padding:0;
-    }
-
-    .card{
-        border:0;
-        box-shadow:none;
-    }
-
-    #invoiceSection{
-        display:block !important;
-    }
-
-    input,textarea,select{
-        border:0;
-        padding:3px;
-        appearance:none;
-    }
-
-    .delete-btn{
-        display:none !important;
-    }
+ header,.hero,.features,.no-print,footer,#history,#report,#about{display:none!important}
+ body{background:white}
+ .card{box-shadow:none;border:0}
 }
 </style>
 </head>
@@ -399,126 +192,95 @@ footer{
 <header>
 <div class="nav">
 <div class="logo">🧾 فاکتورینو</div>
-
 <div>
-<a href="#invoiceSection">ساخت فاکتور</a>
-<a href="#historySection">فاکتورهای قبلی</a>
-<a href="#reportSection">گزارش فروش</a>
-<a href="#about">درباره ما</a>
+<a onclick="show('invoice')">ساخت فاکتور</a>
+<a onclick="show('history')">فاکتورهای قبلی</a>
+<a onclick="show('report')">گزارش فروش</a>
+<a onclick="show('about')">درباره ما</a>
 </div>
 </div>
 </header>
 
-<section class="hero">
-<div>
-<span class="badge">فاکتور آنلاین و حرفه‌ای</span>
-<h1>فاکتور خودت را سریع و ساده بساز</h1>
-<p>
-با فاکتورینو بدون پیچیدگی فاکتور ایجاد کن،
-ذخیره کن، چاپ کن و فاکتورهای قبلی را مدیریت کن.
-</p>
-
-<a href="#invoiceSection" class="btn">ساخت فاکتور جدید</a>
-</div>
-
-<div class="preview">
-<h3>فاکتورینو</h3>
-<p>✓ ساخت فاکتور حرفه‌ای</p>
-<p>✓ محاسبه خودکار مبلغ</p>
-<p>✓ ذخیره فاکتورها</p>
-<p>✓ گزارش فروش</p>
-<p>✓ مناسب موبایل</p>
-</div>
-</section>
-
-<section class="features">
-
-<div class="feature">
-<div>🧾</div>
-<strong>فاکتور حرفه‌ای</strong>
-<span>ساخت سریع فاکتور</span>
-</div>
-
-<div class="feature">
-<div>💾</div>
-<strong>ذخیره فاکتور</strong>
-<span>دسترسی به فاکتورهای قبلی</span>
-</div>
-
-<div class="feature">
-<div>📊</div>
-<strong>گزارش فروش</strong>
-<span>مشاهده آمار فروش</span>
-</div>
-
-<div class="feature">
-<div>📱</div>
-<strong>موبایل</strong>
-<span>قابل استفاده در گوشی</span>
-</div>
-
-</section>
-
-
 <div class="container">
 
-<section id="invoiceSection" class="card">
+<section class="hero">
+<div>
+<h1>فاکتور حرفه‌ای را در چند دقیقه بساز</h1>
+<p>
+برای فروشگاه، خدمات و کسب‌وکار کوچک.
+اطلاعات را وارد کن، مبلغ را حساب کن و فاکتور را چاپ یا PDF کن.
+</p>
+<button class="btn" onclick="show('invoice')">ساخت اولین فاکتور</button>
+</div>
+<div class="card">
+<h2>فاکتور فروش</h2>
+<div class="total"><span>شماره</span><b>1001</b></div>
+<div class="total"><span>وضعیت</span><b>آماده صدور</b></div>
+<div class="total"><span>مبلغ</span><b class="final-total">۱,۲۵۰,۰۰۰ تومان</b></div>
+</div>
+</section>
 
+<div class="features">
+<div class="feature"><div class="icon">🧾</div><b>فاکتور حرفه‌ای</b><br>ساخت سریع فاکتور</div>
+<div class="feature"><div class="icon">💾</div><b>ذخیره فاکتور</b><br>دسترسی به قبلی‌ها</div>
+<div class="feature"><div class="icon">📊</div><b>گزارش فروش</b><br>مشاهده آمار فروش</div>
+<div class="feature"><div class="icon">📱</div><b>موبایل</b><br>قابل استفاده در گوشی</div>
+</div>
+
+<section id="invoice">
+
+<div class="card">
 <h2>🧾 ساخت فاکتور</h2>
 
-<div class="grid3">
+<div class="grid">
 
-<div>
+<div class="field">
 <label>شماره فاکتور</label>
-<input id="invoiceNumber" placeholder="مثلاً 1001">
+<input id="number" value="1001">
 </div>
 
-<div>
+<div class="field">
 <label>تاریخ</label>
-<input id="invoiceDate" type="date">
+<input id="date" type="date">
 </div>
 
-<div>
+<div class="field">
 <label>روش پرداخت</label>
-<select id="paymentMethod">
+<select id="payment">
 <option>نقدی</option>
 <option>کارت بانکی</option>
 <option>چک</option>
-<option>کارت به کارت</option>
+<option>انتقال بانکی</option>
 <option>سایر</option>
 </select>
 </div>
 
 </div>
 
-<br>
-
 <div class="grid">
 
-<div>
+<div class="field">
 <label>🏪 اطلاعات فروشنده</label>
-<textarea id="sellerInfo" placeholder="نام فروشگاه یا شرکت
+<textarea id="seller" placeholder="نام فروشگاه یا شرکت
 شماره تماس
 آدرس"></textarea>
 </div>
 
-<div>
+<div class="field">
 <label>👤 اطلاعات مشتری</label>
-<textarea id="customerInfo" placeholder="نام مشتری
+<textarea id="customer" placeholder="نام مشتری
 شماره تماس
 آدرس"></textarea>
 </div>
 
 </div>
+</div>
 
-<br>
-
-<h3>📦 کالاها / خدمات</h3>
+<div class="card">
+<h2>📦 کالاها / خدمات</h2>
 
 <div class="table-wrap">
-
 <table id="itemsTable">
-
 <thead>
 <tr>
 <th>شرح کالا / خدمات</th>
@@ -528,636 +290,379 @@ footer{
 <th class="no-print">عملیات</th>
 </tr>
 </thead>
-
-<tbody id="itemsBody"></tbody>
-
+<tbody id="items"></tbody>
 </table>
-
 </div>
 
-<button class="btn no-print" onclick="addItem()" style="margin-top:15px">
-➕ افزودن کالا
-</button>
+<button class="btn no-print" onclick="addItem()">➕ افزودن کالا</button>
 
+<div class="grid" style="margin-top:25px">
 
-<div class="grid3" style="margin-top:25px">
-
-<div>
+<div class="field">
 <label>تخفیف (تومان)</label>
-<input id="discount" type="number" min="0" value="0" oninput="calculate()">
+<input id="discount" type="number" value="0" oninput="calculate()">
 </div>
 
-<div>
+<div class="field">
 <label>مالیات / ارزش افزوده (%)</label>
-<input id="tax" type="number" min="0" value="0" oninput="calculate()">
+<input id="tax" type="number" value="0" oninput="calculate()">
 </div>
 
-<div>
+<div class="field">
 <label>توضیحات</label>
 <input id="note" placeholder="مثلاً کالا تحویل شد">
 </div>
 
 </div>
 
-
-<div class="total-box">
-
-<div class="total-row">
+<div class="card">
+<div class="total">
 <span>جمع کالاها</span>
-<strong id="subtotal">۰ تومان</strong>
+<b id="subtotal">۰ تومان</b>
 </div>
 
-<div class="total-row">
+<div class="total">
 <span>تخفیف</span>
-<strong id="discountView">۰ تومان</strong>
+<b id="discountView">۰ تومان</b>
 </div>
 
-<div class="total-row">
+<div class="total">
 <span>مالیات</span>
-<strong id="taxView">۰ تومان</strong>
+<b id="taxView">۰ تومان</b>
 </div>
 
-<div class="total-row final">
+<div class="total final-total">
 <span>مبلغ نهایی</span>
-<strong id="grandTotal">۰ تومان</strong>
+<b id="total">۰ تومان</b>
 </div>
-
 </div>
-
 
 <div class="actions no-print">
-
-<button class="btn success" onclick="saveInvoice()">
-💾 ذخیره فاکتور
-</button>
-
-<button class="btn" onclick="printInvoice()">
-🖨️ چاپ / PDF
-</button>
-
-<button class="btn secondary" onclick="newInvoice()">
-🆕 فاکتور جدید
-</button>
-
+<button class="btn green" onclick="saveInvoice()">💾 ذخیره فاکتور</button>
+<button class="btn" onclick="window.print()">🖨️ چاپ / PDF</button>
+<button class="btn gray" onclick="newInvoice()">🆕 فاکتور جدید</button>
 </div>
 
+</div>
 </section>
 
+<section id="history" class="card" style="display:none">
+<h2>📁 فاکتورهای قبلی</h2>
 
-<section id="historySection" class="card">
-
-<h2>🔎 فاکتورهای قبلی</h2>
-
-<div class="search">
-<input id="searchInput" placeholder="جستجو بر اساس شماره فاکتور یا نام مشتری..." oninput="renderHistory()">
-</div>
+<input class="search" id="search" placeholder="🔎 جستجوی شماره فاکتور..." oninput="renderHistory()">
 
 <div id="historyList"></div>
-
 </section>
 
-
-<section id="reportSection" class="card">
-
+<section id="report" class="card" style="display:none">
 <h2>📊 گزارش فروش</h2>
 
-<div class="report">
-
-<div class="report-box">
-تعداد فاکتورها
-<strong id="reportCount">۰</strong>
+<div class="grid">
+<div class="feature">
+<div class="icon">🧾</div>
+<b>تعداد فاکتورها</b>
+<h2 id="reportCount">۰</h2>
 </div>
 
-<div class="report-box">
-مجموع فروش
-<strong id="reportSales">۰ تومان</strong>
+<div class="feature">
+<div class="icon">💰</div>
+<b>مجموع فروش</b>
+<h2 id="reportTotal">۰ تومان</h2>
 </div>
 
-<div class="report-box">
-میانگین فاکتور
-<strong id="reportAverage">۰ تومان</strong>
+<div class="feature">
+<div class="icon">📈</div>
+<b>میانگین فروش</b>
+<h2 id="reportAverage">۰ تومان</h2>
 </div>
-
 </div>
-
 </section>
 
-
-<section id="about" class="card about">
-
+<section id="about" class="card about" style="display:none">
+<div class="founder">بنیانگذار فاکتورینو</div>
+<h1>ALI FIRAN</h1>
 <h2>درباره فاکتورینو</h2>
-
 <p>
-فاکتورینو با هدف ساده‌تر کردن فرآیند صدور و مدیریت فاکتور
-برای فروشگاه‌ها، خدمات و کسب‌وکارهای کوچک راه‌اندازی شده است.
+فاکتورینو با هدف ساده‌تر کردن صدور و مدیریت فاکتور برای فروشگاه‌ها،
+خدمات و کسب‌وکارهای کوچک راه‌اندازی شده است.
 </p>
-
-<div class="founder">
-
-<div>👤</div>
-
-<div class="founder-name">
-ALI FIRAN
-</div>
-
-<strong>
-بنیانگذار فاکتورینو
-</strong>
-
 <p>
-فاکتورینو با هدف ساده‌سازی امور مالی و مدیریت حرفه‌ای فاکتورها،
-سریع، ساده و در دسترس طراحی شده است.
+ماموریت ما ساده‌سازی کارهای مالی و مدیریت حرفه‌ای فاکتورها
+به شکلی سریع، ساده و در دسترس است.
 </p>
-
-</div>
-
 </section>
 
 </div>
-
 
 <footer>
-<strong>فاکتورینو</strong>
-<br>
-ساخت فاکتور ساده، سریع و حرفه‌ای
+فاکتورینو © ۱۴۰۵
 </footer>
-
 
 <script>
 
-let items = [];
-let editingIndex = -1;
+let invoices=JSON.parse(localStorage.getItem("faktorinoInvoices")||"[]");
+let editId=null;
 
-function formatMoney(number){
+document.getElementById("date").value=new Date().toISOString().split("T")[0];
 
-number = Number(number) || 0;
-
-return new Intl.NumberFormat('fa-IR').format(number) + ' تومان';
-
+function money(n){
+ return Number(n||0).toLocaleString("fa-IR")+" تومان";
 }
 
+function addItem(name="",qty=1,price=0){
 
-function today(){
+ let tr=document.createElement("tr");
 
-let d = new Date();
+ tr.innerHTML=`
+ <td>
+ <input class="item-name" value="${name}" placeholder="نام کالا یا خدمت">
+ </td>
 
-let month = String(d.getMonth()+1).padStart(2,'0');
-let day = String(d.getDate()).padStart(2,'0');
+ <td>
+ <input class="item-qty" type="number" min="1" value="${qty}" oninput="calculate()">
+ </td>
 
-return d.getFullYear() + '-' + month + '-' + day;
+ <td>
+ <input class="item-price" type="number" value="${price}" oninput="calculate()">
+ </td>
 
+ <td class="item-total">۰ تومان</td>
+
+ <td class="no-print">
+ <button class="btn red" onclick="this.closest('tr').remove();calculate()">🗑 حذف</button>
+ </td>
+ `;
+
+ document.getElementById("items").appendChild(tr);
+
+ calculate();
 }
-
-
-function addItem(name='',qty=1,price=0){
-
-items.push({
-name:name,
-qty:Number(qty) || 1,
-price:Number(price) || 0
-});
-
-renderItems();
-
-}
-
-
-function deleteItem(index){
-
-items.splice(index,1);
-
-renderItems();
-
-}
-
-
-function editItem(index){
-
-let item = items[index];
-
-let name = prompt('شرح کالا:',item.name);
-
-if(name === null) return;
-
-let qty = prompt('تعداد:',item.qty);
-
-if(qty === null) return;
-
-let price = prompt('قیمت واحد:',item.price);
-
-if(price === null) return;
-
-items[index]={
-name:name,
-qty:Number(qty)||0,
-price:Number(price)||0
-};
-
-renderItems();
-
-}
-
-
-function renderItems(){
-
-let body=document.getElementById('itemsBody');
-
-body.innerHTML='';
-
-if(items.length===0){
-
-body.innerHTML=`
-<tr>
-<td colspan="5" class="empty">
-هنوز کالایی اضافه نشده است.
-</td>
-</tr>`;
-
-calculate();
-
-return;
-
-}
-
-
-items.forEach((item,index)=>{
-
-let total=item.qty*item.price;
-
-body.innerHTML+=`
-
-<tr>
-
-<td>${escapeHtml(item.name || 'بدون نام')}</td>
-
-<td>${new Intl.NumberFormat('fa-IR').format(item.qty)}</td>
-
-<td>${formatMoney(item.price)}</td>
-
-<td>${formatMoney(total)}</td>
-
-<td class="no-print">
-
-<button class="btn secondary" onclick="editItem(${index})">
-✏️ ویرایش
-</button>
-
-<button class="btn danger delete-btn" onclick="deleteItem(${index})">
-🗑 حذف
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-calculate();
-
-}
-
 
 function calculate(){
 
-let subtotal=items.reduce((sum,item)=>{
+ let subtotal=0;
 
-return sum + (Number(item.qty)||0)*(Number(item.price)||0);
+ document.querySelectorAll("#items tr").forEach(tr=>{
 
-},0);
+  let qty=Number(tr.querySelector(".item-qty").value||0);
+  let price=Number(tr.querySelector(".item-price").value||0);
 
-let discount=Number(document.getElementById('discount').value)||0;
+  let total=qty*price;
 
-let taxPercent=Number(document.getElementById('tax').value)||0;
+  tr.querySelector(".item-total").innerText=money(total);
 
-let afterDiscount=Math.max(0,subtotal-discount);
+  subtotal+=total;
 
-let tax=afterDiscount*(taxPercent/100);
+ });
 
-let total=afterDiscount+tax;
+ let discount=Number(document.getElementById("discount").value||0);
 
-document.getElementById('subtotal').textContent=formatMoney(subtotal);
+ let taxable=Math.max(0,subtotal-discount);
 
-document.getElementById('discountView').textContent=formatMoney(discount);
+ let taxPercent=Number(document.getElementById("tax").value||0);
 
-document.getElementById('taxView').textContent=formatMoney(tax);
+ let tax=taxable*taxPercent/100;
 
-document.getElementById('grandTotal').textContent=formatMoney(total);
+ let total=taxable+tax;
 
-return {
-subtotal,
-discount,
-tax,
-total
-};
+ document.getElementById("subtotal").innerText=money(subtotal);
+ document.getElementById("discountView").innerText=money(discount);
+ document.getElementById("taxView").innerText=money(tax);
+ document.getElementById("total").innerText=money(total);
 
+ return {subtotal,discount,tax,total};
 }
 
+function getInvoice(){
+
+ let calculation=calculate();
+
+ let items=[];
+
+ document.querySelectorAll("#items tr").forEach(tr=>{
+
+  items.push({
+   name:tr.querySelector(".item-name").value,
+   qty:Number(tr.querySelector(".item-qty").value||0),
+   price:Number(tr.querySelector(".item-price").value||0)
+  });
+
+ });
+
+ return {
+  id:editId||Date.now(),
+  number:document.getElementById("number").value,
+  date:document.getElementById("date").value,
+  payment:document.getElementById("payment").value,
+  seller:document.getElementById("seller").value,
+  customer:document.getElementById("customer").value,
+  items,
+  discount:calculation.discount,
+  tax:calculation.tax,
+  subtotal:calculation.subtotal,
+  total:calculation.total,
+  note:document.getElementById("note").value
+ };
+}
 
 function saveInvoice(){
 
-if(items.length===0){
+ let invoice=getInvoice();
 
-alert('لطفاً حداقل یک کالا اضافه کنید.');
+ let index=invoices.findIndex(x=>x.id===invoice.id);
 
-return;
+ if(index>=0){
+  invoices[index]=invoice;
+ }else{
+  invoices.push(invoice);
+ }
 
+ localStorage.setItem("faktorinoInvoices",JSON.stringify(invoices));
+
+ alert("فاکتور با موفقیت ذخیره شد ✅");
+
+ editId=null;
+
+ renderHistory();
+ updateReport();
 }
-
-let number=document.getElementById('invoiceNumber').value.trim();
-
-if(!number){
-
-alert('لطفاً شماره فاکتور را وارد کنید.');
-
-return;
-
-}
-
-let calculation=calculate();
-
-let invoice={
-
-id:Date.now(),
-
-number:number,
-
-date:document.getElementById('invoiceDate').value,
-
-payment:document.getElementById('paymentMethod').value,
-
-seller:document.getElementById('sellerInfo').value,
-
-customer:document.getElementById('customerInfo').value,
-
-items:items,
-
-discount:calculation.discount,
-
-taxPercent:Number(document.getElementById('tax').value)||0,
-
-tax:calculation.tax,
-
-subtotal:calculation.subtotal,
-
-total:calculation.total,
-
-note:document.getElementById('note').value
-
-};
-
-
-let invoices=JSON.parse(localStorage.getItem('faktorinoInvoices') || '[]');
-
-let existing=invoices.findIndex(x=>x.number===number);
-
-if(existing>=0){
-
-invoice.id=invoices[existing].id;
-
-invoices[existing]=invoice;
-
-}else{
-
-invoices.push(invoice);
-
-}
-
-localStorage.setItem('faktorinoInvoices',JSON.stringify(invoices));
-
-renderHistory();
-updateReport();
-
-alert('فاکتور با موفقیت ذخیره شد. ✅');
-
-}
-
-
-function getInvoices(){
-
-return JSON.parse(localStorage.getItem('faktorinoInvoices') || '[]');
-
-}
-
 
 function renderHistory(){
 
-let list=document.getElementById('historyList');
+ let list=document.getElementById("historyList");
 
-let search=(document.getElementById('searchInput').value || '').toLowerCase();
+ let search=(document.getElementById("search")?.value||"").trim();
 
-let invoices=getInvoices();
+ let filtered=invoices.filter(x=>String(x.number).includes(search));
 
-invoices=invoices.filter(invoice=>{
+ if(!filtered.length){
+  list.innerHTML="<p>هنوز فاکتوری ذخیره نشده است.</p>";
+  return;
+ }
 
-return String(invoice.number).toLowerCase().includes(search) ||
+ list.innerHTML=filtered.map(x=>`
 
-String(invoice.customer || '').toLowerCase().includes(search);
+ <div class="history-item">
 
-});
+ <div>
+ <b>فاکتور شماره ${x.number}</b><br>
+ تاریخ: ${x.date||"-"}<br>
+ مبلغ: <b>${money(x.total)}</b>
+ </div>
 
-if(invoices.length===0){
+ <div class="actions">
 
-list.innerHTML='<div class="empty">فاکتوری پیدا نشد.</div>';
+ <button class="btn" onclick="loadInvoice(${x.id})">
+ ✏️ ویرایش
+ </button>
 
-return;
+ <button class="btn red" onclick="deleteInvoice(${x.id})">
+ 🗑 حذف
+ </button>
 
+ <button class="btn green" onclick="printInvoice(${x.id})">
+ 🖨️ چاپ
+ </button>
+
+ </div>
+
+ </div>
+
+ `).join("");
 }
-
-list.innerHTML='';
-
-invoices.slice().reverse().forEach(invoice=>{
-
-list.innerHTML+=`
-
-<div class="history-item">
-
-<div class="history-info">
-
-<strong>فاکتور شماره ${escapeHtml(invoice.number)}</strong><br>
-
-تاریخ: ${escapeHtml(invoice.date || '-')}
-
-<br>
-
-مشتری: ${escapeHtml(invoice.customer || '-')}
-
-<br>
-
-مبلغ: <strong>${formatMoney(invoice.total)}</strong>
-
-</div>
-
-<div class="actions no-print">
-
-<button class="btn" onclick="loadInvoice(${invoice.id})">
-✏️ ویرایش
-</button>
-
-<button class="btn secondary" onclick="printSavedInvoice(${invoice.id})">
-🖨️ چاپ
-</button>
-
-<button class="btn danger" onclick="deleteInvoice(${invoice.id})">
-🗑 حذف
-</button>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-}
-
 
 function loadInvoice(id){
 
-let invoice=getInvoices().find(x=>x.id===id);
+ let x=invoices.find(a=>a.id===id);
 
-if(!invoice) return;
+ if(!x)return;
 
-document.getElementById('invoiceNumber').value=invoice.number || '';
+ editId=x.id;
 
-document.getElementById('invoiceDate').value=invoice.date || '';
+ document.getElementById("number").value=x.number;
+ document.getElementById("date").value=x.date;
+ document.getElementById("payment").value=x.payment;
+ document.getElementById("seller").value=x.seller;
+ document.getElementById("customer").value=x.customer;
+ document.getElementById("discount").value=x.discount||0;
+ document.getElementById("note").value=x.note||"";
 
-document.getElementById('paymentMethod').value=invoice.payment || 'نقدی';
+ document.getElementById("items").innerHTML="";
 
-document.getElementById('sellerInfo').value=invoice.seller || '';
+ x.items.forEach(i=>addItem(i.name,i.qty,i.price));
 
-document.getElementById('customerInfo').value=invoice.customer || '';
+ document.getElementById("tax").value=0;
 
-document.getElementById('discount').value=invoice.discount || 0;
+ calculate();
 
-document.getElementById('tax').value=invoice.taxPercent || 0;
-
-document.getElementById('note').value=invoice.note || '';
-
-items=invoice.items || [];
-
-renderItems();
-
-document.getElementById('invoiceSection').scrollIntoView({
-behavior:'smooth'
-});
-
+ show("invoice");
 }
-
 
 function deleteInvoice(id){
 
-if(!confirm('این فاکتور حذف شود؟')) return;
+ if(!confirm("این فاکتور حذف شود؟"))return;
 
-let invoices=getInvoices();
+ invoices=invoices.filter(x=>x.id!==id);
 
-invoices=invoices.filter(x=>x.id!==id);
+ localStorage.setItem("faktorinoInvoices",JSON.stringify(invoices));
 
-localStorage.setItem('faktorinoInvoices',JSON.stringify(invoices));
-
-renderHistory();
-
-updateReport();
-
+ renderHistory();
+ updateReport();
 }
 
+function printInvoice(id){
 
-function updateReport(){
+ loadInvoice(id);
 
-let invoices=getInvoices();
-
-let count=invoices.length;
-
-let sales=invoices.reduce((sum,x)=>sum+(Number(x.total)||0),0);
-
-let average=count ? sales/count : 0;
-
-document.getElementById('reportCount').textContent=
-new Intl.NumberFormat('fa-IR').format(count);
-
-document.getElementById('reportSales').textContent=
-formatMoney(sales);
-
-document.getElementById('reportAverage').textContent=
-formatMoney(average);
-
+ setTimeout(()=>window.print(),300);
 }
-
-
-function printInvoice(){
-
-calculate();
-
-window.print();
-
-}
-
-
-function printSavedInvoice(id){
-
-loadInvoice(id);
-
-setTimeout(()=>{
-
-window.print();
-
-},300);
-
-}
-
 
 function newInvoice(){
 
-if(!confirm('فاکتور فعلی پاک شود و فاکتور جدید ساخته شود؟')) return;
+ editId=null;
 
-document.getElementById('invoiceNumber').value='';
+ document.getElementById("number").value=Number(invoices.length+1001);
+ document.getElementById("seller").value="";
+ document.getElementById("customer").value="";
+ document.getElementById("discount").value=0;
+ document.getElementById("tax").value=0;
+ document.getElementById("note").value="";
 
-document.getElementById('invoiceDate').value=today();
+ document.getElementById("items").innerHTML="";
 
-document.getElementById('paymentMethod').value='نقدی';
+ addItem();
 
-document.getElementById('sellerInfo').value='';
-
-document.getElementById('customerInfo').value='';
-
-document.getElementById('discount').value=0;
-
-document.getElementById('tax').value=0;
-
-document.getElementById('note').value='';
-
-items=[];
-
-addItem();
-
+ calculate();
 }
 
+function show(section){
 
-function escapeHtml(text){
+ ["invoice","history","report","about"].forEach(id=>{
+  document.getElementById(id).style.display=
+   id===section ? "block":"none";
+ });
 
-return String(text)
+ if(section==="history")renderHistory();
 
-.replaceAll('&','&amp;')
+ if(section==="report")updateReport();
 
-.replaceAll('<','&lt;')
-
-.replaceAll('>','&gt;')
-
-.replaceAll('"','&quot;')
-
-.replaceAll("'","&#039;");
-
+ window.scrollTo({top:0,behavior:"smooth"});
 }
 
+function updateReport(){
 
-document.getElementById('invoiceDate').value=today();
+ let count=invoices.length;
+
+ let total=invoices.reduce((s,x)=>s+Number(x.total||0),0);
+
+ let average=count?total/count:0;
+
+ document.getElementById("reportCount").innerText=count.toLocaleString("fa-IR");
+ document.getElementById("reportTotal").innerText=money(total);
+ document.getElementById("reportAverage").innerText=money(average);
+}
 
 addItem();
-
-renderHistory();
-
 updateReport();
 
 </script>
