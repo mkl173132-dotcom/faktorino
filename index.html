@@ -664,7 +664,23 @@ function updateReport(){
 
 addItem();
 updateReport();
+function setNextInvoiceNumber() {
+    const savedInvoices = JSON.parse(localStorage.getItem("faktorinoInvoices") || "[]");
+    let maxNumber = 1000;
 
+    savedInvoices.forEach(invoice => {
+        const num = parseInt(invoice.number);
+        if (!isNaN(num) && num > maxNumber) {
+            maxNumber = num;
+        }
+    });
+
+    document.getElementById("invoiceNo").value = maxNumber + 1;
+}
+
+window.addEventListener("load", function () {
+    setNextInvoiceNumber();
+});
 </script>
 
 </body>
