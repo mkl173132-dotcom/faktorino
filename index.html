@@ -482,49 +482,17 @@ footer{
 فاکتورینو © ۱۴۰۵
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
-let currentUser=JSON.parse(localStorage.getItem("faktorinoCurrentUser")||"null");
-let users=JSON.parse(localStorage.getItem("faktorinoUsers")||"[]");
-let invoices=[]; let editId=null; let authMode="login";
-function userKey(email){return "faktorinoInvoices_"+String(email||"").trim().toLowerCase();}
-function loadUserInvoices(){invoices=currentUser?JSON.parse(localStorage.getItem(userKey(currentUser.email))||"[]"):[];}
-function saveUserInvoices(){if(currentUser)localStorage.setItem(userKey(currentUser.email),JSON.stringify(invoices));}
-function updateAccountUI(){
- const bar=document.getElementById("accountBar"), status=document.getElementById("accountStatus");
- if(currentUser){bar.style.display="block";status.innerText="👤 وارد شده: "+currentUser.name+" | "+currentUser.email;}
- else bar.style.display="none";
-}
-function setAuthMode(mode){
- authMode=mode;
- document.getElementById("loginTab").className=mode==="login"?"btn":"btn gray";
- document.getElementById("registerTab").className=mode==="register"?"btn":"btn gray";
- document.getElementById("authNameField").style.display=mode==="register"?"block":"none";
-}
-function submitAuth(){
- const name=document.getElementById("authName").value.trim();
- const email=document.getElementById("authEmail").value.trim().toLowerCase();
- const password=document.getElementById("authPassword").value;
- if(!email||!password){alert("ایمیل و رمز عبور را وارد کن.");return;}
- if(!/^\S+@\S+\.\S+$/.test(email)){alert("ایمیل معتبر وارد کن.");return;}
- if(authMode==="register"){
-  if(name.length<2){alert("نام را وارد کن.");return;}
-  if(password.length<6){alert("رمز عبور باید حداقل ۶ کاراکتر باشد.");return;}
-  if(users.some(u=>u.email===email)){alert("این ایمیل قبلاً ثبت‌نام شده است.");return;}
-  users.push({name,email,password});localStorage.setItem("faktorinoUsers",JSON.stringify(users));
-  currentUser={name,email};localStorage.setItem("faktorinoCurrentUser",JSON.stringify(currentUser));
-  loadUserInvoices();updateAccountUI();show("invoice");alert("حساب با موفقیت ساخته شد ✅");
- }else{
-  const u=users.find(x=>x.email===email&&x.password===password);
-  if(!u){alert("ایمیل یا رمز عبور اشتباه است.");return;}
-  currentUser={name:u.name,email:u.email};localStorage.setItem("faktorinoCurrentUser",JSON.stringify(currentUser));
-  loadUserInvoices();updateAccountUI();show("invoice");alert("ورود موفق بود ✅");
- }
-}
-function logoutUser(){
- currentUser=null;invoices=[];editId=null;localStorage.removeItem("faktorinoCurrentUser");
- updateAccountUI();show("auth");setAuthMode("login");
-}
+const SUPABASE_URL="https://bchtbxjesbgdtqfwujsv.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_jam2xpqHpM5vOQ5_Jq0aYg_16WkOFPA";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+
+let currentUser=null;
+let invoices=[];
+let editId=null;
+let authMode="login";
 
 function todayLocal(){
  const d=new Date();
@@ -532,18 +500,19 @@ function todayLocal(){
  const day=String(d.getDate()).padStart(2,"0");
  return `${d.getFullYear()}-${m}-${day}`;
 }
+
 document.getElementById("date").value=todayLocal();
 
-function money(n){
- return Number(n||0).toLocaleString("fa-IR")+" تومان";
-}
+function money(n){ return Number(n||0).toLocaleString("fa-IR")+" تومان"; }
 
 function normalizeDigits(value){
  return String(value??"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d));
 }
+
 function escapeHtml(value){
  return String(value??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 }
+
 function getNextInvoiceNumber(){
  let maxNumber=1000;
  invoices.forEach(invoice=>{
@@ -552,93 +521,55 @@ function getNextInvoiceNumber(){
  });
  return maxNumber+1;
 }
+
 function isPro(){ return localStorage.getItem("faktorinoPro") === "1"; }
 function startProActivation(){
  alert("برای فعال‌سازی واقعی نسخه حرفه‌ای، ابتدا درگاه پرداخت و حساب تجاری فاکتورینو باید متصل شود. این بخش هنوز به درگاه واقعی وصل نشده است.");
 }
 
 function addItem(name="",qty=1,price=0){
-
  let tr=document.createElement("tr");
-
  tr.innerHTML=`
- <td>
- <input class="item-name" value="${escapeHtml(name)}" placeholder="نام کالا یا خدمت">
- </td>
-
- <td>
- <input class="item-qty" type="number" min="1" value="${qty}" oninput="calculate()">
- </td>
-
- <td>
- <input class="item-price" type="number" value="${price}" oninput="calculate()">
- </td>
-
+ <td><input class="item-name" value="${escapeHtml(name)}" placeholder="نام کالا یا خدمت"></td>
+ <td><input class="item-qty" type="number" min="1" value="${qty}" oninput="calculate()"></td>
+ <td><input class="item-price" type="number" value="${price}" oninput="calculate()"></td>
  <td class="item-total">۰ تومان</td>
-
- <td class="no-print">
- <button class="btn red" onclick="this.closest('tr').remove();calculate()">🗑 حذف</button>
- </td>
- `;
-
+ <td class="no-print"><button class="btn red" onclick="this.closest('tr').remove();calculate()">🗑 حذف</button></td>`;
  document.getElementById("items").appendChild(tr);
-
  calculate();
 }
 
 function calculate(){
-
  let subtotal=0;
-
  document.querySelectorAll("#items tr").forEach(tr=>{
-
   let qty=Number(tr.querySelector(".item-qty").value||0);
   let price=Number(tr.querySelector(".item-price").value||0);
-
   let total=qty*price;
-
   tr.querySelector(".item-total").innerText=money(total);
-
   subtotal+=total;
-
  });
-
  let discount=Number(document.getElementById("discount").value||0);
-
  let taxable=Math.max(0,subtotal-discount);
-
  let taxPercent=Number(document.getElementById("tax").value||0);
-
  let tax=taxable*taxPercent/100;
-
  let total=taxable+tax;
-
  document.getElementById("subtotal").innerText=money(subtotal);
  document.getElementById("discountView").innerText=money(discount);
  document.getElementById("taxView").innerText=money(tax);
  document.getElementById("total").innerText=money(total);
-
  return {subtotal,discount,tax,total};
 }
 
 function getInvoice(){
-
  let calculation=calculate();
-
  let items=[];
-
- document.querySelectorAll("#items tr").forEach(tr=>{
-
-  items.push({
-   name:tr.querySelector(".item-name").value,
-   qty:Number(tr.querySelector(".item-qty").value||0),
-   price:Number(tr.querySelector(".item-price").value||0)
-  });
-
- });
-
+ document.querySelectorAll("#items tr").forEach(tr=>items.push({
+  name:tr.querySelector(".item-name").value,
+  qty:Number(tr.querySelector(".item-qty").value||0),
+  price:Number(tr.querySelector(".item-price").value||0)
+ }));
  return {
-  id:editId||Date.now(),
+  id:editId,
   number:document.getElementById("number").value,
   date:document.getElementById("date").value,
   payment:document.getElementById("payment").value,
@@ -654,8 +585,99 @@ function getInvoice(){
  };
 }
 
-function saveInvoice(){
- let isNew = editId===null;
+function updateAccountUI(){
+ const bar=document.getElementById("accountBar"), status=document.getElementById("accountStatus");
+ if(currentUser){
+  bar.style.display="block";
+  status.innerText="👤 وارد شده: "+(currentUser.name||"کاربر")+" | "+currentUser.email;
+ }else bar.style.display="none";
+}
+
+function setAuthMode(mode){
+ authMode=mode;
+ document.getElementById("loginTab").className=mode==="login"?"btn":"btn gray";
+ document.getElementById("registerTab").className=mode==="register"?"btn":"btn gray";
+ document.getElementById("authNameField").style.display=mode==="register"?"block":"none";
+}
+
+async function submitAuth(){
+ const name=document.getElementById("authName").value.trim();
+ const email=document.getElementById("authEmail").value.trim().toLowerCase();
+ const password=document.getElementById("authPassword").value;
+ if(!email||!password){alert("ایمیل و رمز عبور را وارد کن.");return;}
+ if(!/^\S+@\S+\.\S+$/.test(email)){alert("ایمیل معتبر وارد کن.");return;}
+ if(password.length<6){alert("رمز عبور باید حداقل ۶ کاراکتر باشد.");return;}
+
+ if(authMode==="register"){
+  if(name.length<2){alert("نام را وارد کن.");return;}
+  const {data,error}=await supabaseClient.auth.signUp({
+   email,password,options:{data:{name},emailRedirectTo:window.location.origin+window.location.pathname}
+  });
+  if(error){alert("خطا در ثبت‌نام: "+error.message);return;}
+  if(data.session){
+   await setCurrentUser(data.user);
+   alert("حساب با موفقیت ساخته شد ✅");
+   show("invoice");
+  }else{
+   alert("ثبت‌نام انجام شد ✅\nلطفاً ایمیل تأیید را باز کن و روی لینک تأیید بزن. سپس وارد حساب شو.");
+   setAuthMode("login");
+  }
+ }else{
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error){alert("ورود ناموفق بود: "+error.message);return;}
+  await setCurrentUser(data.user);
+  alert("ورود موفق بود ✅");
+  show("invoice");
+ }
+}
+
+async function setCurrentUser(user){
+ if(!user){currentUser=null;invoices=[];editId=null;updateAccountUI();return;}
+ currentUser={id:user.id,name:user.user_metadata?.name||user.email?.split("@")[0]||"کاربر",email:user.email||""};
+ updateAccountUI();
+ await loadUserInvoices();
+ updateReport();
+}
+
+async function logoutUser(){
+ await supabaseClient.auth.signOut();
+ currentUser=null;
+ invoices=[];
+ editId=null;
+ updateAccountUI();
+ show("auth");
+ setAuthMode("login");
+}
+
+async function loadUserInvoices(){
+ if(!currentUser){invoices=[];return;}
+ const {data,error}=await supabaseClient.from("invoices").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false});
+ if(error){
+  console.error(error);
+  alert("خطا در دریافت فاکتورها: "+error.message);
+  invoices=[];
+  return;
+ }
+ invoices=(data||[]).map(row=>({
+  id:row.id,
+  number:row.invoice_number,
+  date:row.invoice_date||"",
+  payment:row.payment_method||"",
+  seller:row.seller_name||"",
+  customer:row.customer_name||"",
+  items:Array.isArray(row.items)?row.items:[],
+  discount:Number(row.discount||0),
+  tax:Number(row.total||0)-Math.max(0,(Array.isArray(row.items)?row.items:[]).reduce((s,i)=>s+Number(i.qty||0)*Number(i.price||0),0)-Number(row.discount||0)),
+  taxPercent:Number(row.tax_percent||0),
+  subtotal:(Array.isArray(row.items)?row.items:[]).reduce((s,i)=>s+Number(i.qty||0)*Number(i.price||0),0),
+  total:Number(row.total||0),
+  note:row.note||""
+ }));
+}
+
+async function saveInvoice(){
+ if(!currentUser){alert("ابتدا وارد حساب کاربری شو.");show("auth");return;}
+ let isNew=editId===null;
  if(isNew && !isPro() && invoices.length>=10){
   alert("نسخه رایگان حداکثر ۱۰ فاکتور دارد. برای فاکتورهای بیشتر، نسخه حرفه‌ای را فعال کنید.");
   show("plans");
@@ -663,67 +685,56 @@ function saveInvoice(){
  }
  if(isNew) document.getElementById("number").value=getNextInvoiceNumber();
  let invoice=getInvoice();
- let index=invoices.findIndex(x=>x.id===invoice.id);
- if(index>=0) invoices[index]=invoice; else invoices.push(invoice);
- saveUserInvoices();
+ const payload={
+  user_id:currentUser.id,
+  invoice_number:String(invoice.number),
+  invoice_date:invoice.date,
+  seller_name:invoice.seller,
+  customer_name:invoice.customer,
+  items:invoice.items,
+  discount:invoice.discount,
+  tax_percent:invoice.taxPercent,
+  payment_method:invoice.payment,
+  total:invoice.total
+ };
+ let result;
+ if(isNew){
+  result=await supabaseClient.from("invoices").insert(payload).select().single();
+ }else{
+  result=await supabaseClient.from("invoices").update(payload).eq("id",editId).eq("user_id",currentUser.id).select().single();
+ }
+ if(result.error){
+  console.error(result.error);
+  alert("خطا در ذخیره فاکتور: "+result.error.message);
+  return;
+ }
  alert("فاکتور با موفقیت ذخیره شد ✅");
  editId=null;
+ await loadUserInvoices();
  renderHistory();
  updateReport();
 }
 
 function renderHistory(){
-
  let list=document.getElementById("historyList");
-
  let search=(document.getElementById("search")?.value||"").trim();
-
  let filtered=invoices.filter(x=>String(x.number).includes(search));
-
- if(!filtered.length){
-  list.innerHTML="<p>هنوز فاکتوری ذخیره نشده است.</p>";
-  return;
- }
-
+ if(!filtered.length){list.innerHTML="<p>هنوز فاکتوری ذخیره نشده است.</p>";return;}
  list.innerHTML=filtered.map(x=>`
-
  <div class="history-item">
-
- <div>
- <b>فاکتور شماره ${escapeHtml(x.number)}</b><br>
- تاریخ: ${escapeHtml(x.date||"-")}<br>
- مبلغ: <b>${money(x.total)}</b>
- </div>
-
- <div class="actions">
-
- <button class="btn" onclick="loadInvoice(${x.id})">
- ✏️ ویرایش
- </button>
-
- <button class="btn red" onclick="deleteInvoice(${x.id})">
- 🗑 حذف
- </button>
-
- <button class="btn green" onclick="printInvoice(${x.id})">
- 🖨️ چاپ
- </button>
-
- </div>
-
- </div>
-
- `).join("");
+  <div><b>فاکتور شماره ${escapeHtml(x.number)}</b><br>تاریخ: ${escapeHtml(x.date||"-")}<br>مبلغ: <b>${money(x.total)}</b></div>
+  <div class="actions">
+   <button class="btn" onclick="loadInvoice('${escapeHtml(x.id)}')">✏️ ویرایش</button>
+   <button class="btn red" onclick="deleteInvoice('${escapeHtml(x.id)}')">🗑 حذف</button>
+   <button class="btn green" onclick="printInvoice('${escapeHtml(x.id)}')">🖨️ چاپ</button>
+  </div>
+ </div>`).join("");
 }
 
 function loadInvoice(id){
-
- let x=invoices.find(a=>a.id===id);
-
+ let x=invoices.find(a=>String(a.id)===String(id));
  if(!x)return;
-
  editId=x.id;
-
  document.getElementById("number").value=x.number;
  document.getElementById("date").value=x.date;
  document.getElementById("payment").value=x.payment;
@@ -731,77 +742,55 @@ function loadInvoice(id){
  document.getElementById("customer").value=x.customer;
  document.getElementById("discount").value=x.discount||0;
  document.getElementById("note").value=x.note||"";
-
  document.getElementById("items").innerHTML="";
-
  x.items.forEach(i=>addItem(i.name,i.qty,i.price));
-
- document.getElementById("tax").value=x.taxPercent ?? 0;
-
+ document.getElementById("tax").value=x.taxPercent??0;
  calculate();
-
  show("invoice");
 }
 
-function deleteInvoice(id){
-
+async function deleteInvoice(id){
+ if(!currentUser)return;
  if(!confirm("این فاکتور حذف شود؟"))return;
-
- invoices=invoices.filter(x=>x.id!==id);
-
- saveUserInvoices();
-
+ const {error}=await supabaseClient.from("invoices").delete().eq("id",id).eq("user_id",currentUser.id);
+ if(error){alert("خطا در حذف فاکتور: "+error.message);return;}
+ invoices=invoices.filter(x=>String(x.id)!==String(id));
  renderHistory();
  updateReport();
 }
 
 function printInvoice(id){
-
  loadInvoice(id);
-
  setTimeout(()=>window.print(),300);
 }
 
 function newInvoice(){
-
  editId=null;
-
  document.getElementById("number").value=getNextInvoiceNumber();
+ document.getElementById("date").value=todayLocal();
  document.getElementById("seller").value="";
  document.getElementById("customer").value="";
  document.getElementById("discount").value=0;
  document.getElementById("tax").value=0;
  document.getElementById("note").value="";
-
  document.getElementById("items").innerHTML="";
-
  addItem();
-
  calculate();
 }
 
 function show(section){
-
  ["invoice","history","report","plans","about","auth"].forEach(id=>{
-  document.getElementById(id).style.display=
-   id===section ? "block":"none";
+  document.getElementById(id).style.display=id===section?"block":"none";
  });
-
  if(section==="history")renderHistory();
-
  if(section==="report")updateReport();
-
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function updateReport(){
-
  let count=invoices.length;
-
  let total=invoices.reduce((s,x)=>s+Number(x.total||0),0);
-
  let average=count?total/count:0;
-
  document.getElementById("reportCount").innerText=count.toLocaleString("fa-IR");
  document.getElementById("reportTotal").innerText=money(total);
  document.getElementById("reportAverage").innerText=money(average);
@@ -809,11 +798,23 @@ function updateReport(){
 
 addItem();
 updateReport();
-loadUserInvoices();
-updateAccountUI();
 setAuthMode("login");
-if(!currentUser) show("auth");
-document.getElementById("number").value=getNextInvoiceNumber();
+
+(async function initAuth(){
+ const {data}=await supabaseClient.auth.getSession();
+ if(data.session){
+  await setCurrentUser(data.session.user);
+  show("invoice");
+ }else{
+  updateAccountUI();
+  show("auth");
+  document.getElementById("number").value=getNextInvoiceNumber();
+ }
+ supabaseClient.auth.onAuthStateChange(async (_event,session)=>{
+  if(session && !currentUser){await setCurrentUser(session.user);show("invoice");}
+  if(!session && currentUser){currentUser=null;invoices=[];editId=null;updateAccountUI();show("auth");}
+ });
+})();
 </script>
 
 </body>
