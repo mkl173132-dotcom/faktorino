@@ -240,8 +240,15 @@ footer{
 <div class="field" id="authNameField"><label>نام و نام خانوادگی</label><input id="authName" placeholder="برای ثبت‌نام"></div>
 <div class="field"><label>ایمیل</label><input id="authEmail" type="email" placeholder="example@email.com"></div>
 <div class="field"><label>رمز عبور</label><input id="authPassword" type="password" placeholder="حداقل ۶ کاراکتر"></div>
+<div id="forgotPasswordArea" style="margin:10px 0;text-align:center">
+  <button class="btn gray small" type="button" onclick="sendPasswordReset()">فراموشی رمز عبور</button>
+</div>
+<div id="changePasswordArea" style="display:none;margin-top:15px;padding-top:15px;border-top:1px solid #e2e8f0">
+  <div class="field"><label>رمز عبور جدید</label><input id="newPassword" type="password" placeholder="حداقل ۶ کاراکتر"></div>
+  <button class="btn" type="button" onclick="changePassword()">تغییر رمز عبور</button>
+</div>
 <button class="btn green" onclick="submitAuth()">ادامه</button>
-<p class="small-note">این نسخه آزمایشی است و حساب و فاکتورها روی همین دستگاه ذخیره می‌شوند. برای حساب آنلاین واقعی و همگام‌سازی بین دستگاه‌ها بعداً Backend لازم است.</p>
+<p class="small-note">حساب و فاکتورها با Supabase مدیریت می‌شوند. رمز عبور در سایت ذخیره نمی‌شود؛ برای بازیابی یا تغییر رمز از گزینه‌های بالا استفاده کن.</p>
 </div></section>
 <div class="container">
 
@@ -479,7 +486,7 @@ footer{
 </div>
 
 <footer>
-فاکتورینو © ۱۴۰۵
+فاکتورینو © ۱۴۰۵ | نسخه ۵
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -629,6 +636,37 @@ async function submitAuth(){
   alert("ورود موفق بود ✅");
   show("invoice");
  }
+}
+
+
+async function sendPasswordReset(){
+  const email=document.getElementById("authEmail").value.trim().toLowerCase();
+  if(!email){alert("ابتدا ایمیل حساب را وارد کن.");return;}
+  if(!/^\S+@\S+\.\S+$/.test(email)){alert("ایمیل معتبر وارد کن.");return;}
+  const redirectUrl=window.location.origin+window.location.pathname+"?reset=1";
+  const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo:redirectUrl});
+  if(error){alert("خطا در ارسال ایمیل بازیابی: "+error.message);return;}
+  alert("ایمیل بازیابی رمز ارسال شد. صندوق ورودی و پوشه Spam را بررسی کن.");
+}
+
+async function changePassword(){
+  const password=document.getElementById("newPassword").value;
+  if(password.length<6){alert("رمز عبور باید حداقل ۶ کاراکتر باشد.");return;}
+  const {error}=await supabaseClient.auth.updateUser({password});
+  if(error){alert("خطا در تغییر رمز عبور: "+error.message);return;}
+  document.getElementById("newPassword").value="";
+  document.getElementById("changePasswordArea").style.display="none";
+  alert("رمز عبور با موفقیت تغییر کرد ✅");
+}
+
+function handlePasswordRecovery(){
+  const params=new URLSearchParams(window.location.search);
+  if(params.get("reset")==="1"){
+    document.getElementById("changePasswordArea").style.display="block";
+    show("auth");
+    history.replaceState({},document.title,window.location.pathname);
+    alert("لینک بازیابی باز شد. رمز عبور جدیدت را وارد کن.");
+  }
 }
 
 async function setCurrentUser(user){
@@ -799,6 +837,7 @@ function updateReport(){
 addItem();
 updateReport();
 setAuthMode("login");
+handlePasswordRecovery();
 
 (async function initAuth(){
  const {data}=await supabaseClient.auth.getSession();
