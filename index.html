@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>فاکتورینو | مدیریت حرفه‌ای فاکتورها</title>
+<link rel="icon" type="image/png" href="app-icon.png">
+<link rel="apple-touch-icon" href="app-icon.png">
+<meta name="theme-color" content="#1769e8">
 
 <style>
 *{box-sizing:border-box}
@@ -608,6 +611,22 @@ body.drawer-open{overflow:hidden}
 }
 @media(prefers-reduced-motion:reduce){.faktorino-drawer,.drawer-links a,.quick-access button,.menu-toggle{transition:none}}
 </style>
+<link rel="icon" type="image/png" href="./favicon.png"><link rel="apple-touch-icon" href="./app-icon.png"><link rel="manifest" href="./manifest.webmanifest">
+<style id="faktorino-menu-viewport-fix">
+/* Final menu viewport fix: keep header/footer visible and let the full list scroll. */
+html,body{max-width:100%;overflow-x:hidden}
+.faktorino-drawer{height:100vh;height:100dvh;max-height:100dvh;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer-head{flex:0 0 auto;min-height:76px;padding:12px 16px;box-sizing:border-box}
+.drawer-brand strong{font-size:clamp(18px,5vw,23px)}
+.drawer-caption{flex:0 0 auto;padding:10px 16px 7px}
+.drawer-links{flex:1 1 0%;min-height:0;height:0;max-height:none;overflow-y:scroll;overflow-x:hidden;overscroll-behavior-y:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;scrollbar-gutter:stable;padding:0 12px 12px;box-sizing:border-box}
+.drawer-links a{flex:0 0 auto;min-height:44px;box-sizing:border-box;overflow-wrap:anywhere}
+.drawer-foot{flex:0 0 auto;padding:7px 10px calc(7px + env(safe-area-inset-bottom,0px));box-sizing:border-box}
+.drawer-main-menu{min-height:40px;padding:7px 10px;gap:6px}
+.drawer-main-menu small{display:block;width:100%;line-height:1.35;text-align:center}
+@media(max-height:620px){.drawer-head{min-height:60px;padding:7px 12px}.drawer-logo{width:38px;height:38px;font-size:25px}.drawer-brand strong{font-size:18px}.drawer-caption{padding:6px 14px}.drawer-links{gap:5px;padding-bottom:8px}.drawer-links a{min-height:38px;padding:7px 11px}.drawer-foot{padding-top:5px;padding-bottom:5px}.drawer-main-menu small{display:none}}
+@media(max-width:380px){.drawer-links a{min-height:42px;padding:9px 10px;font-size:13px}}
+</style>
 </head>
 
 <body>
@@ -647,6 +666,8 @@ body.drawer-open{overflow:hidden}
     <a data-section="catalog" onclick="show('catalog')">📦 <span>کالا و خدمات</span></a>
     <a data-section="backup" onclick="show('backup')">🛡️ <span>پشتیبان‌گیری</span></a>
     <a data-section="send" onclick="show('send')">📤 <span>ارسال فاکتور</span></a>
+    <a data-section="receivables" onclick="show('receivables')">💳 <span>بدهی و اقساط</span></a>
+    <a data-section="inventory" onclick="show('inventory')">📦 <span>انبارداری</span></a>
     <a data-section="security" onclick="show('security')">🔐 <span>حساب و امنیت</span></a>
     <a data-section="team" onclick="show('team')">🏢 <span>کاربران</span></a>
     <a data-section="plans" onclick="show('plans')">⭐ <span>طرح‌ها و امکانات</span></a>
@@ -680,7 +701,7 @@ body.drawer-open{overflow:hidden}
     <div class="customer-form">
       <div class="field"><label>نام و نام خانوادگی</label><input id="customerName" placeholder="مثلاً علی رضایی"></div>
       <div class="field"><label>شماره موبایل</label><input id="customerPhone" inputmode="tel" dir="ltr" placeholder="09123456789"></div>
-      <div class="field full"><label>ایمیل</label><input id="customerEmail" type="email" dir="ltr" placeholder="name@example.com"></div>
+      <div class="field full"><label>ایمیل</label><input id="savedCustomerEmail" type="email" dir="ltr" placeholder="name@example.com"></div>
       <div class="field full"><label>آدرس</label><textarea id="customerAddress" rows="3" placeholder="آدرس مشتری"></textarea></div>
     </div>
     <div class="customer-modal-actions">
@@ -890,6 +911,21 @@ body.drawer-open{overflow:hidden}
 </div>
 </div>
 
+<div class="card no-print" id="advancedInvoicePanel">
+<h2>⚙️ تنظیمات پیشرفته فاکتور</h2>
+<p class="small-note">اطلاعات تکمیلی را وارد کن؛ در ذخیره و چاپ فاکتور نگهداری می‌شوند.</p>
+<div class="grid">
+<div class="field"><label>شماره سفارش / مرجع</label><input id="orderReference" placeholder="مثلاً PO-2026-015"></div>
+<div class="field"><label>اعتبار پیش‌فاکتور (روز)</label><input id="validityDays" type="number" min="0" value="7"></div>
+<div class="field"><label>شرایط تحویل</label><select id="deliveryTerms"><option value="">انتخاب نشده</option><option>تحویل در محل فروشنده</option><option>ارسال به آدرس مشتری</option><option>تحویل حضوری</option><option>تحویل مرحله‌ای</option></select></div>
+<div class="field"><label>مدت ضمانت</label><input id="warrantyPeriod" placeholder="مثلاً ۱۲ ماه / بدون ضمانت"></div>
+<div class="field"><label>شرایط پرداخت</label><select id="paymentTerms"><option value="">طبق توافق طرفین</option><option>نقدی هنگام تحویل</option><option>پیش‌پرداخت و تسویه هنگام تحویل</option><option>تسویه تا سررسید</option><option>پرداخت اقساطی</option></select></div>
+<div class="field"><label>هزینه بسته‌بندی (تومان)</label><input id="packingCost" type="number" min="0" value="0" oninput="calculate()"></div>
+<div class="field" style="grid-column:1/-1"><label>شرایط و توضیحات تکمیلی چاپی</label><textarea id="termsNote" rows="2" placeholder="شرایط مرجوعی، تحویل، ضمانت یا توضیحات تکمیلی"></textarea></div>
+</div>
+<div class="pro-note">💡 قبل از ذخیره، شماره مرجع، شرایط تحویل و ضمانت را کنترل کن. این اطلاعات جایگزین بررسی حقوقی یا مالیاتی نیستند.</div>
+</div>
+
 <div class="card">
 <h2>📦 کالاها / خدمات</h2>
 
@@ -1073,21 +1109,21 @@ body.drawer-open{overflow:hidden}
 
 
 
-<section id="customers" class="card" style="display:none">
+<section id="legacyCustomers" class="card" style="display:none">
 <h2>👥 دفترچه مشتریان</h2>
 <p class="small-note">مشتریان بر اساس فاکتورهای ذخیره‌شده جمع‌آوری می‌شوند و می‌توانی از همین‌جا فاکتور جدید بسازی.</p>
 <div class="actions no-print">
-<input id="customerSearch" placeholder="جستجوی نام، تلفن یا ایمیل..." oninput="renderCustomers()" style="flex:1;min-width:220px">
+<input id="legacyCustomerSearch" placeholder="جستجوی نام، تلفن یا ایمیل..." oninput="renderLegacyCustomers()" style="flex:1;min-width:220px">
 <button class="btn" onclick="openCustomerForInvoice('')">➕ مشتری جدید</button>
 </div>
 <div id="customerList"></div>
 </section>
 
-<section id="catalog" class="card" style="display:none">
+<section id="legacyCatalog" class="card" style="display:none">
 <h2>📦 کالا و خدمات</h2>
 <p class="small-note">لیست کالاها و خدمات از اطلاعات ثبت‌شده در فاکتورها ساخته می‌شود. برای افزودن سریع، روی «افزودن به فاکتور» بزن.</p>
 <div class="actions no-print">
-<input id="catalogSearch" placeholder="جستجوی کالا یا خدمت..." oninput="renderCatalog()" style="flex:1;min-width:220px">
+<input id="legacyCatalogSearch" placeholder="جستجوی کالا یا خدمت..." oninput="renderLegacyCatalog()" style="flex:1;min-width:220px">
 </div>
 <div id="catalogList"></div>
 </section>
@@ -1307,7 +1343,7 @@ function syncProfessionalPrint(){
  g('ppsSellerIds').innerText=[g('sellerTaxId').value&&('شناسه/کد اقتصادی: '+g('sellerTaxId').value),g('sellerPostalCode').value&&('کدپستی: '+g('sellerPostalCode').value)].filter(Boolean).join(' • ');
  g('ppsCustomerIds').innerText=[g('customerTaxId').value&&('شناسه/کد ملی: '+g('customerTaxId').value),g('customerPostalCode').value&&('کدپستی: '+g('customerPostalCode').value),g('customerEmail').value&&('ایمیل: '+g('customerEmail').value)].filter(Boolean).join(' • ');
  const body=g('ppsItems');body.innerHTML='';document.querySelectorAll('#items tr').forEach((tr,i)=>{const name=tr.querySelector('.item-name').value||'-',unit=tr.querySelector('.item-unit').value||'-',qty=Number(tr.querySelector('.item-qty').value||0),price=Number(tr.querySelector('.item-price').value||0),disc=Number(tr.querySelector('.item-discount')?.value||0),net=Math.max(0,qty*price-disc);const row=document.createElement('tr');row.innerHTML=`<td>${i+1}</td><td>${escapeHtml(name)}</td><td>${escapeHtml(unit)}</td><td>${qty.toLocaleString('fa-IR')}</td><td>${money(price)}</td><td>${money(disc)}</td><td>${money(net)}</td>`;body.appendChild(row)});
- g('ppsSubtotal').innerText=g('subtotal').innerText;g('ppsDiscount').innerText=g('discountView').innerText;g('ppsTax').innerText=g('taxView').innerText;g('ppsShipping').innerText=g('shippingView').innerText;g('ppsTotal').innerText=g('total').innerText;g('ppsPaid').innerText=g('paidView').innerText;g('ppsBalance').innerText=g('balanceView').innerText;g('ppsWords').innerText=g('amountWords').innerText;g('ppsNote').innerText=g('note').value||'—';
+ g('ppsSubtotal').innerText=g('subtotal').innerText;g('ppsDiscount').innerText=g('discountView').innerText;g('ppsTax').innerText=g('taxView').innerText;g('ppsShipping').innerText=g('shippingView').innerText;g('ppsTotal').innerText=g('total').innerText;g('ppsPaid').innerText=g('paidView').innerText;g('ppsBalance').innerText=g('balanceView').innerText;g('ppsWords').innerText=g('amountWords').innerText;g('ppsNote').innerText=[g('note').value,g('orderReference')?.value&&('مرجع سفارش: '+g('orderReference').value),g('deliveryTerms')?.value&&('تحویل: '+g('deliveryTerms').value),g('warrantyPeriod')?.value&&('ضمانت: '+g('warrantyPeriod').value),g('paymentTerms')?.value&&('شرایط پرداخت: '+g('paymentTerms').value),g('termsNote')?.value].filter(Boolean).join('\n')||'—';
  const sig=JSON.parse(localStorage.getItem('faktorino_signature_settings')||'{}');g('ppsSellerSign').innerHTML=(sig.signature?`<img src="${sig.signature}" style="max-width:130px;max-height:50px;object-fit:contain">`:'<span style="display:block;border-bottom:1px solid #94a3b8;width:130px"></span>')+(sig.stamp?`<img src="${sig.stamp}" style="max-width:70px;max-height:45px;object-fit:contain;margin-right:8px">`:'');g('ppsSellerSignName').innerText=sig.name||'';
 }
 
@@ -1322,16 +1358,17 @@ function calculate(){
  const discount=discountType==="percent"?Math.min(subtotal,subtotal*discountInput/100):Math.min(subtotal,discountInput);
  const taxable=Math.max(0,subtotal-discount),taxPercent=Math.max(0,Number(document.getElementById("tax").value||0)),tax=taxable*taxPercent/100;
  const shipping=Math.max(0,Number(document.getElementById("shipping")?.value||0));
- const beforeRound=taxable+tax+shipping,total=roundMoney(beforeRound),rounding=total-beforeRound;
+ const packing=Math.max(0,Number(document.getElementById("packingCost")?.value||0));
+ const beforeRound=taxable+tax+shipping+packing,total=roundMoney(beforeRound),rounding=total-beforeRound;
  let paid=Number(document.getElementById("paidAmount")?.value||0);paid=Math.min(Math.max(0,paid),total);
  let status=document.getElementById("paymentStatus")?.value||"pending";if(status==="paid")paid=total;if(status==="pending")paid=0;
  document.getElementById("paidAmount").value=Math.round(paid);
- document.getElementById("subtotal").innerText=money(subtotal);document.getElementById("discountView").innerText=money(discount);document.getElementById("taxView").innerText=money(tax);document.getElementById("shippingView").innerText=money(shipping);document.getElementById("roundingView").innerText=money(rounding);document.getElementById("total").innerText=money(total);document.getElementById("paidView").innerText=money(paid);document.getElementById("balanceView").innerText=money(Math.max(0,total-paid));document.getElementById("paymentStatusView").innerText=status==="paid"?"پرداخت کامل":status==="partial"?"پرداخت بخشی":"پرداخت نشده";document.getElementById("amountWords").innerText=numberToPersianWords(Math.round(total))+" تومان";
- return {subtotal,discount,tax,taxPercent,total,paid,status,balance:Math.max(0,total-paid),shipping,rounding,discountInput,discountType};
+ document.getElementById("subtotal").innerText=money(subtotal);document.getElementById("discountView").innerText=money(discount);document.getElementById("taxView").innerText=money(tax);document.getElementById("shippingView").innerText=money(shipping+packing);document.getElementById("roundingView").innerText=money(rounding);document.getElementById("total").innerText=money(total);document.getElementById("paidView").innerText=money(paid);document.getElementById("balanceView").innerText=money(Math.max(0,total-paid));document.getElementById("paymentStatusView").innerText=status==="paid"?"پرداخت کامل":status==="partial"?"پرداخت بخشی":"پرداخت نشده";document.getElementById("amountWords").innerText=numberToPersianWords(Math.round(total))+" تومان";
+ return {subtotal,discount,tax,taxPercent,total,paid,status,balance:Math.max(0,total-paid),shipping:shipping+packing,packing,rounding,discountInput,discountType};
 }
 function getInvoice(){
  const c=calculate(),items=[];document.querySelectorAll("#items tr").forEach(tr=>items.push({name:tr.querySelector(".item-name").value,unit:tr.querySelector(".item-unit").value,qty:Number(tr.querySelector(".item-qty").value||0),price:Number(tr.querySelector(".item-price").value||0),discount:Number(tr.querySelector(".item-discount").value||0)}));
- return {id:editId,number:document.getElementById("number").value,date:normalizeDateValue(document.getElementById("date").value),invoiceType:document.getElementById("invoiceType").value,template:document.getElementById("invoiceTemplate").value,printSize:document.getElementById("printSize").value,payment:document.getElementById("payment").value,paymentStatus:c.status,paidAmount:c.paid,seller:document.getElementById("seller").value,customer:document.getElementById("customer").value,customerEmail:normalizeEmail(document.getElementById("customerEmail").value),sellerTaxId:document.getElementById("sellerTaxId").value.trim(),sellerPostalCode:document.getElementById("sellerPostalCode").value.trim(),customerTaxId:document.getElementById("customerTaxId").value.trim(),customerPostalCode:document.getElementById("customerPostalCode").value.trim(),dueDate:normalizeDateValue(document.getElementById("dueDate").value),items,discount:c.discount,discountInput:c.discountInput,discountType:c.discountType,tax:c.tax,taxPercent:c.taxPercent,shipping:c.shipping,rounding:c.rounding,subtotal:c.subtotal,total:c.total,balance:c.balance,note:document.getElementById("note").value};
+ return {id:editId,number:document.getElementById("number").value,date:normalizeDateValue(document.getElementById("date").value),invoiceType:document.getElementById("invoiceType").value,template:document.getElementById("invoiceTemplate").value,printSize:document.getElementById("printSize").value,payment:document.getElementById("payment").value,paymentStatus:c.status,paidAmount:c.paid,seller:document.getElementById("seller").value,customer:document.getElementById("customer").value,customerEmail:normalizeEmail(document.getElementById("customerEmail").value),sellerTaxId:document.getElementById("sellerTaxId").value.trim(),sellerPostalCode:document.getElementById("sellerPostalCode").value.trim(),customerTaxId:document.getElementById("customerTaxId").value.trim(),customerPostalCode:document.getElementById("customerPostalCode").value.trim(),dueDate:normalizeDateValue(document.getElementById("dueDate").value),items,discount:c.discount,discountInput:c.discountInput,discountType:c.discountType,tax:c.tax,taxPercent:c.taxPercent,shipping:c.shipping,rounding:c.rounding,packingCost:c.packing||0,orderReference:document.getElementById("orderReference")?.value||"",validityDays:document.getElementById("validityDays")?.value||"",deliveryTerms:document.getElementById("deliveryTerms")?.value||"",warrantyPeriod:document.getElementById("warrantyPeriod")?.value||"",paymentTerms:document.getElementById("paymentTerms")?.value||"",termsNote:document.getElementById("termsNote")?.value||"",subtotal:c.subtotal,total:c.total,balance:c.balance,note:document.getElementById("note").value};
 }
 
 function updateAccountUI(){
@@ -1602,7 +1639,7 @@ function openCustomerModal(customerId=""){
  const c=customerCache.find(x=>x.id===customerId);
  document.getElementById("customerName").value=c?.name||"";
  document.getElementById("customerPhone").value=c?.phone||"";
- document.getElementById("customerEmail").value=c?.email||"";
+ document.getElementById("savedCustomerEmail").value=c?.email||"";
  document.getElementById("customerAddress").value=c?.address||"";
  document.getElementById("customerModalBackdrop").style.display="flex";
  setTimeout(()=>document.getElementById("customerName").focus(),50);
@@ -1612,7 +1649,7 @@ function saveCustomer(){
  const id=document.getElementById("customerEditId").value;
  const name=document.getElementById("customerName").value.trim();
  const phone=normalizeCustomerPhone(document.getElementById("customerPhone").value);
- const email=document.getElementById("customerEmail").value.trim();
+ const email=document.getElementById("savedCustomerEmail").value.trim();
  const address=document.getElementById("customerAddress").value.trim();
  if(name.length<2){alert("نام مشتری را وارد کن.");return}
  if(phone&&!/^09\d{9}$/.test(phone)){alert("شماره موبایل را به شکل 09123456789 وارد کن.");return}
@@ -1693,7 +1730,7 @@ function loadInvoice(id){
  const x=invoices.find(a=>String(a.id)===String(id));if(!x)return;editId=x.id;
  document.getElementById("number").value=x.number;document.getElementById("date").value=normalizeDateValue(x.date);document.getElementById("invoiceType").value=x.invoiceType||"sale";document.getElementById("invoiceTemplate").value=x.template||"modern";document.getElementById("printSize").value=x.printSize||"A4";applyTemplate();document.getElementById("payment").value=x.payment;
  document.getElementById("seller").value=x.seller;document.getElementById("customer").value=x.customer;document.getElementById("customerEmail").value=normalizeEmail(x.customerEmail);document.getElementById("sellerTaxId").value=x.sellerTaxId||"";document.getElementById("sellerPostalCode").value=x.sellerPostalCode||"";document.getElementById("customerTaxId").value=x.customerTaxId||"";document.getElementById("customerPostalCode").value=x.customerPostalCode||"";
- document.getElementById("discount").value=x.discountInput??x.discount??0;document.getElementById("discountType").value=x.discountType||"amount";document.getElementById("tax").value=x.taxPercent||0;document.getElementById("shipping").value=x.shipping||0;document.getElementById("rounding").value=String(x.roundingStep||0);document.getElementById("paidAmount").value=x.paidAmount||0;document.getElementById("paymentStatus").value=x.paymentStatus||"pending";document.getElementById("dueDate").value=normalizeDateValue(x.dueDate);document.getElementById("note").value=x.note||"";
+ document.getElementById("discount").value=x.discountInput??x.discount??0;document.getElementById("discountType").value=x.discountType||"amount";document.getElementById("tax").value=x.taxPercent||0;document.getElementById("shipping").value=x.shipping||0;document.getElementById("rounding").value=String(x.roundingStep||0);document.getElementById("paidAmount").value=x.paidAmount||0;document.getElementById("paymentStatus").value=x.paymentStatus||"pending";document.getElementById("dueDate").value=normalizeDateValue(x.dueDate);document.getElementById("note").value=x.note||"";document.getElementById("orderReference").value=x.orderReference||"";document.getElementById("validityDays").value=x.validityDays??7;document.getElementById("deliveryTerms").value=x.deliveryTerms||"";document.getElementById("warrantyPeriod").value=x.warrantyPeriod||"";document.getElementById("paymentTerms").value=x.paymentTerms||"";document.getElementById("packingCost").value=x.packingCost||0;document.getElementById("termsNote").value=x.termsNote||"";
  document.getElementById("items").innerHTML="";x.items.forEach(i=>addItem(i.name,i.qty,i.price,i.unit||"عدد",i.discount||0));calculate();show("invoice");
 }
 async function deleteInvoice(id){
@@ -1714,7 +1751,7 @@ function emailInvoice(id){
 function newInvoice(){
  editId=null;document.getElementById("number").value=getNextInvoiceNumber();loadSignatureSettings();
 document.getElementById("date").value=todayLocal();applyTemplate();document.getElementById("invoiceType").value="sale";document.getElementById("invoiceTemplate").value="modern";document.getElementById("printSize").value="A4";applyTemplate();
- document.getElementById("seller").value="";document.getElementById("customer").value="";document.getElementById("customerEmail").value="";document.getElementById("sellerTaxId").value="";document.getElementById("sellerPostalCode").value="";document.getElementById("customerTaxId").value="";document.getElementById("customerPostalCode").value="";document.getElementById("discount").value=0;document.getElementById("discountType").value="amount";document.getElementById("tax").value=0;document.getElementById("shipping").value=0;document.getElementById("rounding").value="0";document.getElementById("paidAmount").value=0;document.getElementById("paymentStatus").value="pending";document.getElementById("dueDate").value="";document.getElementById("note").value="";document.getElementById("items").innerHTML="";addItem();calculate();
+ document.getElementById("seller").value="";document.getElementById("customer").value="";document.getElementById("customerEmail").value="";document.getElementById("sellerTaxId").value="";document.getElementById("sellerPostalCode").value="";document.getElementById("customerTaxId").value="";document.getElementById("customerPostalCode").value="";document.getElementById("discount").value=0;document.getElementById("discountType").value="amount";document.getElementById("tax").value=0;document.getElementById("shipping").value=0;document.getElementById("rounding").value="0";document.getElementById("paidAmount").value=0;document.getElementById("paymentStatus").value="pending";document.getElementById("dueDate").value="";document.getElementById("note").value="";document.getElementById("orderReference").value="";document.getElementById("validityDays").value=7;document.getElementById("deliveryTerms").value="";document.getElementById("warrantyPeriod").value="";document.getElementById("paymentTerms").value="";document.getElementById("packingCost").value=0;document.getElementById("termsNote").value="";document.getElementById("items").innerHTML="";addItem();calculate();
 }
 function duplicateCurrentInvoice(){const i=JSON.parse(JSON.stringify(getInvoice()));editId=null;document.getElementById("number").value=getNextInvoiceNumber();document.getElementById("date").value=todayLocal();alert("کپی جدید آماده شد. شماره فاکتور و تاریخ جدید شده‌اند؛ برای ثبت روی «ذخیره فاکتور» بزن.");}
 function applyTemplate(){document.body.classList.remove("template-modern","template-classic","template-minimal");document.body.classList.add("template-"+(document.getElementById("invoiceTemplate")?.value||"modern"));}
@@ -1742,7 +1779,7 @@ async function loadUserInvoices(){
  renderHistory();updateReport();renderCustomers();renderCatalog();
 }
 
-function renderCustomers(){
+function renderLegacyCustomers(){
  const box=document.getElementById("customerList");if(!box)return;
  const q=(document.getElementById("customerSearch")?.value||"").toLowerCase().trim(),map=new Map();
  invoices.forEach(x=>{const key=(x.customer||"").trim();if(!key)return;const old=map.get(key)||{name:key,email:x.customerEmail,phone:"",count:0,total:0};old.email=old.email||x.customerEmail;old.count++;old.total+=Number(x.total||0);map.set(key,old)});
@@ -1751,7 +1788,7 @@ function renderCustomers(){
 }
 function openCustomerForInvoice(name){newInvoice();document.getElementById("customer").value=name||"";show("invoice");}
 
-function renderCatalog(){
+function renderLegacyCatalog(){
  const box=document.getElementById("catalogList");if(!box)return;
  const q=(document.getElementById("catalogSearch")?.value||"").toLowerCase().trim(),map=new Map();
  invoices.forEach(x=>x.items.forEach(i=>{const key=(i.name||"").trim();if(!key)return;const old=map.get(key)||{name:key,price:Number(i.price||0),count:0};old.price=Number(i.price||old.price);old.count++;map.set(key,old)}));
@@ -1898,10 +1935,12 @@ function securityInit(){
 
 function show(section){
  if(document.body.classList.contains("auth-locked") && section!=="auth") section="auth";
- ["invoice","dashboard","history","report","finance","customers","catalog","backup","send","security","team","plans","about","auth"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=id===section?"block":"none"});
+ const sectionMap={catalog:"catalogSection"};
+ const targetId=sectionMap[section]||section;
+ ["invoice","dashboard","history","report","finance","customers","legacyCustomers","legacyCatalog","catalogSection","backup","send","security","team","plans","about","auth","receivables","inventory"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=id===targetId?"block":"none"});
  document.querySelectorAll('.nav-links a[data-section], .quick-access [data-section]').forEach(a=>a.classList.toggle('active',a.dataset.section===section));
  closeFaktorinoMenu();
- if(section==="dashboard")updateDashboard();if(section==="history")renderHistory();if(section==="report")updateReport();if(section==="finance")renderFinance();if(section==="customers")renderCustomers();if(section==="catalog")renderCatalog();if(section==="team")renderTeam();if(section==="backup")renderBackupInfo();if(section==="send")updateSendPanel();if(section==="security")renderSecurityPanel();
+ if(section==="dashboard")updateDashboard();if(section==="history")renderHistory();if(section==="report")updateReport();if(section==="finance")renderFinance();if(section==="customers")renderCustomers();if(section==="catalog")renderCatalog();if(section==="team")renderTeam();if(section==="backup")renderBackupInfo();if(section==="send")updateSendPanel();if(section==="security")renderSecurityPanel();if(section==="receivables")renderReceivables();if(section==="inventory")renderInventory();
  updateQuickStatus();
  window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -2017,6 +2056,19 @@ document.addEventListener('change',e=>{if(e.target.closest('#invoice')){clearTim
   <button onclick="show('customers')"><b>👥</b>مشتریان</button>
   <button onclick="document.querySelector('.nav-links')?.scrollIntoView({behavior:'smooth',block:'start'})"><b>☰</b>بیشتر</button>
 </nav>
+
+
+<section id="receivables" class="card" style="display:none">
+ <div class="section-head"><div><h2>💳 بدهی، اقساط و دریافت‌ها</h2><p class="small-note">مانده فاکتورهای فروش را ببین و پرداخت‌های جزئی را ثبت کن.</p></div><button class="btn primary" onclick="renderReceivables()">به‌روزرسانی</button></div>
+ <div class="form-grid"><label>جستجوی مشتری یا شماره فاکتور<input id="receivableSearch" oninput="renderReceivables()" placeholder="نام یا شماره فاکتور"></label><label>وضعیت<select id="receivableFilter" onchange="renderReceivables()"><option value="open">فقط مانده‌دار</option><option value="all">همه فاکتورها</option><option value="paid">تسویه‌شده</option></select></label></div>
+ <div id="receivableSummary" class="dash-kpi-grid"></div><div id="receivablesList"></div>
+</section>
+<section id="inventory" class="card" style="display:none">
+ <div class="section-head"><div><h2>📦 انبارداری و موجودی کالا</h2><p class="small-note">کالا، موجودی، حد هشدار و بهای خرید را ثبت کن. این اطلاعات در همین مرورگر ذخیره می‌شوند.</p></div><button class="btn primary" onclick="openInventoryForm()">➕ افزودن کالا</button></div>
+ <div class="form-grid"><label>جستجو<input id="inventorySearch" oninput="renderInventory()" placeholder="نام یا کد کالا"></label><label>نمایش<select id="inventoryFilter" onchange="renderInventory()"><option value="all">همه کالاها</option><option value="low">موجودی کم</option></select></label></div>
+ <div id="inventorySummary" class="dash-kpi-grid"></div><div id="inventoryList"></div>
+ <div id="inventoryFormWrap" class="modal-backdrop" style="display:none"><div class="modal-card"><div class="section-head"><h3 id="inventoryFormTitle">افزودن کالا</h3><button class="btn" onclick="closeInventoryForm()">✕</button></div><form id="inventoryForm" onsubmit="saveInventoryItem(event)"><input type="hidden" id="invId"><div class="form-grid"><label>نام کالا *<input id="invName" required maxlength="160"></label><label>کد کالا<input id="invSku" maxlength="80"></label><label>موجودی فعلی<input id="invQty" type="number" min="0" step="any" value="0" required></label><label>حد هشدار موجودی<input id="invMin" type="number" min="0" step="any" value="2" required></label><label>بهای خرید هر واحد (تومان)<input id="invCost" type="number" min="0" step="1" value="0"></label><label>قیمت فروش هر واحد (تومان)<input id="invPrice" type="number" min="0" step="1" value="0"></label></div><div class="actions"><button class="btn primary" type="submit">ذخیره کالا</button><button class="btn" type="button" onclick="closeInventoryForm()">انصراف</button></div></form></div></div>
+</section>
 
 </body>
 </html>
@@ -2244,6 +2296,7 @@ function openFaktorinoMenu(){
  const drawer=document.getElementById("faktorinoDrawer"),backdrop=document.getElementById("drawerBackdrop"),toggle=document.getElementById("menuToggle");
  if(!drawer||!backdrop)return;
  drawer.classList.add("open");backdrop.classList.add("open");document.body.classList.add("drawer-open");
+ const menuLinks=drawer.querySelector(".drawer-links");if(menuLinks&&menuLinks.scrollTop===0)menuLinks.scrollTop=0;
  drawer.setAttribute("aria-hidden","false");backdrop.setAttribute("aria-hidden","false");if(toggle)toggle.setAttribute("aria-expanded","true");
 }
 function closeFaktorinoMenu(){
@@ -2258,5 +2311,35 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")closeFaktori
  let sx=0,sy=0;
  drawer.addEventListener("touchstart",function(e){const t=e.touches[0];sx=t.clientX;sy=t.clientY},{passive:true});
  drawer.addEventListener("touchend",function(e){const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)>80&&Math.abs(dx)>Math.abs(dy)*1.35&&dx>0)closeFaktorinoMenu()},{passive:true});
+})();
+</script>
+
+
+<script>
+(()=>{
+ const key=(suffix)=>`faktorino_${suffix}_${(window.currentUser&&currentUser.id)||'guest'}`;
+ const read=(k)=>{try{const x=JSON.parse(localStorage.getItem(k)||'[]');return Array.isArray(x)?x:[]}catch(e){return[]}};
+ const write=(k,x)=>localStorage.setItem(k,JSON.stringify(x));
+ const esc=(v)=>typeof escapeHtml==='function'?escapeHtml(v):String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const money=(n)=>Number(n||0).toLocaleString('fa-IR')+' تومان';
+ window.renderReceivables=function(){
+  const root=document.getElementById('receivablesList'); if(!root)return;
+  const all=Array.isArray(window.invoices)?window.invoices:(typeof invoices!=='undefined'?invoices:[]);
+  const q=(document.getElementById('receivableSearch')?.value||'').trim().toLowerCase();
+  const filter=document.getElementById('receivableFilter')?.value||'open';
+  const rows=all.filter(i=>{const total=Number(i.total||i.grandTotal||0),paid=Number(i.paidAmount||0),bal=Math.max(0,total-paid);const customer=String(i.customerName||i.customer||i.name||'');const search=(customer+' '+(i.number||'')).toLowerCase();return (!q||search.includes(q))&&(filter==='all'||(filter==='paid'?bal<=0:bal>0));}).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+  const balance=all.reduce((s,i)=>s+Math.max(0,Number(i.total||i.grandTotal||0)-Number(i.paidAmount||0)),0),paid=all.reduce((s,i)=>s+Number(i.paidAmount||0),0);
+  const summary=document.getElementById('receivableSummary');if(summary)summary.innerHTML=`<div class="dash-kpi"><div class="label">مانده مطالبات</div><div class="value">${money(balance)}</div></div><div class="dash-kpi"><div class="label">دریافت ثبت‌شده</div><div class="value">${money(paid)}</div></div><div class="dash-kpi"><div class="label">فاکتورهای مانده‌دار</div><div class="value">${all.filter(i=>Number(i.total||i.grandTotal||0)>Number(i.paidAmount||0)).length.toLocaleString('fa-IR')}</div></div>`;
+  if(!rows.length){root.innerHTML='<div class="empty-state">موردی برای نمایش وجود ندارد.</div>';return;}
+  root.innerHTML=`<div class="table-wrap"><table><thead><tr><th>شماره</th><th>مشتری</th><th>تاریخ</th><th>مبلغ کل</th><th>پرداخت‌شده</th><th>مانده</th><th>عملیات</th></tr></thead><tbody>${rows.map(i=>{const total=Number(i.total||i.grandTotal||0),p=Number(i.paidAmount||0),bal=Math.max(0,total-p);return `<tr><td>${esc(i.number||'—')}</td><td>${esc(i.customerName||i.customer||'—')}</td><td>${esc(i.date||'—')}</td><td>${money(total)}</td><td>${money(p)}</td><td>${money(bal)}</td><td>${bal>0?`<button class="btn primary" onclick="recordInvoicePayment('${esc(String(i.id))}')">ثبت دریافت</button>`:'<span>تسویه شد ✓</span>'}</td></tr>`}).join('')}</tbody></table></div>`;
+ };
+ window.recordInvoicePayment=function(id){const list=typeof readLocalInvoices==='function'?readLocalInvoices():[];const i=list.find(x=>String(x.id)===String(id))||(Array.isArray(window.invoices)?window.invoices:[]).find(x=>String(x.id)===String(id));if(!i){alert('فاکتور محلی پیدا نشد.');return;}const total=Number(i.total||i.grandTotal||0),paid=Number(i.paidAmount||0),remain=Math.max(0,total-paid);const raw=prompt('مبلغ دریافتی (تومان)؛ مانده: '+remain.toLocaleString('fa-IR'));if(raw===null)return;const amount=Number(String(raw).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٬,\s]/g,''));if(!Number.isFinite(amount)||amount<=0||amount>remain){alert('مبلغ واردشده معتبر نیست یا از مانده بیشتر است.');return;}i.paidAmount=paid+amount;i.paymentStatus=i.paidAmount>=total?'paid':'partial';if(typeof writeLocalInvoices==='function'){const local=readLocalInvoices();const ix=local.findIndex(x=>String(x.id)===String(id));if(ix>=0){local[ix]=i;writeLocalInvoices(local);}else{local.push(i);writeLocalInvoices(local);}}if(Array.isArray(window.invoices)){const ix=window.invoices.findIndex(x=>String(x.id)===String(id));if(ix>=0)window.invoices[ix]=i;}alert('دریافت ثبت شد. برای حساب‌های ابری، اتصال و ذخیره‌سازی سمت سرور باید بررسی شود.');renderReceivables();};
+ window.renderInventory=function(){const root=document.getElementById('inventoryList');if(!root)return;const items=read(key('inventory'));const q=(document.getElementById('inventorySearch')?.value||'').trim().toLowerCase();const filter=document.getElementById('inventoryFilter')?.value||'all';const rows=items.filter(x=>(!q||(x.name+' '+x.sku).toLowerCase().includes(q))&&(filter==='all'||Number(x.qty)<=Number(x.min)));const low=items.filter(x=>Number(x.qty)<=Number(x.min)).length;const valuation=items.reduce((s,x)=>s+Number(x.qty||0)*Number(x.cost||0),0);const sum=document.getElementById('inventorySummary');if(sum)sum.innerHTML=`<div class="dash-kpi"><div class="label">تعداد اقلام</div><div class="value">${items.length.toLocaleString('fa-IR')}</div></div><div class="dash-kpi"><div class="label">اقلام کم‌موجود</div><div class="value">${low.toLocaleString('fa-IR')}</div></div><div class="dash-kpi"><div class="label">ارزش تقریبی موجودی</div><div class="value">${money(valuation)}</div></div>`;if(!rows.length){root.innerHTML='<div class="empty-state">هنوز کالایی ثبت نشده است. از «افزودن کالا» شروع کن.</div>';return;}root.innerHTML=`<div class="table-wrap"><table><thead><tr><th>نام کالا</th><th>کد</th><th>موجودی</th><th>حد هشدار</th><th>بهای خرید</th><th>قیمت فروش</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.sku||'—')}</td><td>${Number(x.qty).toLocaleString('fa-IR')}</td><td>${Number(x.min).toLocaleString('fa-IR')}</td><td>${money(x.cost)}</td><td>${money(x.price)}</td><td>${Number(x.qty)<=Number(x.min)?'<span class="status-badge">نیاز به تأمین</span>':'موجود'}</td><td><button class="btn" onclick="editInventoryItem('${esc(x.id)}')">ویرایش</button> <button class="btn" onclick="adjustInventory('${esc(x.id)}')">ورود/خروج</button> <button class="btn danger" onclick="deleteInventoryItem('${esc(x.id)}')">حذف</button></td></tr>`).join('')}</tbody></table></div>`;};
+ window.openInventoryForm=function(id){const w=document.getElementById('inventoryFormWrap');if(!w)return;document.getElementById('inventoryForm').reset();document.getElementById('invId').value='';document.getElementById('inventoryFormTitle').textContent='افزودن کالا';document.getElementById('invQty').value='0';document.getElementById('invMin').value='2';document.getElementById('invCost').value='0';document.getElementById('invPrice').value='0';w.style.display='flex';};
+ window.closeInventoryForm=function(){const w=document.getElementById('inventoryFormWrap');if(w)w.style.display='none';};
+ window.saveInventoryItem=function(e){e.preventDefault();const items=read(key('inventory'));const id=document.getElementById('invId').value||('inv_'+Date.now().toString(36));const item={id,name:document.getElementById('invName').value.trim(),sku:document.getElementById('invSku').value.trim(),qty:Number(document.getElementById('invQty').value),min:Number(document.getElementById('invMin').value),cost:Number(document.getElementById('invCost').value),price:Number(document.getElementById('invPrice').value),updatedAt:new Date().toISOString()};if(!item.name||[item.qty,item.min,item.cost,item.price].some(n=>!Number.isFinite(n)||n<0)){alert('اطلاعات کالا را بررسی کن.');return;}const idx=items.findIndex(x=>x.id===id);if(idx>=0)items[idx]=item;else items.push(item);write(key('inventory'),items);closeInventoryForm();renderInventory();};
+ window.editInventoryItem=function(id){const x=read(key('inventory')).find(a=>a.id===id);if(!x)return;openInventoryForm();document.getElementById('invId').value=x.id;document.getElementById('inventoryFormTitle').textContent='ویرایش کالا';for(const [id,val] of [['invName',x.name],['invSku',x.sku],['invQty',x.qty],['invMin',x.min],['invCost',x.cost],['invPrice',x.price]])document.getElementById(id).value=val??'';};
+ window.adjustInventory=function(id){const items=read(key('inventory')),x=items.find(a=>a.id===id);if(!x)return;const raw=prompt('برای ورود عدد مثبت و برای خروج عدد منفی وارد کن. موجودی فعلی: '+x.qty);if(raw===null)return;const n=Number(String(raw).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٬,\s]/g,''));if(!Number.isFinite(n)||!n||x.qty+n<0){alert('مقدار معتبر نیست یا موجودی منفی می‌شود.');return;}x.qty+=n;x.updatedAt=new Date().toISOString();write(key('inventory'),items);renderInventory();};
+ window.deleteInventoryItem=function(id){if(!confirm('این کالا حذف شود؟'))return;write(key('inventory'),read(key('inventory')).filter(x=>x.id!==id));renderInventory();};
 })();
 </script>

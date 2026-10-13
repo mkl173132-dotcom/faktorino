@@ -1,0 +1,11 @@
+{
+  "name": "فاکتورینو",
+  "short_name": "فاکتورینو",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#071b4a",
+  "theme_color": "#1257c9",
+  "icons": [{"src":"./app-icon.png","sizes":"1024x1024","type":"image/png","purpose":"any maskable"}]
+}
