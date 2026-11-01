@@ -433,13 +433,28 @@ body.auth-locked > #auth{display:block !important; min-height:100vh; padding-top
 
 
 .history-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}.history-stat{background:#f8fafc;border:1px solid #dbe4f0;border-radius:14px;padding:14px}.history-stat span{display:block;color:#64748b;font-size:13px;margin-bottom:6px}.history-stat b{font-size:18px}.history-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-bottom:18px}.history-filters .field{margin:0}.history-item .history-main{flex:1;min-width:240px}.history-meta{display:flex;gap:12px;flex-wrap:wrap;color:#64748b;font-size:13px;margin-top:8px}.history-actions{display:flex;gap:7px;flex-wrap:wrap}.history-empty{text-align:center;padding:35px 15px;color:#64748b;border:1px dashed #cbd5e1;border-radius:14px}@media(max-width:850px){.history-stats{grid-template-columns:repeat(2,1fr)}.history-filters{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.history-stats,.history-filters{grid-template-columns:1fr}.history-stat b{font-size:16px}.history-actions .btn{flex:1}}
-</style>
+
+/* راهنمای شروع و معرفی FIRAN */
+.welcome-tutorial{position:fixed;inset:0;z-index:99999;background:rgba(9,20,45,.88);display:none;align-items:center;justify-content:center;padding:18px}
+.welcome-tutorial.show{display:flex}
+.welcome-panel{width:min(760px,100%);max-height:95vh;overflow:auto;background:#fff;border-radius:24px;padding:24px;box-shadow:0 25px 90px #0005;text-align:center}
+.welcome-brand{font-weight:900;color:#2563eb;font-size:20px;letter-spacing:1px}.welcome-brand span{color:#172033;margin-right:8px}
+.welcome-panel h2{margin:15px 0 8px;color:#172033}.welcome-panel p{color:#64748b;margin:0 0 16px}
+.welcome-panel video{display:block;width:100%;max-height:55vh;object-fit:contain;background:#eef3fb;border-radius:14px}
+.tutorial-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px}.tutorial-actions span{font-size:13px;color:#64748b}
+.ai-top-button{border:0;border-radius:50%;width:74px;height:74px;white-space:normal;line-height:1.35;background:linear-gradient(145deg,#7c3aed,#2563eb);color:#fff;font-weight:bold;box-shadow:0 5px 18px #2563eb55;cursor:pointer;font-size:11px;padding:8px}
+.ai-plan-feature{margin:16px 0;padding:16px;border:1px solid #c4b5fd;border-radius:16px;background:linear-gradient(135deg,#f5f3ff,#eff6ff);text-align:right}
+.ai-plan-feature h3{margin:0 0 6px;color:#5b21b6}.ai-plan-feature p{margin:0 0 12px;color:#475569}
+@media(max-width:600px){.welcome-panel{padding:16px}.tutorial-actions{justify-content:center}.ai-top-button{width:62px;height:62px}}
+\n</style>
 <style id="account-css">
 .account-bar{background:#eff6ff;border-bottom:1px solid #dbeafe;padding:10px 20px}
 .account-inner{max-width:1150px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .account-user{font-size:14px;color:#1e3a8a}.btn.small{padding:8px 12px;font-size:13px}
-.auth-box{max-width:520px;margin:30px auto}.auth-tabs{display:flex;gap:8px;margin-bottom:15px}
-.auth-tabs button{flex:1}.small-note{font-size:12px;color:#64748b;margin-top:8px}
+.auth-box{max-width:520px;margin:30px auto;border:1px solid #dbe3ef;border-radius:22px;padding:clamp(20px,4vw,32px);background:linear-gradient(160deg,#fff 0%,#f8faff 100%);box-shadow:0 18px 48px #0f172a12;position:relative;overflow:hidden}
+.auth-box:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,#2563eb,#7c3aed,#06b6d4)}
+.auth-box h2{font-size:23px;letter-spacing:-.3px}.auth-box input,.auth-box select{border-radius:12px;border:1px solid #cbd5e1;padding:12px 13px;background:#fff;transition:border-color .15s,box-shadow .15s}.auth-box input:focus,.auth-box select:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px #6366f122}.auth-tabs{display:flex;gap:8px;margin:18px 0 15px;padding:5px;border-radius:14px;background:#eef2ff}
+.auth-tabs button{flex:1;border-radius:10px}.small-note{font-size:12px;color:#64748b;margin-top:8px}
 </style>
 
 <style id="v6-css">
@@ -627,9 +642,52 @@ html,body{max-width:100%;overflow-x:hidden}
 @media(max-height:620px){.drawer-head{min-height:60px;padding:7px 12px}.drawer-logo{width:38px;height:38px;font-size:25px}.drawer-brand strong{font-size:18px}.drawer-caption{padding:6px 14px}.drawer-links{gap:5px;padding-bottom:8px}.drawer-links a{min-height:38px;padding:7px 11px}.drawer-foot{padding-top:5px;padding-bottom:5px}.drawer-main-menu small{display:none}}
 @media(max-width:380px){.drawer-links a{min-height:42px;padding:9px 10px;font-size:13px}}
 </style>
+
+<style id="ai-visibility-brightness-fix">
+/* AI feature: brighter, high-contrast and reliably visible */
+header .ai-top-button{
+ display:flex!important; flex:0 0 78px; width:78px!important; height:78px!important;
+ min-width:78px; min-height:78px; align-items:center; justify-content:center; flex-direction:column; gap:3px;
+ padding:7px!important; position:relative; z-index:12; overflow:visible;
+ background:linear-gradient(145deg,#a5f3fc 0%,#93c5fd 42%,#c4b5fd 100%)!important;
+ color:#172554!important; border:3px solid #fff!important; box-shadow:0 0 0 3px #60a5fa,0 8px 22px #2563eb45!important;
+ font-size:12px!important; font-weight:800!important; line-height:1.2!important; visibility:visible!important; opacity:1!important;
+}
+header .ai-top-button svg{display:block!important;width:35px!important;height:35px!important;flex:0 0 35px;}
+header .ai-top-button span{display:block!important;color:#172554!important;text-shadow:none!important;}
+.ai-plan-feature#aiPlanFeature{
+ display:grid!important; grid-template-columns:minmax(0,1fr) minmax(110px,180px); align-items:center; gap:18px;
+ margin:20px 0!important; padding:22px!important; border:2px solid #60a5fa!important; border-radius:20px!important;
+ background:linear-gradient(135deg,#ffffff 0%,#e0f2fe 48%,#ede9fe 100%)!important;
+ box-shadow:0 12px 30px rgba(37,99,235,.16),inset 0 1px 0 #fff!important; color:#172554!important;
+}
+#aiPlanFeature h3{color:#1d4ed8!important;font-size:clamp(20px,3vw,26px)!important;font-weight:900!important;}
+#aiPlanFeature p{color:#334155!important;font-size:15px!important;line-height:1.9!important;}
+#aiPlanFeature .ai-tag{display:inline-block;background:#dbeafe!important;color:#1e40af!important;border:1px solid #93c5fd!important;border-radius:999px;padding:7px 12px;font-weight:800;}
+#aiPlanFeature .ai-illustration{display:block!important;width:100%!important;max-width:170px;height:auto;filter:drop-shadow(0 8px 12px #6366f155);justify-self:center;}
+#aiPlanFeature .btn.primary{background:linear-gradient(100deg,#2563eb,#7c3aed)!important;color:#fff!important;border:0!important;box-shadow:0 6px 16px #4f46e544!important;font-weight:800!important;}
+@media(max-width:600px){header .ai-top-button{width:64px!important;height:64px!important;min-width:64px;min-height:64px;flex-basis:64px;font-size:10px!important}header .ai-top-button svg{width:28px!important;height:28px!important;flex-basis:28px}#aiPlanFeature{grid-template-columns:1fr!important;text-align:center!important}#aiPlanFeature .ai-illustration{max-width:135px;grid-row:1}}
+</style>
+
 </head>
 
-<body>
+<body>\n
+<!-- راهنمای شروع کوتاه؛ نمایش فقط در اولین ورود -->
+<div id="welcomeTutorial" class="welcome-tutorial" aria-modal="true" role="dialog" aria-labelledby="tutorialTitle">
+  <div class="welcome-panel">
+    <div class="welcome-brand">FIRAN <span>فاکتورینو</span></div>
+    <h2 id="tutorialTitle">در کمتر از یک دقیقه فاکتور بساز</h2>
+    <p>راهنمای کوتاه برنامه را ببین؛ ویدیو بدون صدا پخش می‌شود.</p>
+    <video id="tutorialVideo" autoplay muted playsinline controls>
+      <source src="tutorial.mp4" type="video/mp4">
+    </video>
+    <div class="tutorial-actions">
+      <span>پس از پایان راهنما، به صفحه حساب کاربری می‌روی.</span>
+      <button class="btn primary" type="button" onclick="finishWelcomeTutorial()">ادامه و ساخت حساب ←</button>
+    </div>
+  </div>
+</div>
+
 
 <header class="faktorino-header">
   <div class="faktorino-topbar">
@@ -640,6 +698,7 @@ html,body{max-width:100%;overflow-x:hidden}
         <path d="M25 29l3 3 6-7" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
       </svg><span>فاکتورینو</span>
     </div>
+    <button type="button" class="ai-top-button" onclick="show('plans');document.getElementById('aiPlanFeature')?.scrollIntoView({behavior:'smooth',block:'center'});" aria-label="ساخت فاکتور با هوش مصنوعی"><svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="aiHeadGlow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c4b5fd"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs><path d="M24 4 27.8 15.2 39 19 27.8 22.8 24 34 20.2 22.8 9 19 20.2 15.2Z" fill="url(#aiHeadGlow)"/><circle cx="36" cy="34" r="6" fill="#a78bfa"/><path d="M8 37h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg><span>هوش مصنوعی</span></button>
     <div class="quick-access" aria-label="دسترسی سریع">
       <button type="button" data-section="invoice" onclick="show('invoice')">🧾 <span>ایجاد فاکتور</span></button>
       <button type="button" data-section="dashboard" onclick="show('dashboard')">📊 <span>داشبورد</span></button>
@@ -920,7 +979,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div class="field"><label>شرایط تحویل</label><select id="deliveryTerms"><option value="">انتخاب نشده</option><option>تحویل در محل فروشنده</option><option>ارسال به آدرس مشتری</option><option>تحویل حضوری</option><option>تحویل مرحله‌ای</option></select></div>
 <div class="field"><label>مدت ضمانت</label><input id="warrantyPeriod" placeholder="مثلاً ۱۲ ماه / بدون ضمانت"></div>
 <div class="field"><label>شرایط پرداخت</label><select id="paymentTerms"><option value="">طبق توافق طرفین</option><option>نقدی هنگام تحویل</option><option>پیش‌پرداخت و تسویه هنگام تحویل</option><option>تسویه تا سررسید</option><option>پرداخت اقساطی</option></select></div>
-<div class="field"><label>هزینه بسته‌بندی (تومان)</label><input id="packingCost" type="number" min="0" value="0" oninput="calculate()"></div>
+<div class="field"><label>هزینه بسته‌بندی (تومان)</label><input id="packingCost" class="money-input" type="text" inputmode="numeric" min="0" value="0" onfocus="clearZero(this)" oninput="formatMoneyInput(this);calculate()"></div>
 <div class="field" style="grid-column:1/-1"><label>شرایط و توضیحات تکمیلی چاپی</label><textarea id="termsNote" rows="2" placeholder="شرایط مرجوعی، تحویل، ضمانت یا توضیحات تکمیلی"></textarea></div>
 </div>
 <div class="pro-note">💡 قبل از ذخیره، شماره مرجع، شرایط تحویل و ضمانت را کنترل کن. این اطلاعات جایگزین بررسی حقوقی یا مالیاتی نیستند.</div>
@@ -1185,6 +1244,7 @@ html,body{max-width:100%;overflow-x:hidden}
 
 <section id="plans" class="card" style="display:none">
 <h2>⭐ طرح‌ها و امکاناتی فاکتورینو</h2>
+<div class="ai-plan-feature" id="aiPlanFeature"><div class="ai-plan-inner"><div><span class="ai-tag">✦ قابلیت ویژه نسخه حرفه‌ای</span><h3>ساخت فاکتور با هوش مصنوعی</h3><p>اطلاعات فروش را توصیف کن و برای آماده‌سازی فاکتور هوشمند کمک بگیر. این قابلیت در نسخه رایگان قفل است و برای استفاده باید نسخه حرفه‌ای فعال شود.</p><button type="button" class="btn primary" onclick="alert('این قابلیت تا زمان اتصال سرویس هوش مصنوعی و فعال‌سازی نسخه حرفه‌ای در دسترس نیست.');">🔒 تبدیل به نسخه حرفه‌ای</button></div><svg class="ai-illustration" viewBox="0 0 160 160" role="img" aria-label="تصویر هوش مصنوعی"><defs><linearGradient id="aiOrb" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#2563eb"/></linearGradient><radialGradient id="aiGlow"><stop stop-color="#7c3aed" stop-opacity=".55"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient></defs><circle cx="80" cy="80" r="76" fill="url(#aiGlow)"/><path d="M80 16 88 37 110 29 102 51 124 59 102 67 110 89 88 81 80 103 72 81 50 89 58 67 36 59 58 51 50 29 72 37Z" fill="none" stroke="#8b5cf6" stroke-opacity=".6" stroke-width="1.5"/><rect x="35" y="43" width="90" height="77" rx="23" fill="#181824" stroke="url(#aiOrb)" stroke-width="3"/><rect x="47" y="58" width="66" height="42" rx="14" fill="#09090f" stroke="#4f46e5" stroke-width="1.5"/><ellipse cx="64" cy="78" rx="6" ry="8" fill="#93c5fd"/><ellipse cx="96" cy="78" rx="6" ry="8" fill="#c4b5fd"/><path d="M66 91q14 10 28 0" fill="none" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/><path d="M80 43V30m-7 0h14" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="25" r="5" fill="#c4b5fd"/><path d="M52 120v12m56-12v12" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/><path d="M23 73h12m90 0h12" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/><circle cx="22" cy="73" r="3" fill="#c4b5fd"/><circle cx="138" cy="73" r="3" fill="#93c5fd"/></svg></div></div>
 <p>نسخه مناسب خودت را انتخاب کن.</p>
 
 <div class="pricing">
@@ -1230,8 +1290,9 @@ html,body{max-width:100%;overflow-x:hidden}
 </section>
 
 <section id="about" class="card about" style="display:none">
-<div class="founder">بنیانگذار فاکتورینو</div><div class="pro-note" style="margin-top:10px">☎️ شماره پشتیبان‌گیریی: <b dir="ltr">09179690358</b></div>
-<h1>ALI FIRAN</h1>
+<div class="founder">سازنده: علی اکبر محرمی</div>
+<h1>FIRAN</h1>
+<p><b>نام شرکت: FIRAN</b></p>
 <h2>درباره فاکتورینو</h2>
 <p>
 فاکتورینو با هدف ساده‌تر کردن صدور و مدیریت فاکتور برای فروشگاه‌ها،
@@ -1315,13 +1376,22 @@ function getNextInvoiceNumber(){let m=1000;invoices.forEach(i=>{let n=parseInt(n
 function isPro(){return localStorage.getItem("faktorinoPro")==="1";}
 function startProActivation(){alert("فعال‌سازی واقعی نسخه حرفه‌ای بعد از اتصال درگاه پرداخت انجام می‌شود.");}
 
+function numericValue(value){return Number(String(value??"").replace(/[,٬،\\s]/g,""))||0;}
+function clearZero(input){if(numericValue(input.value)===0)input.value="";}
+function formatMoneyInput(input){
+ const raw=String(input.value||"").replace(/[,٬،\\s]/g,"").replace(/[^0-9.]/g,"");
+ if(!raw){input.value="";return;}
+ const parts=raw.split(".");
+ const integer=parts.shift().replace(/^0+(?=\\d)/,"");
+ input.value=integer.replace(/\\B(?=(\\d{3})+(?!\\d))/g,",")+(parts.length?"."+parts.join(""):"");
+}
 function addItem(name="",qty=1,price=0,unit="عدد",lineDiscount=0){
  const tr=document.createElement("tr");
  tr.innerHTML=`<td><input class="item-name" value="${escapeHtml(name)}" placeholder="نام کالا یا خدمت"></td>
  <td><select class="item-unit"><option ${unit==="عدد"?"selected":""}>عدد</option><option ${unit==="دستگاه"?"selected":""}>دستگاه</option><option ${unit==="ساعت"?"selected":""}>ساعت</option><option ${unit==="کیلو"?"selected":""}>کیلو</option><option ${unit==="خدمت"?"selected":""}>خدمت</option></select></td>
  <td><input class="item-qty" type="number" min="0" step="0.01" value="${qty}" oninput="calculate()"></td>
- <td><input class="item-price" type="number" min="0" value="${price}" oninput="calculate()"></td>
- <td><input class="item-discount" type="number" min="0" value="${lineDiscount}" oninput="calculate()"></td>
+ <td><input class="item-price money-input" type="text" inputmode="numeric" value="${price}" onfocus="clearZero(this)" oninput="formatMoneyInput(this);calculate()"></td>
+ <td><input class="item-discount money-input" type="text" inputmode="numeric" value="${lineDiscount}" onfocus="clearZero(this)" oninput="formatMoneyInput(this);calculate()"></td>
  <td class="item-total">۰ تومان</td>
  <td class="no-print"><button class="btn red" onclick="this.closest('tr').remove();calculate()">🗑 حذف</button></td>`;
  document.getElementById("items").appendChild(tr);calculate();
@@ -1350,7 +1420,7 @@ function syncProfessionalPrint(){
 function calculate(){
  let subtotal=0;
  document.querySelectorAll("#items tr").forEach(tr=>{
-  const qty=Number(tr.querySelector(".item-qty").value||0),price=Number(tr.querySelector(".item-price").value||0),disc=Math.max(0,Number(tr.querySelector(".item-discount")?.value||0));
+  const qty=Number(tr.querySelector(".item-qty").value||0),price=numericValue(tr.querySelector(".item-price").value),disc=Math.max(0,numericValue(tr.querySelector(".item-discount")?.value));
   const gross=qty*price,net=Math.max(0,gross-disc);tr.querySelector(".item-total").innerText=money(net);subtotal+=net;
  });
  const discountInput=Math.max(0,Number(document.getElementById("discount").value||0));
@@ -1358,7 +1428,7 @@ function calculate(){
  const discount=discountType==="percent"?Math.min(subtotal,subtotal*discountInput/100):Math.min(subtotal,discountInput);
  const taxable=Math.max(0,subtotal-discount),taxPercent=Math.max(0,Number(document.getElementById("tax").value||0)),tax=taxable*taxPercent/100;
  const shipping=Math.max(0,Number(document.getElementById("shipping")?.value||0));
- const packing=Math.max(0,Number(document.getElementById("packingCost")?.value||0));
+ const packing=Math.max(0,numericValue(document.getElementById("packingCost")?.value));
  const beforeRound=taxable+tax+shipping+packing,total=roundMoney(beforeRound),rounding=total-beforeRound;
  let paid=Number(document.getElementById("paidAmount")?.value||0);paid=Math.min(Math.max(0,paid),total);
  let status=document.getElementById("paymentStatus")?.value||"pending";if(status==="paid")paid=total;if(status==="pending")paid=0;
@@ -1367,7 +1437,7 @@ function calculate(){
  return {subtotal,discount,tax,taxPercent,total,paid,status,balance:Math.max(0,total-paid),shipping:shipping+packing,packing,rounding,discountInput,discountType};
 }
 function getInvoice(){
- const c=calculate(),items=[];document.querySelectorAll("#items tr").forEach(tr=>items.push({name:tr.querySelector(".item-name").value,unit:tr.querySelector(".item-unit").value,qty:Number(tr.querySelector(".item-qty").value||0),price:Number(tr.querySelector(".item-price").value||0),discount:Number(tr.querySelector(".item-discount").value||0)}));
+ const c=calculate(),items=[];document.querySelectorAll("#items tr").forEach(tr=>items.push({name:tr.querySelector(".item-name").value,unit:tr.querySelector(".item-unit").value,qty:Number(tr.querySelector(".item-qty").value||0),price:numericValue(tr.querySelector(".item-price").value),discount:Number(tr.querySelector(".item-discount").value||0)}));
  return {id:editId,number:document.getElementById("number").value,date:normalizeDateValue(document.getElementById("date").value),invoiceType:document.getElementById("invoiceType").value,template:document.getElementById("invoiceTemplate").value,printSize:document.getElementById("printSize").value,payment:document.getElementById("payment").value,paymentStatus:c.status,paidAmount:c.paid,seller:document.getElementById("seller").value,customer:document.getElementById("customer").value,customerEmail:normalizeEmail(document.getElementById("customerEmail").value),sellerTaxId:document.getElementById("sellerTaxId").value.trim(),sellerPostalCode:document.getElementById("sellerPostalCode").value.trim(),customerTaxId:document.getElementById("customerTaxId").value.trim(),customerPostalCode:document.getElementById("customerPostalCode").value.trim(),dueDate:normalizeDateValue(document.getElementById("dueDate").value),items,discount:c.discount,discountInput:c.discountInput,discountType:c.discountType,tax:c.tax,taxPercent:c.taxPercent,shipping:c.shipping,rounding:c.rounding,packingCost:c.packing||0,orderReference:document.getElementById("orderReference")?.value||"",validityDays:document.getElementById("validityDays")?.value||"",deliveryTerms:document.getElementById("deliveryTerms")?.value||"",warrantyPeriod:document.getElementById("warrantyPeriod")?.value||"",paymentTerms:document.getElementById("paymentTerms")?.value||"",termsNote:document.getElementById("termsNote")?.value||"",subtotal:c.subtotal,total:c.total,balance:c.balance,note:document.getElementById("note").value};
 }
 
@@ -1411,11 +1481,14 @@ async function hashPassword(password){
 function localAccount(){
  try{return JSON.parse(localStorage.getItem("faktorino_account_v10")||"null")}catch(e){return null}
 }
-function unlockApp(){
+async function unlockApp(){
  document.body.classList.remove("auth-locked");
  securityInit();
  updateAccountUI();
  show("invoice");
+ // بارگذاری دوباره فاکتورها از حافظه محلی پس از ورود؛ خروج و بستن مرورگر داده‌های ذخیره‌شده را حذف نمی‌کند.
+ await loadUserInvoices();
+ renderHistory();updateReport();renderCustomers();renderCatalog();
  document.getElementById("number").value=getNextInvoiceNumber();
  loadSignatureSettings();
  if(restoreDraft() && confirm("یک پیش‌نویس ذخیره‌شده پیدا شد. آن را بازیابی کنم؟")){
@@ -1560,40 +1633,24 @@ function getFixedSignatureSettings(){
 }
 function loadSignatureSettings(){
  try{
-  const defaults=getFixedSignatureSettings();
-  let saved={};
-  try{saved=JSON.parse(localStorage.getItem("faktorino_signature_settings")||"{}")}catch(e){}
-  const d={...defaults,...saved};
-  // Never overwrite a user's uploaded stamp/signature with defaults on startup.
-  if(!d.signature) d.signature=defaults.signature||"";
-  if(!d.stamp) d.stamp="";
-  const n=document.getElementById("signatureName"); if(n) n.value=d.name||"";
-  const sp=document.getElementById("signaturePreview"); if(sp) sp.innerHTML=d.signature?`<img src="${d.signature}" alt="امضای فروشنده" style="max-width:180px;max-height:90px;object-fit:contain">`:'<span>امضا انتخاب نشده</span>';
-  const st=document.getElementById("stampPreview"); if(st) st.innerHTML=d.stamp?`<img src="${d.stamp}" alt="مهر فروشنده" style="max-width:110px;max-height:90px;object-fit:contain">`:'<span>مهر انتخاب نشده</span>';
+  const d=getFixedSignatureSettings();
   localStorage.setItem("faktorino_signature_settings",JSON.stringify(d));
+  const n=document.getElementById("signatureName"); if(n) n.value=d.name;
+  const sp=document.getElementById("signaturePreview"); if(sp) sp.innerHTML=`<img src="${d.signature}" alt="امضای علی" style="max-width:180px;max-height:90px;object-fit:contain">`;
+  const st=document.getElementById("stampPreview"); if(st) st.innerHTML=`<img src="${d.stamp}" alt="مهر علی" style="max-width:110px;max-height:90px;object-fit:contain">`;
   syncProfessionalPrint();
- }catch(e){console.warn("signature settings could not load",e)}
+ }catch(e){}
 }
-function saveSignatureSettings(patch={}){
+function saveSignatureSettings(patch){
  try{
-  let d={...getFixedSignatureSettings()};
-  try{d={...d,...JSON.parse(localStorage.getItem("faktorino_signature_settings")||"{}")}}catch(e){}
-  d={...d,...patch};
-  const n=document.getElementById("signatureName"); if(n) d.name=n.value.trim()||d.name||"";
+  const d=getFixedSignatureSettings();
   localStorage.setItem("faktorino_signature_settings",JSON.stringify(d));
-  loadSignatureSettings();
- }catch(e){console.warn("signature settings could not save",e)}
+ }catch(e){}
 }
-function readImageAsDataUrl(file,cb){
- if(!file||!file.type||!file.type.startsWith("image/")){alert("لطفاً فایل تصویری انتخاب کن.");return;}
- if(file.size>3*1024*1024){alert("حجم تصویر باید کمتر از ۳ مگابایت باشد.");return;}
- const reader=new FileReader();reader.onload=()=>cb(String(reader.result||""));reader.onerror=()=>alert("خواندن تصویر ناموفق بود.");reader.readAsDataURL(file);
-}
-function handleSignatureFile(e){const file=e?.target?.files?.[0];readImageAsDataUrl(file,data=>saveSignatureSettings({signature:data}));if(e?.target)e.target.value="";}
-function handleStampFile(e){const file=e?.target?.files?.[0];readImageAsDataUrl(file,data=>saveSignatureSettings({stamp:data}));if(e?.target)e.target.value="";}
-function clearSignatureStamp(){
- try{const d=JSON.parse(localStorage.getItem("faktorino_signature_settings")||"{}");d.signature="";d.stamp="";localStorage.setItem("faktorino_signature_settings",JSON.stringify(d));loadSignatureSettings();}catch(e){}
-}
+function readImageAsDataUrl(file,cb){}
+function handleSignatureFile(e){loadSignatureSettings();}
+function handleStampFile(e){loadSignatureSettings();}
+function clearSignatureStamp(){loadSignatureSettings();}
 function duplicateInvoice(id){const x=invoices.find(a=>String(a.id)===String(id));if(!x)return;loadInvoice(id);setTimeout(()=>duplicateCurrentInvoice(),50);}
 function saveDraft(){if(!currentUser)return;try{localStorage.setItem(`faktorino_draft_${currentUser.id}`,JSON.stringify(getInvoice()));const b=document.getElementById("draftBadge");if(b){b.style.display="inline-block";b.textContent="ذخیره خودکار پیش‌نویس ✓";setTimeout(()=>{b.style.display="none"},1800)}}catch(e){}}
 function restoreDraft(){if(!currentUser)return false;try{const raw=localStorage.getItem(`faktorino_draft_${currentUser.id}`);if(!raw)return false;const x=JSON.parse(raw);if(!x||!x.items)return false;return true;}catch(e){return false}}
@@ -1711,7 +1768,7 @@ async function saveInvoice(){
  if(isNew)document.getElementById("number").value=getNextInvoiceNumber();
  const i=getInvoice();
  if(!i.items.length || i.items.every(x=>!String(x.name||"").trim())){alert("حداقل یک کالا یا خدمت وارد کن.");return}
- i.id=isNew?`local-${(crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(36).slice(2)}`)}`:editId;
+ i.id=isNew?(crypto.randomUUID?crypto.randomUUID():`local-${Date.now()}-${Math.random().toString(36).slice(2)}`):editId;
  const list=readLocalInvoices();
  const idx=list.findIndex(x=>String(x.id)===String(i.id));
  if(idx>=0)list[idx]=i; else list.unshift(i);
@@ -1751,9 +1808,14 @@ function loadInvoice(id){
 }
 async function deleteInvoice(id){
  if(!currentUser||!confirm("این فاکتور حذف شود؟"))return;
- const {error}=await supabaseClient.from("invoices").delete().eq("id",id).eq("user_id",currentUser.id);
- if(error){alert("خطا در حذف فاکتور: "+error.message);return}
- invoices=invoices.filter(x=>String(x.id)!==String(id));renderHistory();updateReport();renderCustomers();renderCatalog();
+ // حذف محلی اول انجام می‌شود تا نسخه آفلاین هم درست کار کند.
+ const before=readLocalInvoices();
+ const next=before.filter(x=>String(x.id)!==String(id));
+ writeLocalInvoices(next);invoices=next;
+ if(supabaseClient && !String(id).startsWith("local-")){
+  try{const {error}=await supabaseClient.from("invoices").delete().eq("id",id).eq("user_id",currentUser.id);if(error)console.warn("حذف ابری فاکتور ناموفق بود",error)}catch(e){console.warn("حذف ابری در دسترس نیست",e)}
+ }
+ renderHistory();updateReport();renderCustomers();renderCatalog();alert("فاکتور از فهرست این دستگاه حذف شد.");
 }
 function printInvoice(id){loadInvoice(id);setTimeout(()=>window.print(),300)}
 function emailInvoice(id){
@@ -1775,7 +1837,11 @@ function applyTemplate(){document.body.classList.remove("template-modern","templ
 
 function localInvoiceKey(){return currentUser?`faktorino_invoices_${currentUser.id}`:"faktorino_invoices_guest";}
 function readLocalInvoices(){try{const x=JSON.parse(localStorage.getItem(localInvoiceKey())||"[]");return Array.isArray(x)?x:[]}catch(e){return []}}
-function writeLocalInvoices(list){localStorage.setItem(localInvoiceKey(),JSON.stringify(list));}
+function writeLocalInvoices(list){
+ const payload=JSON.stringify(Array.isArray(list)?list:[]);
+ try{localStorage.setItem(localInvoiceKey(),payload);return true;}
+ catch(e){console.error("ذخیره محلی فاکتورها ناموفق بود",e);alert("ذخیره‌سازی مرورگر در دسترس نیست یا حافظه آن پر شده است. از بخش پشتیبان‌گیری خروجی بگیر.");return false;}
+}
 async function loadUserInvoices(){
  if(!currentUser){invoices=[];return;}
  const local=readLocalInvoices();
@@ -2004,6 +2070,7 @@ addItem();updateReport();setAuthMode("login");updateQuickStatus();
   document.body.classList.remove("auth-locked");
   updateAccountUI();
   securityInit();
+  await loadUserInvoices();renderHistory();updateReport();renderCustomers();renderCatalog();
   show("invoice");
  }else{
   currentUser=null;
@@ -2015,7 +2082,9 @@ addItem();updateReport();setAuthMode("login");updateQuickStatus();
  }
 })();
 document.addEventListener('input',e=>{if(e.target.closest('#invoice')){clearTimeout(window.__draftTimer);window.__draftTimer=setTimeout(saveDraft,700);updateQuickStatus();}});
-document.addEventListener('change',e=>{if(e.target.closest('#invoice')){clearTimeout(window.__draftTimer);window.__draftTimer=setTimeout(saveDraft,700);updateQuickStatus();}});
+document.addEventListener('change',e=>{if(e.target.closest('#invoice')){clearTimeout(window.__draftTimer);window.__draftTimer=setTimeout(saveDraft,250);updateQuickStatus();}});
+window.addEventListener('pagehide',()=>{try{if(currentUser){if(typeof saveDraft==='function')saveDraft();if(Array.isArray(invoices))writeLocalInvoices(invoices);}}catch(e){console.warn('ذخیره پیش از خروج انجام نشد',e);}});
+window.addEventListener('beforeunload',()=>{try{if(currentUser&&typeof saveDraft==='function')saveDraft();}catch(e){}});
 </script>
 
 
@@ -2357,5 +2426,35 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")closeFaktori
  window.editInventoryItem=function(id){const x=read(key('inventory')).find(a=>a.id===id);if(!x)return;openInventoryForm();document.getElementById('invId').value=x.id;document.getElementById('inventoryFormTitle').textContent='ویرایش کالا';for(const [id,val] of [['invName',x.name],['invSku',x.sku],['invQty',x.qty],['invMin',x.min],['invCost',x.cost],['invPrice',x.price]])document.getElementById(id).value=val??'';};
  window.adjustInventory=function(id){const items=read(key('inventory')),x=items.find(a=>a.id===id);if(!x)return;const raw=prompt('برای ورود عدد مثبت و برای خروج عدد منفی وارد کن. موجودی فعلی: '+x.qty);if(raw===null)return;const n=Number(String(raw).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٬,\s]/g,''));if(!Number.isFinite(n)||!n||x.qty+n<0){alert('مقدار معتبر نیست یا موجودی منفی می‌شود.');return;}x.qty+=n;x.updatedAt=new Date().toISOString();write(key('inventory'),items);renderInventory();};
  window.deleteInventoryItem=function(id){if(!confirm('این کالا حذف شود؟'))return;write(key('inventory'),read(key('inventory')).filter(x=>x.id!==id));renderInventory();};
+})();
+</script>
+\n
+<script>
+(function(){
+ const KEY="faktorino_welcome_tutorial_seen_v1";
+ function startWelcome(){
+   const modal=document.getElementById("welcomeTutorial");
+   const video=document.getElementById("tutorialVideo");
+   if(!modal)return;
+   if(localStorage.getItem(KEY)==="1")return;
+   modal.classList.add("show");
+   if(video){video.muted=true;const p=video.play();if(p&&p.catch)p.catch(()=>{});}
+ }
+ window.finishWelcomeTutorial=function(){
+   const modal=document.getElementById("welcomeTutorial");
+   const video=document.getElementById("tutorialVideo");
+   if(video){video.pause();video.currentTime=0;}
+   if(modal)modal.classList.remove("show");
+   localStorage.setItem(KEY,"1");
+   const account=(function(){try{return JSON.parse(localStorage.getItem("faktorino_account_v10")||"null")}catch(e){return null}})();
+   const active=localStorage.getItem("faktorino_current_v10")==="1";
+   if(!account||!active){
+     document.body.classList.add("auth-locked");
+     if(typeof show==="function")show("auth");
+     if(typeof setAuthMode==="function")setAuthMode(account?"login":"register");
+   }
+ };
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",startWelcome,{once:true});
+ else startWelcome();
 })();
 </script>
