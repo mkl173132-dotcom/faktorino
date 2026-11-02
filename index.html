@@ -1267,6 +1267,10 @@ body{background:linear-gradient(180deg,#f5f8ff 0%,#f8fbff 42%,#f1f5fb 100%);colo
     <button type="button" class="drawer-close" onclick="closeFaktorinoMenu()" aria-label="بستن منو">×</button>
   </div>
   <div class="drawer-caption">منوی اصلی</div>
+  <div class="drawer-arrow-controls" aria-label="پیمایش منو">
+    <button type="button" class="drawer-arrow-btn" onclick="scrollFaktorinoDrawer(-1)" aria-label="رفتن به بالای منو" title="بالا">⌃</button>
+    <button type="button" class="drawer-arrow-btn" onclick="scrollFaktorinoDrawer(1)" aria-label="رفتن به پایین منو" title="پایین">⌄</button>
+  </div>
   <nav class="nav-links drawer-links">
     <a class="nav-primary" data-section="invoice" onclick="show('invoice')">🧾 <span>ایجاد فاکتور</span></a>
     <a data-section="dashboard" onclick="show('dashboard')">📊 <span>داشبورد</span></a>
@@ -3190,6 +3194,38 @@ function toggleAuthPasswordVisibility(){
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
   else init();
 })();
+</script>
+
+<style id="faktorino-final-modern-polish">
+/* به‌روزرسانی ظاهری هماهنگ و کنترل پیمایش منو */
+:root{--fak-primary:#2459d6;--fak-primary2:#087fb9;--fak-line:#dce7f7;--fak-ink:#172b50;--fak-surface:#fff}
+body{background:linear-gradient(180deg,#f5f8ff 0%,#f7faff 55%,#eef4fc 100%)}
+.card,.kpi,.dash-kpi,.dash-card,.feature,.customer-manager,.history-item,.list-row,.finance-notice{border-radius:18px}
+.card,.kpi,.dash-kpi,.dash-card,.customer-manager{box-shadow:0 9px 26px rgba(22,55,110,.065);border-color:var(--fak-line)}
+.btn{border-radius:12px;min-height:40px}
+input,select,textarea{border-color:#cbd9ee;transition:border-color .18s,box-shadow .18s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#4f83e8;box-shadow:0 0 0 3px #3b82f61c}
+.faktorino-drawer{background:linear-gradient(180deg,#f8faff,#eff5ff);}
+.drawer-links a{border:1px solid #dce7f7!important;border-radius:15px!important;background:#fff!important;box-shadow:0 4px 12px #173e7a0b;transition:transform .18s,box-shadow .18s,border-color .18s!important}
+.drawer-links a:hover{transform:translateY(-2px);border-color:#9fc0f5!important;box-shadow:0 9px 18px #173e7a16}
+.drawer-links a.active{background:linear-gradient(115deg,#2459d6,#087fb9)!important;color:#fff!important;border-color:transparent!important;box-shadow:0 8px 18px #2459d638!important}
+.drawer-arrow-controls{position:absolute;left:12px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:14px;pointer-events:none}
+.drawer-arrow-btn{pointer-events:auto;width:48px;height:48px;border-radius:50%;border:1px solid #cfe0ff;background:linear-gradient(145deg,#fff,#f0f6ff);color:#1764db;font-size:31px;font-weight:900;line-height:1;display:grid;place-items:center;box-shadow:0 6px 18px #1d4ed81c;cursor:pointer;touch-action:manipulation;transition:transform .16s,background .16s,box-shadow .16s}
+.drawer-arrow-btn:active{transform:scale(.94);background:#eaf2ff;box-shadow:0 2px 8px #1d4ed81c}
+/* فضای کافی برای فلش‌ها؛ اسکرول عمودی طبیعی در موبایل و دسکتاپ */
+#faktorinoDrawer{position:fixed!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;touch-action:pan-y!important}
+#faktorinoDrawer .drawer-links{padding-left:68px!important;padding-right:18px!important;overflow:visible!important;touch-action:pan-y!important}
+#faktorinoDrawer .drawer-links a{flex:0 0 auto!important}
+@media(max-width:420px){.drawer-arrow-controls{left:8px;gap:12px}.drawer-arrow-btn{width:42px;height:42px;font-size:28px}#faktorinoDrawer .drawer-links{padding-left:58px!important;padding-right:12px!important}}
+@media(prefers-reduced-motion:reduce){.drawer-arrow-btn,.drawer-links a{transition:none!important}}
+</style>
+<script id="faktorino-drawer-arrow-controls-js">
+function scrollFaktorinoDrawer(direction){
+  var drawer=document.getElementById('faktorinoDrawer');
+  if(!drawer)return;
+  var amount=Math.max(220,Math.floor(drawer.clientHeight*0.62));
+  drawer.scrollBy({top:direction*amount,behavior:'smooth'});
+}
 </script>
 </body>
 </html>
