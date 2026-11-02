@@ -3227,6 +3227,27 @@ function scrollFaktorinoDrawer(direction){
   drawer.scrollBy({top:direction*amount,behavior:'smooth'});
 }
 </script>
+
+<style id="faktorino-arrows-scroll-with-menu-v2">
+/* فلش‌ها جزئی از محتوای منو هستند و همراه آن بالا و پایین می‌روند */
+#faktorinoDrawer .drawer-links{position:relative!important;}
+#faktorinoDrawer .drawer-arrow-controls{position:absolute!important;left:8px!important;right:auto!important;top:250px!important;transform:none!important;z-index:5!important;display:flex!important;flex-direction:column!important;gap:14px!important;pointer-events:none!important;}
+#faktorinoDrawer .drawer-arrow-btn{pointer-events:auto!important;}
+@media(max-width:420px){#faktorinoDrawer .drawer-arrow-controls{left:7px!important;top:220px!important;gap:12px!important;}}
+</style>
+<script id="faktorino-arrows-scroll-with-menu-js">
+(function(){
+ function moveArrowsIntoMenu(){
+  var drawer=document.getElementById('faktorinoDrawer');
+  if(!drawer)return;
+  var controls=drawer.querySelector('.drawer-arrow-controls');
+  var links=drawer.querySelector('.drawer-links');
+  if(controls&&links&&controls.parentElement!==links)links.insertBefore(controls,links.firstChild);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',moveArrowsIntoMenu,{once:true});else moveArrowsIntoMenu();
+})();
+</script>
+
 </body>
 </html>
 <script>document.addEventListener("DOMContentLoaded",()=>{try{initCustomers()}catch(e){console.error(e)}});
