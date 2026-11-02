@@ -856,12 +856,324 @@ header .ai-top-button span{display:block!important;color:#172554!important;text-
 @media(max-width:600px){header .ai-top-button{width:64px!important;height:64px!important;min-width:64px;min-height:64px;flex-basis:64px;font-size:10px!important}header .ai-top-button svg{width:28px!important;height:28px!important;flex-basis:28px}#aiPlanFeature{grid-template-columns:1fr!important;text-align:center!important}#aiPlanFeature .ai-illustration{max-width:135px;grid-row:1}}
 </style>
 
-<style id="factorino-auth-enhancements">
-.password-wrap{display:flex;gap:7px;align-items:stretch}.password-wrap input{flex:1;min-width:0}.password-eye{border:1px solid #cbd5e1;background:#f8fafc;color:#1e40af;border-radius:10px;padding:0 13px;font:inherit;font-weight:800;cursor:pointer}.captcha-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}#registerCaptcha{max-width:100%;height:58px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc}.auth-box .small-note{line-height:1.9}
+
+<style id="faktorino-mobile-desktop-scroll-fix">
+/* باز ماندن اسکرول صفحه در کنار اسکرول مستقل منوی بیشتر */
+html{overflow-y:auto!important;overscroll-behavior-y:auto}
+body{overflow-y:auto!important;overscroll-behavior-y:auto}
+body.drawer-open{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  position:static!important;
+  height:auto!important;
+  touch-action:pan-y;
+}
+.drawer-backdrop.open{
+  touch-action:pan-y;
+  overscroll-behavior:contain;
+}
+.faktorino-drawer{
+  max-height:100vh;
+  max-height:100dvh;
+}
+.drawer-links{
+  overflow-y:auto!important;
+  overscroll-behavior-y:contain;
+  touch-action:pan-y;
+  -webkit-overflow-scrolling:touch;
+}
+@media(max-width:760px){
+  body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+  .mobile-bottom-nav{padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))}
+}
 </style>
+
+
+<style id="faktorino-full-drawer-scroll-v2">
+/* منوی بیشتر: کل پنل کشویی با کشیدن انگشت یا چرخ موس اسکرول شود */
+html,body{
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  max-width:100%;
+}
+body.drawer-open{
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  position:static!important;
+  height:auto!important;
+}
+.faktorino-drawer{
+  position:fixed!important;
+  top:0!important;
+  right:0!important;
+  bottom:0!important;
+  height:auto!important;
+  max-height:100vh!important;
+  max-height:100dvh!important;
+  display:block!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  scrollbar-width:thin;
+  scrollbar-color:#8bb8ff transparent;
+  padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))!important;
+  box-sizing:border-box!important;
+}
+.faktorino-drawer::-webkit-scrollbar{width:6px}
+.faktorino-drawer::-webkit-scrollbar-thumb{background:#8bb8ff;border-radius:99px}
+.faktorino-drawer .drawer-head,
+.faktorino-drawer .drawer-caption,
+.faktorino-drawer .drawer-foot{
+  flex:none!important;
+}
+.faktorino-drawer .drawer-links{
+  display:flex!important;
+  flex-direction:column!important;
+  flex:none!important;
+  min-height:0!important;
+  height:auto!important;
+  max-height:none!important;
+  overflow:visible!important;
+  overflow-y:visible!important;
+  overflow-x:visible!important;
+  touch-action:pan-y!important;
+  -webkit-overflow-scrolling:auto!important;
+  overscroll-behavior:initial!important;
+  padding-bottom:16px!important;
+}
+.faktorino-drawer .drawer-links a{
+  flex:0 0 auto!important;
+  min-height:48px;
+}
+.drawer-backdrop.open{touch-action:pan-y}
+@media(max-width:760px){
+  .faktorino-drawer{
+    width:min(370px,92vw)!important;
+    padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))!important;
+  }
+  .faktorino-drawer .drawer-links a{min-height:50px}
+}
+</style>
+
+
+<style id="faktorino-entry-transfer-v3">
+#siteTransferScreen{
+ position:fixed;inset:0;z-index:1000000;display:flex;align-items:center;justify-content:center;
+ padding:22px;background:
+ radial-gradient(ellipse at 15% 15%,rgba(56,189,248,.24),transparent 38%),
+ radial-gradient(ellipse at 85% 85%,rgba(168,85,247,.22),transparent 40%),
+ linear-gradient(135deg,#07152e 0%,#102b59 52%,#123f78 100%);
+ color:#fff;opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s ease;
+}
+#siteTransferScreen.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+#siteTransferScreen .transfer-panel{
+ width:min(440px,100%);padding:38px 28px 30px;text-align:center;
+ border:1px solid #ffffff35;border-radius:28px;background:linear-gradient(145deg,#ffffff1c,#ffffff09);
+ box-shadow:0 28px 90px #0007;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+}
+#siteTransferScreen .transfer-mark{
+ width:76px;height:76px;margin:0 auto 20px;border-radius:24px;display:grid;place-items:center;
+ background:linear-gradient(145deg,#fff,#dbeafe);color:#1d4ed8;font-size:35px;font-weight:1000;
+ box-shadow:0 12px 34px #38bdf855;position:relative
+}
+#siteTransferScreen .transfer-mark:after{
+ content:"";position:absolute;inset:-7px;border:1px solid #93c5fd88;border-radius:29px;
+ animation:transferPulse 1.8s ease-out infinite
+}
+#siteTransferScreen h2{font-size:22px;line-height:1.8;margin:0 0 8px;color:#fff}
+#siteTransferScreen p{font-size:13px;color:#dbeafe;margin:0 0 24px}
+#siteTransferScreen .transfer-loader{height:7px;border-radius:20px;background:#ffffff2b;overflow:hidden}
+#siteTransferScreen .transfer-loader span{
+ display:block;height:100%;width:0;border-radius:20px;
+ background:linear-gradient(90deg,#38bdf8,#818cf8,#c4b5fd);
+ animation:transferFiveSeconds 5s linear forwards
+}
+#siteTransferScreen .transfer-count{margin-top:13px;font-size:11px;color:#bfdbfe;letter-spacing:.3px}
+@keyframes transferFiveSeconds{from{width:0}to{width:100%}}
+@keyframes transferPulse{0%{transform:scale(.94);opacity:.8}100%{transform:scale(1.18);opacity:0}}
+@media(prefers-reduced-motion:reduce){
+ #siteTransferScreen,#siteTransferScreen .transfer-loader span{transition:none;animation:none}
+ #siteTransferScreen .transfer-loader span{width:100%}
+}
+</style>
+
+
+<style id="faktorino-customer-appeal-v3">
+:root{--fak-blue:#1d4ed8;--fak-cyan:#0891b2;--fak-ink:#14213d;--fak-soft:#f4f8ff}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,#f5f8ff 0%,#f8fbff 42%,#f1f5fb 100%);color:var(--fak-ink)}
+.faktorino-header{box-shadow:0 10px 30px rgba(15,45,100,.2)}
+.faktorino-topbar{max-width:1440px;margin:auto}
+.faktorino-topbar .logo span{font-weight:900;letter-spacing:-.4px;text-shadow:0 2px 10px #071b4a55}
+.quick-access button{
+ border:1px solid #ffffff36!important;border-radius:14px!important;
+ background:linear-gradient(145deg,#ffffff20,#ffffff0a)!important;
+ transition:transform .2s,background .2s,box-shadow .2s!important
+}
+.quick-access button:hover{transform:translateY(-3px);background:#ffffff2b!important;box-shadow:0 8px 20px #061b4a35}
+.quick-access button[data-section="invoice"]{background:linear-gradient(135deg,#16a34a,#059669)!important;border-color:#86efac!important;box-shadow:0 7px 18px #05966945}
+.menu-toggle{border:1px solid #ffffff50!important;box-shadow:0 5px 18px #071b4a35;transition:transform .2s,background .2s}
+.menu-toggle:hover{transform:translateY(-2px);background:#ffffff25}
+.hero{
+ position:relative;isolation:isolate;overflow:hidden;
+ padding:clamp(26px,4vw,54px)!important;border-radius:30px;
+ background:linear-gradient(125deg,#fff 0%,#f0f7ff 56%,#e9f8ff 100%);
+ border:1px solid #d8e8ff;box-shadow:0 18px 48px rgba(30,64,175,.09);
+}
+.hero:before{content:"";position:absolute;z-index:-1;width:340px;height:340px;left:-130px;top:-180px;
+ border-radius:50%;background:radial-gradient(circle,#93c5fd66,transparent 70%)}
+.hero h1{font-weight:1000;letter-spacing:-1px;color:#172554}
+.hero p{font-size:clamp(14px,1.4vw,17px);max-width:620px;color:#52627d}
+.hero .btn{
+ background:linear-gradient(120deg,#1d4ed8,#0891b2);border-radius:14px;padding:14px 24px;
+ box-shadow:0 10px 22px #1d4ed833;transition:transform .2s,box-shadow .2s
+}
+.hero .btn:hover{transform:translateY(-3px);box-shadow:0 14px 28px #1d4ed844}
+.hero>.card{
+ border:1px solid #d7e7ff;background:linear-gradient(155deg,#fff,#f5f9ff);
+ border-radius:23px;box-shadow:0 15px 38px #1e40af12;padding:clamp(18px,2.5vw,28px)
+}
+.hero>.card h2{color:#1e3a8a}
+.hero .final-total{color:#0e7490}
+.features{gap:16px}
+.feature{
+ border:1px solid #dce8f8;border-radius:20px;background:linear-gradient(160deg,#fff,#f8fbff);
+ box-shadow:0 8px 24px rgba(15,45,100,.055);transition:transform .2s,box-shadow .2s,border-color .2s
+}
+.feature:hover{transform:translateY(-5px);border-color:#93c5fd;box-shadow:0 16px 30px #1d4ed81a}
+.feature .icon{display:inline-grid;place-items:center;width:54px;height:54px;margin-bottom:10px;
+ border-radius:17px;background:linear-gradient(145deg,#eff6ff,#dbeafe)}
+.card,.coming-soon,.customer-manager{box-shadow:0 10px 30px rgba(15,45,100,.06)}
+.btn{transition:transform .18s,box-shadow .18s,filter .18s}
+.btn:hover{filter:brightness(1.04);transform:translateY(-1px)}
+/* منوی حرفه‌ای و قابل پیمایش */
+.drawer-backdrop.open{background:rgba(8,20,44,.48);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.faktorino-drawer{
+ width:min(410px,92vw)!important;background:#f5f8ff!important;
+ border-left:1px solid #d9e6f7!important;box-shadow:-24px 0 70px #071b4a38!important;
+ display:flex!important;flex-direction:column!important;
+ overflow:hidden!important;overscroll-behavior:contain!important;
+}
+.drawer-head{
+ min-height:112px!important;padding:20px 19px!important;
+ background:linear-gradient(125deg,#102e70 0%,#1d4ed8 55%,#0891b2 100%)!important;
+ position:relative;overflow:hidden
+}
+.drawer-head:after{content:"";position:absolute;width:180px;height:180px;left:-75px;top:-100px;
+ border-radius:50%;background:#ffffff12;pointer-events:none}
+.drawer-brand{position:relative;z-index:1}
+.drawer-logo{border-radius:17px!important;box-shadow:0 8px 22px #061b4a35!important}
+.drawer-brand strong{font-size:22px!important}
+.drawer-close{position:relative;z-index:1;transition:transform .2s,background .2s}
+.drawer-close:hover{transform:rotate(90deg);background:#ffffff30}
+.drawer-caption{padding:16px 18px 10px!important;color:#64748b!important;font-size:11px!important}
+.drawer-links{
+ flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;
+ padding:0 13px 18px!important;gap:9px!important;
+ -webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;touch-action:pan-y!important
+}
+.drawer-links a{
+ min-height:51px!important;padding:12px 15px!important;border:1px solid #e0e9f6!important;
+ border-radius:15px!important;background:#fff!important;color:#263b5c!important;
+ box-shadow:0 3px 10px #102c5a08!important;font-size:13px!important;font-weight:800!important;
+ transition:transform .18s,border-color .18s,background .18s,box-shadow .18s!important
+}
+.drawer-links a:before{content:"";width:4px;height:22px;border-radius:5px;background:#cbdcf5;flex:0 0 4px;order:2}
+.drawer-links a span{order:1}
+.drawer-links a:hover{transform:translateX(-3px)!important;background:#eff6ff!important;border-color:#93c5fd!important}
+.drawer-links a.active,.drawer-links a.nav-primary.active{
+ background:linear-gradient(110deg,#1d4ed8,#087ea8)!important;color:#fff!important;
+ border-color:#1d4ed8!important;box-shadow:0 8px 18px #1d4ed833!important
+}
+.drawer-links a.active:before{background:#a5f3fc}
+.drawer-foot{
+ padding:13px 15px!important;background:#edf4ff!important;border-top:1px solid #dbeafe!important;
+ color:#47617f!important;font-weight:700!important
+}
+@media(min-width:761px){
+ .container{max-width:1320px}
+ .hero{gap:clamp(24px,4vw,60px)}
+ .features{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .drawer-links a{font-size:14px!important}
+}
+@media(max-width:760px){
+ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+ .hero{margin:10px 0 20px;padding:24px 18px!important;border-radius:22px;gap:18px}
+ .hero h1{font-size:clamp(25px,7vw,32px)!important;line-height:1.55!important}
+ .hero p{font-size:14px;line-height:2}
+ .hero>.card{margin:0}
+ .features{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px;margin:16px 0 28px}
+ .feature{padding:17px 10px!important;font-size:12px;line-height:1.8}
+ .feature b{display:inline-block;margin:3px 0}
+ .feature .icon{width:46px;height:46px;font-size:23px!important}
+ .faktorino-drawer{width:min(390px,92vw)!important}
+ .drawer-links a{min-height:50px!important}
+}
+@media(max-width:380px){
+ .features{gap:8px}
+ .feature{padding:14px 8px!important}
+}
+</style>
+
+
+<style id="faktorino-signup-code-style">
+.auth-code-panel{display:flex;align-items:center;gap:10px;margin:8px 0 10px}
+.auth-code-display{
+ flex:1;min-height:58px;display:grid;place-items:center;border:1px dashed #9bb8df;
+ border-radius:13px;background:repeating-linear-gradient(135deg,#f1f6ff,#f1f6ff 9px,#e8f0fc 9px,#e8f0fc 18px);
+ color:#8395b1;font-size:25px;font-weight:1000;letter-spacing:9px;text-decoration:line-through;
+ text-shadow:1px 1px 0 #fff, -1px -1px 0 #b9c9df;user-select:none
+}
+.auth-code-refresh{min-height:48px;padding:9px 12px;border:1px solid #c8d8ef;border-radius:12px;
+ background:#eff6ff;color:#1d4ed8;font-family:inherit;font-weight:800;cursor:pointer;white-space:nowrap}
+.auth-code-refresh:hover{background:#dbeafe}
+.auth-code-hint{display:block;margin-top:8px;color:#7788a2;font-size:11px;line-height:1.9}
+#authHumanCode{text-align:center;font-weight:800;letter-spacing:3px;text-transform:uppercase}
+@media(max-width:420px){.auth-code-refresh{padding:8px;font-size:12px}.auth-code-display{letter-spacing:6px}}
+</style>
+
+
+<style id="faktorino-password-eye-style">
+.auth-password-wrap{position:relative;display:flex;align-items:center;width:100%}
+.auth-password-wrap #authPassword{width:100%;padding-left:52px!important}
+.auth-password-eye{
+ position:absolute;left:9px;top:50%;transform:translateY(-50%);
+ width:36px;height:36px;border:0;border-radius:10px;background:transparent;
+ color:#71829b;display:grid;place-items:center;cursor:pointer;z-index:2;
+ transition:background .18s,color .18s
+}
+.auth-password-eye:hover{background:#eaf2ff;color:#1d4ed8}
+.auth-password-eye:focus-visible{outline:2px solid #3b82f6;outline-offset:2px}
+.auth-password-eye svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.auth-password-eye .eye-hide{display:none}
+.auth-password-eye.is-visible .eye-show{display:none}
+.auth-password-eye.is-visible .eye-hide{display:block}
+</style>
+
+
+<style id="faktorino-biometric-style">
+#biometricLoginButton{border:1px solid #bfdbfe!important;background:linear-gradient(120deg,#eff6ff,#f0fdfa)!important;color:#1e40af!important;font-weight:800!important}
+#biometricLoginButton:hover{background:#dbeafe!important}
+#biometricStatus{margin-top:10px;color:#35618c;line-height:1.9}
+</style>
+
 </head>
 
-<body>\n
+<body>
+
+<!-- صفحه انتقال پنج‌ثانیه‌ای فاکتورینو -->
+<div id="siteTransferScreen" role="status" aria-live="polite">
+ <div class="transfer-panel">
+  <div class="transfer-mark">F</div>
+  <h2>در حال انتقال به داخل سایت</h2>
+  <p>فاکتورینو در حال آماده‌سازی است؛ لطفاً چند لحظه صبر کنید.</p>
+  <div class="transfer-loader"><span></span></div>
+  <div class="transfer-count">FIRAN · FAKTORINO</div>
+ </div>
+</div>
+\n
 <!-- راهنمای شروع کوتاه؛ نمایش فقط در اولین ورود -->
 <div id="welcomeTutorial" class="welcome-tutorial" aria-modal="true" role="dialog" aria-labelledby="tutorialTitle">
   <div class="welcome-panel">
@@ -992,8 +1304,6 @@ header .ai-top-button span{display:block!important;color:#172554!important;text-
       <div class="field"><label>تکرار رمز جدید</label><input id="securityNewPassword2" type="password" autocomplete="new-password"></div>
     </div>
     <button class="btn green" type="button" onclick="changeLocalPassword()">🔐 تغییر رمز</button>
-    <button class="btn primary" type="button" onclick="enablePasskey()" style="margin-right:8px">🖐️ فعال‌سازی اثر انگشت / چهره</button>
-    <p class="small-note">این قابلیت از Passkey مرورگر و قفل زیستی دستگاه استفاده می‌کند؛ برای احراز هویت قابل اعتماد در حساب‌های واقعی، سرور باید امضای Passkey را بررسی کند.</p>
   </div>
   <div class="card" style="margin-top:18px">
     <h3>⏱️ قفل خودکار</h3>
@@ -1003,6 +1313,13 @@ header .ai-top-button span{display:block!important;color:#172554!important;text-
         <option value="0">خاموش</option><option value="900000">۱۵ دقیقه</option><option value="1800000">۳۰ دقیقه</option><option value="3600000">۶۰ دقیقه</option>
       </select>
     </div>
+  </div>
+  <div class="card" style="margin-top:18px;border:1px solid #bfdbfe;background:linear-gradient(145deg,#f8fbff,#eef6ff)">
+    <h3>🔐 ورود با اثر انگشت یا چهره</h3>
+    <p class="small-note">روی این دستگاه یک کلید عبور (Passkey) بساز تا دفعه بعد با حسگر اثر انگشت، تشخیص چهره یا قفل دستگاه وارد شوی.</p>
+    <button class="btn" type="button" onclick="registerBiometric()">فعال‌سازی ورود بیومتریک روی این دستگاه</button>
+    <button class="btn gray" type="button" onclick="removeBiometric()" style="margin-right:8px">غیرفعال‌سازی</button>
+    <p id="biometricStatus" class="small-note" aria-live="polite"></p>
   </div>
   <div class="card" style="margin-top:18px;border-color:#fecaca;background:#fffafa">
     <h3>⚠️ نکته امنیتی</h3>
@@ -1016,11 +1333,28 @@ header .ai-top-button span{display:block!important;color:#172554!important;text-
 <button id="registerTab" class="btn gray" onclick="setAuthMode('register')">ثبت‌نام</button></div>
 <div class="field" id="authNameField"><label>نام و نام خانوادگی</label><input id="authName" autocomplete="name" placeholder="مثلاً علی احمدی"></div>
 <div class="field" id="authPhoneField"><label>شماره موبایل</label><input id="authPhone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="09123456789"></div>
-<div class="field"><label>رمز عبور</label><div class="password-wrap"><input id="authPassword" type="password" autocomplete="new-password" placeholder="حداقل ۶ کاراکتر"><button type="button" class="password-eye" onclick="toggleAuthPassword()" aria-label="نمایش یا مخفی کردن رمز">نمایش</button></div></div>
-<div id="captchaWrap" class="field"><label>کد تصویری امنیتی</label><div class="captcha-row"><canvas id="registerCaptcha" width="190" height="58" aria-label="کد تصویری"></canvas><button type="button" class="btn gray" onclick="refreshRegisterCaptcha()">↻ تغییر کد</button></div><input id="captchaInput" inputmode="text" autocomplete="off" placeholder="حروف و اعداد تصویر را وارد کن"></div>
+<div class="field auth-password-field">
+ <label for="authPassword">رمز عبور حساب</label>
+ <div class="auth-password-wrap">
+  <input id="authPassword" type="password" autocomplete="new-password" placeholder="حداقل ۶ کاراکتر">
+  <button type="button" class="auth-password-eye" onclick="toggleAuthPasswordVisibility()" aria-label="نمایش رمز عبور" aria-pressed="false" title="نمایش رمز عبور">
+   <svg class="eye-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+   <svg class="eye-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.7 10.7 0 0 1 12 5c6.4 0 10 7 10 7a16 16 0 0 1-3.1 3.8M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10.5 10.5 0 0 0 4-.8"/></svg>
+  </button>
+ </div>
+</div>
+<div class="field" id="authHumanCheck" style="display:none">
+ <label for="authHumanCode">کد تأیید تصویری</label>
+ <div class="auth-code-panel">
+  <div class="auth-code-display" id="authCodeDisplay" aria-label="کد تأیید">F7K2Q</div>
+  <button type="button" class="auth-code-refresh" onclick="rotateAuthCode()" aria-label="تغییر کد">⟳ <span>چرخش کد</span></button>
+ </div>
+ <input id="authHumanCode" type="text" inputmode="text" autocomplete="off" maxlength="5" dir="ltr" placeholder="کد کم‌رنگ بالا را وارد کن">
+ <small class="auth-code-hint">برای تأیید ثبت‌نام، کد نمایش‌داده‌شده را وارد کن. با زدن «چرخش کد» کد دیگری نمایش داده می‌شود.</small>
+</div>
 <button class="btn green" onclick="submitAuth()">ادامه</button>
-<button id="passkeyLoginBtn" class="btn gray" type="button" onclick="loginWithPasskey()" style="display:none;width:100%;margin-top:10px">🔐 ورود با اثر انگشت یا چهره</button>
-<p class="small-note">اطلاعات حساب در حافظه همین مرورگر ذخیره می‌شود. برای ورود با اثر انگشت یا چهره، دستگاه و مرورگر باید از Passkey پشتیبانی کنند و سایت با HTTPS باز شود.</p>
+<button id="biometricLoginButton" class="btn gray" type="button" onclick="loginWithBiometric()" style="display:none;width:100%;margin-top:10px">♧ ورود با اثر انگشت یا تشخیص چهره</button>
+<p class="small-note">ثبت‌نام و ورود فقط با نام، شماره موبایل و رمز عبور انجام می‌شود. ایمیل و پیامک لازم نیست. رمز عبور به‌صورت رمزنگاری‌شده در مرورگر این دستگاه نگهداری می‌شود.</p>
 </div></section>
 <div class="container">
 
@@ -1654,14 +1988,37 @@ function updateAccountUI(){
  if(currentUser){bar.style.display="block";status.innerText="👤 "+(currentUser.name||"کاربر")+" | "+(currentUser.phone||"");}
  else bar.style.display="none";
 }
+
+const FAKTORINO_SIGNUP_CODES=["F7K2Q","M4P8X","R9D3W","B6T2N","K5V8A","H3Q7Z","P2L9C","W8N4J","D6X1M","T9A5R"];
+let faktorinoSignupCodeIndex=-1;
+function rotateAuthCode(){
+ const display=document.getElementById("authCodeDisplay");
+ const input=document.getElementById("authHumanCode");
+ if(!display)return;
+ faktorinoSignupCodeIndex=(faktorinoSignupCodeIndex+1)%FAKTORINO_SIGNUP_CODES.length;
+ display.textContent=FAKTORINO_SIGNUP_CODES[faktorinoSignupCodeIndex];
+ if(input){input.value="";input.focus();}
+}
+function ensureAuthCode(){
+ if(faktorinoSignupCodeIndex<0)rotateAuthCode();
+}
+
 function setAuthMode(mode){
  authMode=mode;
  document.getElementById("loginTab").className=mode==="login"?"btn":"btn gray";
  document.getElementById("registerTab").className=mode==="register"?"btn":"btn gray";
  document.getElementById("authNameField").style.display=mode==="register"?"block":"none";
  document.getElementById("authPhoneField").style.display=mode==="register"?"block":"none";
+ const humanCheck=document.getElementById("authHumanCheck");
+ if(humanCheck)humanCheck.style.display=mode==="register"?"block":"none";
  document.getElementById("authPassword").setAttribute("autocomplete",mode==="register"?"new-password":"current-password");
- const cw=document.getElementById("captchaWrap");if(cw)cw.style.display=mode==="register"?"block":"none";updatePasskeyButton();if(mode==="register")refreshRegisterCaptcha();
+ if(mode==="register")rotateAuthCode();
+ const bioBtn=document.getElementById("biometricLoginButton");
+ if(bioBtn)bioBtn.style.display=mode==="login" && hasBiometricCredential()?"block":"none";
+}
+function refreshBiometricLoginButton(){
+ const btn=document.getElementById("biometricLoginButton");
+ if(btn)btn.style.display=authMode==="login" && hasBiometricCredential()?"block":"none";
 }
 function authErrorText(error){
  const raw=String(error?.message||error||"");
@@ -1688,16 +2045,37 @@ async function hashPassword(password){
  return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,"0")).join("");
 }
 function getLocalAccounts(){
- try{const a=JSON.parse(localStorage.getItem("faktorino_accounts_v1")||"[]");if(Array.isArray(a))return a;}catch(e){}
- try{const legacy=JSON.parse(localStorage.getItem("faktorino_account_v10")||"null");if(legacy){localStorage.setItem("faktorino_accounts_v1",JSON.stringify([legacy]));return [legacy];}}catch(e){}
- return [];
+ try{
+  const raw=JSON.parse(localStorage.getItem("faktorino_accounts_v11")||"null");
+  if(Array.isArray(raw))return raw;
+  const legacy=JSON.parse(localStorage.getItem("faktorino_account_v10")||"null");
+  const migrated=legacy?[legacy]:[];
+  localStorage.setItem("faktorino_accounts_v11",JSON.stringify(migrated));
+  return migrated;
+ }catch(e){return []}
 }
-function saveLocalAccounts(a){localStorage.setItem("faktorino_accounts_v1",JSON.stringify(a));}
+function saveLocalAccounts(accounts){
+ localStorage.setItem("faktorino_accounts_v11",JSON.stringify(accounts||[]));
+}
 function localAccount(){
- const all=getLocalAccounts();
- if(currentUser&&currentUser.id){const found=all.find(a=>a.id===currentUser.id);if(found)return found;}
- try{const id=localStorage.getItem("faktorino_active_account_id");if(id){const found=all.find(a=>a.id===id);if(found)return found;}}catch(e){}
- try{return JSON.parse(localStorage.getItem("faktorino_account_v10")||"null")}catch(e){return null}
+ const accounts=getLocalAccounts();
+ const activeId=localStorage.getItem("faktorino_active_account_v11");
+ if(currentUser?.id){
+  const current=accounts.find(a=>a.id===currentUser.id);
+  if(current)return current;
+ }
+ if(activeId){
+  const active=accounts.find(a=>a.id===activeId);
+  if(active)return active;
+ }
+ return accounts[0]||null;
+}
+function saveLocalAccount(account){
+ if(!account)return;
+ const accounts=getLocalAccounts();
+ const index=accounts.findIndex(a=>a.id===account.id);
+ if(index>=0)accounts[index]=account;else accounts.push(account);
+ saveLocalAccounts(accounts);
 }
 async function unlockApp(){
  document.body.classList.remove("auth-locked");
@@ -1738,67 +2116,130 @@ async function unlockApp(){
   }catch(e){console.warn("draft restore failed",e)}
  }
 }
+
+// ورود سریع محلی با Passkey/حسگر خود دستگاه (WebAuthn)
+const FAKTORINO_BIOMETRIC_KEY="faktorino_biometric_v1";
+function biometricSupported(){
+ return !!(window.isSecureContext && window.PublicKeyCredential && navigator.credentials);
+}
+function base64UrlFromBytes(bytes){
+ let s="";new Uint8Array(bytes).forEach(b=>s+=String.fromCharCode(b));
+ return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function bytesFromBase64Url(value){
+ const s=value.replace(/-/g,"+").replace(/_/g,"/");
+ const raw=atob(s+"===".slice((s.length+3)%4));
+ return Uint8Array.from(raw,c=>c.charCodeAt(0));
+}
+function hasBiometricCredential(){
+ try{return !!JSON.parse(localStorage.getItem(FAKTORINO_BIOMETRIC_KEY)||"null")}catch(e){return false}
+}
+function biometricMessage(message){
+ const el=document.getElementById("biometricStatus");
+ if(el)el.textContent=message;
+ else alert(message);
+}
+async function registerBiometric(){
+ if(!currentUser){alert("ابتدا وارد حساب خودت شو.");return}
+ if(!biometricSupported()){
+  alert("این مرورگر یا دستگاه از Passkey پشتیبانی نمی‌کند یا سایت باید با HTTPS باز شود.");
+  return;
+ }
+ try{
+  const challenge=crypto.getRandomValues(new Uint8Array(32));
+  const userId=crypto.getRandomValues(new Uint8Array(16));
+  const credential=await navigator.credentials.create({publicKey:{
+   challenge,rp:{name:"فاکتورینو",id:location.hostname},
+   user:{id:userId,name:currentUser.phone||"faktorino-user",displayName:currentUser.name||"کاربر فاکتورینو"},
+   pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],
+   authenticatorSelection:{authenticatorAttachment:"platform",residentKey:"preferred",userVerification:"required"},
+   timeout:60000,attestation:"none"
+  }});
+  if(!credential)throw new Error("ساخت Passkey کامل نشد.");
+  localStorage.setItem(FAKTORINO_BIOMETRIC_KEY,JSON.stringify({
+   credentialId:base64UrlFromBytes(credential.rawId),accountId:currentUser.id,
+   phone:currentUser.phone||"",createdAt:new Date().toISOString()
+  }));
+  biometricMessage("ورود بیومتریک روی این دستگاه فعال شد. دفعه بعد می‌توانی از دکمه ورود بیومتریک استفاده کنی.");
+ }catch(e){
+  console.error("Passkey registration:",e);
+  alert("فعال‌سازی انجام نشد: "+(e.name==="NotAllowedError"?"عملیات لغو شد یا دستگاه قفل/حسگر را تأیید نکرد.":(e.message||"خطای Passkey")));
+ }
+}
+async function loginWithBiometric(){
+ if(!biometricSupported()){
+  alert("ورود بیومتریک در این مرورگر در دسترس نیست؛ با رمز عبور وارد شو.");
+  return;
+ }
+ let saved;
+ try{saved=JSON.parse(localStorage.getItem(FAKTORINO_BIOMETRIC_KEY)||"null")}catch(e){}
+ if(!saved?.credentialId){alert("برای این دستگاه Passkey ثبت نشده است. ابتدا با رمز وارد شو و از بخش امنیت فعالش کن.");return}
+ try{
+  const assertion=await navigator.credentials.get({publicKey:{
+   challenge:crypto.getRandomValues(new Uint8Array(32)),
+   rpId:location.hostname,
+   allowCredentials:[{type:"public-key",id:bytesFromBase64Url(saved.credentialId)}],
+   userVerification:"required",timeout:60000
+  }});
+  if(!assertion || base64UrlFromBytes(assertion.rawId)!==saved.credentialId)throw new Error("کلید عبور با حساب ثبت‌شده مطابقت ندارد.");
+  const account=getLocalAccounts().find(a=>a.id===saved.accountId);
+  if(!account)throw new Error("حساب ذخیره‌شده پیدا نشد. با شماره و رمز وارد شو.");
+  localStorage.setItem("faktorino_active_account_v11",account.id);
+  currentUser={id:account.id,name:account.name,phone:account.phone,email:""};
+  localStorage.setItem("faktorino_current_v10","1");
+  const sec=getSecuritySettings();sec.lastLogin=new Date().toISOString();saveSecuritySettings(sec);
+  unlockApp();
+ }catch(e){
+  console.error("Passkey login:",e);
+  alert("ورود بیومتریک انجام نشد: "+(e.name==="NotAllowedError"?"تأیید لغو شد یا زمان آن تمام شد.":(e.message||"خطای ورود")));
+ }
+}
+function removeBiometric(){
+ localStorage.removeItem(FAKTORINO_BIOMETRIC_KEY);
+ biometricMessage("ورود بیومتریک از این مرورگر حذف شد. برای ورود از رمز عبور استفاده کن.");
+ const btn=document.getElementById("biometricLoginButton");if(btn)btn.style.display="none";
+}
+
 async function submitAuth(){
  const name=document.getElementById("authName").value.trim();
  const phone=normalizePhone(document.getElementById("authPhone")?.value||"");
  const password=document.getElementById("authPassword").value;
  if(authMode==="register"){
+  const shownCode=FAKTORINO_SIGNUP_CODES[faktorinoSignupCodeIndex];
+  const enteredCode=(document.getElementById("authHumanCode")?.value||"").trim().toUpperCase();
+  if(!shownCode || enteredCode!==shownCode){
+   alert("کد تأیید درست نیست. کد را دقیق وارد کن یا با دکمه چرخش، کد تازه بگیر.");
+   document.getElementById("authHumanCode")?.focus();
+   return;
+  }
   if(name.length<2){alert("نام و نام خانوادگی را وارد کن.");return}
   if(!isValidIranPhone(phone)){alert("شماره موبایل را به شکل 09123456789 وارد کن.");return}
   if(password.length<6){alert("رمز عبور باید حداقل ۶ کاراکتر باشد.");return}
-  const captcha=document.getElementById("captchaInput")?.value.trim().toUpperCase()||"";
-  if(!captcha||captcha!==window.__factorinoCaptcha){alert("کد تصویری درست نیست؛ تصویر را دوباره بررسی کن.");refreshRegisterCaptcha();return}
   const passwordHash=await hashPassword(password);
   const account={id:crypto.randomUUID?crypto.randomUUID():"local-"+Date.now()+"-"+Math.random().toString(36).slice(2),name,phone,passwordHash,createdAt:new Date().toISOString()};
-  const all=getLocalAccounts();all.push(account);saveLocalAccounts(all);localStorage.setItem("faktorino_account_v10",JSON.stringify(account));
+  const accounts=getLocalAccounts();
+  accounts.push(account);
+  saveLocalAccounts(accounts);
+  localStorage.setItem("faktorino_active_account_v11",account.id);
   currentUser={id:account.id,name:account.name,phone:account.phone,email:""};
-  localStorage.setItem("faktorino_active_account_id",account.id);localStorage.setItem("faktorino_current_v10","1");
-  alert("ثبت‌نام با موفقیت انجام شد ✅");unlockApp();
+  localStorage.setItem("faktorino_current_v10","1");
+  alert("ثبت‌نام با موفقیت انجام شد ✅\nاز این به بعد با شماره موبایل و رمزت وارد شو.");
+  unlockApp();
  }else{
+  const accounts=getLocalAccounts();
+  if(!accounts.length){alert("هنوز ثبت‌نام نکرده‌ای. ابتدا گزینه «ثبت‌نام» را بزن.");setAuthMode("register");return}
   if(!isValidIranPhone(phone)){alert("شماره موبایل را به شکل 09123456789 وارد کن.");return}
   if(password.length<6){alert("رمز عبور را وارد کن.");return}
   const passwordHash=await hashPassword(password);
-  const account=getLocalAccounts().find(a=>a.phone===phone&&a.passwordHash===passwordHash);
+  const account=accounts.find(a=>a.phone===phone && a.passwordHash===passwordHash);
   if(!account){alert("شماره موبایل یا رمز عبور اشتباه است.");return}
-  localStorage.setItem("faktorino_account_v10",JSON.stringify(account));localStorage.setItem("faktorino_active_account_id",account.id);
-  currentUser={id:account.id,name:account.name,phone:account.phone,email:""};localStorage.setItem("faktorino_current_v10","1");
+  localStorage.setItem("faktorino_active_account_v11",account.id);
+  currentUser={id:account.id,name:account.name,phone:account.phone,email:""};
+  localStorage.setItem("faktorino_current_v10","1");
   const sec=getSecuritySettings();sec.lastLogin=new Date().toISOString();saveSecuritySettings(sec);
-  alert("ورود موفق بود ✅");unlockApp();
+  alert("ورود موفق بود ✅");
+  unlockApp();
  }
-}
-function toggleAuthPassword(){const el=document.getElementById("authPassword"),b=document.querySelector(".password-eye");if(!el)return;el.type=el.type==="password"?"text":"password";if(b)b.textContent=el.type==="password"?"نمایش":"مخفی";}
-function refreshRegisterCaptcha(){
- const c=document.getElementById("registerCaptcha"),input=document.getElementById("captchaInput");if(!c)return;
- const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let code="";for(let i=0;i<5;i++)code+=chars[Math.floor(Math.random()*chars.length)];window.__factorinoCaptcha=code;
- const ctx=c.getContext("2d");ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle="#f1f5f9";ctx.fillRect(0,0,c.width,c.height);
- for(let i=0;i<18;i++){ctx.strokeStyle=`rgba(${40+Math.random()*100|0},${90+Math.random()*100|0},${160+Math.random()*80|0},.35)`;ctx.beginPath();ctx.moveTo(Math.random()*c.width,Math.random()*c.height);ctx.lineTo(Math.random()*c.width,Math.random()*c.height);ctx.stroke();}
- ctx.font="bold 28px Arial";ctx.textAlign="center";ctx.textBaseline="middle";for(let i=0;i<code.length;i++){ctx.save();ctx.translate(24+i*35,29);ctx.rotate((Math.random()-.5)*.35);ctx.fillStyle="#1e3a8a";ctx.fillText(code[i],0,0);ctx.restore();}
- if(input)input.value="";
-}
-function b64url(bytes){let s="";new Uint8Array(bytes).forEach(b=>s+=String.fromCharCode(b));return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"");}
-function fromB64url(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return Uint8Array.from(atob(s),c=>c.charCodeAt(0));}
-async function enablePasskey(){
- if(!currentUser){alert("ابتدا وارد حساب شو.");return}
- if(!window.PublicKeyCredential||!navigator.credentials){alert("این مرورگر یا دستگاه از Passkey پشتیبانی نمی‌کند.");return}
- if(!window.isSecureContext){alert("برای این قابلیت سایت باید با HTTPS معتبر یا localhost باز شود.");return}
- try{
-  const challenge=crypto.getRandomValues(new Uint8Array(32)),uid=crypto.getRandomValues(new Uint8Array(16));
-  const cred=await navigator.credentials.create({publicKey:{challenge,rp:{name:"Factorino"},user:{id:uid,name:currentUser.phone,displayName:currentUser.name||"کاربر فاکتورینو"},pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],authenticatorSelection:{residentKey:"preferred",userVerification:"required"},timeout:60000,attestation:"none"}});
-  if(!cred)throw new Error("ثبت Passkey انجام نشد.");
-  const all=JSON.parse(localStorage.getItem("faktorino_passkeys_v1")||"[]");all.push({accountId:currentUser.id,credentialId:b64url(cred.rawId),createdAt:new Date().toISOString()});localStorage.setItem("faktorino_passkeys_v1",JSON.stringify(all));
-  alert("Passkey روی این دستگاه ثبت شد. توجه: تأیید امنیتی نهایی سمت سرور در این نسخه پیاده‌سازی نشده است.");updatePasskeyButton();
- }catch(e){console.error(e);alert("ثبت اثر انگشت/چهره انجام نشد: "+(e.message||"خطای مرورگر"));}
-}
-function updatePasskeyButton(){const b=document.getElementById("passkeyLoginBtn");if(!b)return;try{b.style.display=(JSON.parse(localStorage.getItem("faktorino_passkeys_v1")||"[]").length&&window.PublicKeyCredential)?"block":"none";}catch(e){b.style.display="none"}}
-async function loginWithPasskey(){
- try{
-  if(!window.isSecureContext||!navigator.credentials||!window.PublicKeyCredential)throw new Error("Passkey فقط روی HTTPS معتبر و مرورگر پشتیبانی‌شده فعال است.");
-  const list=JSON.parse(localStorage.getItem("faktorino_passkeys_v1")||"[]");if(!list.length)throw new Error("برای این دستگاه Passkey ثبت نشده است.");
-  const challenge=crypto.getRandomValues(new Uint8Array(32));const assertion=await navigator.credentials.get({publicKey:{challenge,allowCredentials:list.map(x=>({type:"public-key",id:fromB64url(x.credentialId)})),userVerification:"required",timeout:60000}});
-  if(!assertion)throw new Error("احراز انجام نشد.");const id=b64url(assertion.rawId),entry=list.find(x=>x.credentialId===id);if(!entry)throw new Error("اعتبارنامه شناخته نشد.");
-  const account=getLocalAccounts().find(x=>x.id===entry.accountId);if(!account)throw new Error("حساب مرتبط با این Passkey پیدا نشد.");
-  localStorage.setItem("faktorino_account_v10",JSON.stringify(account));localStorage.setItem("faktorino_active_account_id",account.id);localStorage.setItem("faktorino_current_v10","1");currentUser={id:account.id,name:account.name,phone:account.phone,email:""};alert("ورود دستگاهی انجام شد.");unlockApp();
- }catch(e){console.error(e);alert("ورود با Passkey انجام نشد: "+(e.message||"خطای مرورگر"));}
 }
 async function resendConfirmation(){
  if(!supabaseClient){showSupabaseError("ارسال ایمیل تأیید",new Error("اتصال Supabase آماده نیست."));return}
@@ -2256,14 +2697,14 @@ function saveAutoLockSetting(){const s=getSecuritySettings();s.autoLockMs=Number
 function saveSecurityProfile(){
  const name=String(document.getElementById("securityName")?.value||"").trim(); if(name.length<2){alert("نام معتبر وارد کن.");return}
  const a=localAccount(); if(!a||!currentUser){alert("ابتدا وارد حساب شو.");return}
- a.name=name;localStorage.setItem("faktorino_account_v10",JSON.stringify(a));currentUser.name=name;updateAccountUI();touchSecurityActivity();alert("نام حساب ذخیره شد ✅");
+ a.name=name;saveLocalAccount(a);currentUser.name=name;updateAccountUI();touchSecurityActivity();alert("نام حساب ذخیره شد ✅");
 }
 async function changeLocalPassword(){
  const a=localAccount(); if(!a||!currentUser){alert("ابتدا وارد حساب شو.");return}
  const oldP=document.getElementById("securityOldPassword")?.value||"",p1=document.getElementById("securityNewPassword")?.value||"",p2=document.getElementById("securityNewPassword2")?.value||"";
  if(oldP.length<6){alert("رمز فعلی را وارد کن.");return} if(p1.length<8){alert("رمز جدید باید حداقل ۸ کاراکتر باشد.");return} if(p1!==p2){alert("تکرار رمز جدید یکسان نیست.");return}
  const oldHash=await hashPassword(oldP); if(oldHash!==a.passwordHash){alert("رمز فعلی اشتباه است.");return}
- a.passwordHash=await hashPassword(p1);a.passwordChangedAt=new Date().toISOString();localStorage.setItem("faktorino_account_v10",JSON.stringify(a));
+ a.passwordHash=await hashPassword(p1);a.passwordChangedAt=new Date().toISOString();saveLocalAccount(a);
  document.getElementById("securityOldPassword").value="";document.getElementById("securityNewPassword").value="";document.getElementById("securityNewPassword2").value="";touchSecurityActivity();alert("رمز عبور با موفقیت تغییر کرد ✅");
 }
 function lockAppNow(){
@@ -2320,13 +2761,13 @@ function updateReport(){
 
 document.getElementById("date").value=todayLocal();
 document.getElementById("dueDate").value=todayLocal();
-addItem();updateReport();setAuthMode("login");refreshRegisterCaptcha();updatePasskeyButton();updateQuickStatus();
+addItem();updateReport();setAuthMode("login");updateQuickStatus();
 
 (async function initAuth(){
- const allAccounts=getLocalAccounts();
- const account=localAccount()||allAccounts[0]||null;
+ const account=localAccount();
  const active=localStorage.getItem("faktorino_current_v10")==="1";
  if(account && active){
+  localStorage.setItem("faktorino_active_account_v11",account.id);
   currentUser={id:account.id,name:account.name,phone:account.phone,email:""};
   document.body.classList.remove("auth-locked");
   updateAccountUI();
@@ -2400,7 +2841,7 @@ window.addEventListener('beforeunload',()=>{try{if(currentUser&&typeof saveDraft
   <button onclick="show('dashboard')"><b>📊</b>داشبورد</button>
   <button onclick="show('history')"><b>📚</b>سوابق</button>
   <button onclick="show('customers')"><b>👥</b>مشتریان</button>
-  <button onclick="document.querySelector('.nav-links')?.scrollIntoView({behavior:'smooth',block:'start'})"><b>☰</b>بیشتر</button>
+  <button onclick="openFaktorinoMenu()"><b>☰</b>بیشتر</button>
 </nav>
 
 
@@ -2415,6 +2856,68 @@ window.addEventListener('beforeunload',()=>{try{if(currentUser&&typeof saveDraft
  <div id="inventorySummary" class="dash-kpi-grid"></div><div id="inventoryList"></div>
  <div id="inventoryFormWrap" class="modal-backdrop" style="display:none"><div class="modal-card"><div class="section-head"><h3 id="inventoryFormTitle">افزودن کالا</h3><button class="btn" onclick="closeInventoryForm()">✕</button></div><form id="inventoryForm" onsubmit="saveInventoryItem(event)"><input type="hidden" id="invId"><div class="form-grid"><label>نام کالا *<input id="invName" required maxlength="160"></label><label>کد کالا<input id="invSku" maxlength="80"></label><label>موجودی فعلی<input id="invQty" type="number" min="0" step="any" value="0" required></label><label>حد هشدار موجودی<input id="invMin" type="number" min="0" step="any" value="2" required></label><label>بهای خرید هر واحد (تومان)<input id="invCost" type="number" min="0" step="1" value="0"></label><label>قیمت فروش هر واحد (تومان)<input id="invPrice" type="number" min="0" step="1" value="0"></label></div><div class="actions"><button class="btn primary" type="submit">ذخیره کالا</button><button class="btn" type="button" onclick="closeInventoryForm()">انصراف</button></div></form></div></div>
 </section>
+
+
+<script id="faktorino-scroll-interaction-fix">
+(function(){
+  function allowPageScroll(){
+    var drawer=document.getElementById('faktorinoDrawer');
+    if(!drawer || !drawer.classList.contains('open')) return;
+    document.documentElement.style.overflowY='auto';
+    document.body.style.overflowY='auto';
+  }
+  document.addEventListener('touchmove',allowPageScroll,{passive:true,capture:true});
+  document.addEventListener('wheel',allowPageScroll,{passive:true,capture:true});
+})();
+</script>
+
+
+<script id="faktorino-full-drawer-touch-v2">
+(function(){
+  var drawer=document.getElementById('faktorinoDrawer');
+  if(!drawer)return;
+  drawer.addEventListener('touchstart',function(){}, {passive:true});
+  drawer.addEventListener('touchmove',function(){}, {passive:true});
+  drawer.addEventListener('wheel',function(e){
+    if(drawer.classList.contains('open')){
+      drawer.scrollTop += e.deltaY;
+      e.preventDefault();
+    }
+  },{passive:false});
+})();
+</script>
+
+
+<script id="faktorino-five-second-entry">
+(function(){
+ function finishEntry(){
+  var screen=document.getElementById('siteTransferScreen');
+  if(!screen)return;
+  window.setTimeout(function(){
+   screen.classList.add('is-hidden');
+   window.setTimeout(function(){if(screen.parentNode)screen.parentNode.removeChild(screen);},600);
+  },5000);
+ }
+ if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',finishEntry,{once:true});
+ }else{finishEntry();}
+})();
+</script>
+
+
+<script id="faktorino-password-eye-script">
+function toggleAuthPasswordVisibility(){
+ const field=document.getElementById('authPassword');
+ const button=document.querySelector('.auth-password-eye');
+ if(!field||!button)return;
+ const show=field.type==='password';
+ field.type=show?'text':'password';
+ button.classList.toggle('is-visible',show);
+ button.setAttribute('aria-pressed',show?'true':'false');
+ button.setAttribute('aria-label',show?'پنهان کردن رمز عبور':'نمایش رمز عبور');
+ button.setAttribute('title',show?'پنهان کردن رمز عبور':'نمایش رمز عبور');
+}
+</script>
 
 </body>
 </html>
