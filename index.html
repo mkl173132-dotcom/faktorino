@@ -3129,6 +3129,68 @@ function toggleAuthPasswordVisibility(){
 })();
 </script>
 
+
+<style id="faktorino-real-mobile-touch-scroll-fix">
+/* اسکرول انگشتی مستقل برای فهرست منو */
+#faktorinoDrawer .drawer-links{
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
+  touch-action:none!important;
+}
+#faktorinoDrawer .drawer-scrollbar,
+#faktorinoDrawer .drawer-scrollbar-thumb{touch-action:none!important}
+</style>
+<script id="faktorino-real-mobile-touch-scroll-fix-js">
+(function(){
+  function setupTouchScroll(){
+    var drawer=document.getElementById('faktorinoDrawer');
+    if(!drawer)return;
+    var list=drawer.querySelector('.drawer-links');
+    if(!list || list.dataset.realTouchScroll==='1')return;
+    list.dataset.realTouchScroll='1';
+    var startY=0, startScroll=0, touching=false, moved=false;
+    list.addEventListener('touchstart',function(e){
+      if(!drawer.classList.contains('open') || !e.touches || e.touches.length!==1)return;
+      startY=e.touches[0].clientY;
+      startScroll=list.scrollTop;
+      touching=true;
+      moved=false;
+    },{passive:true});
+    list.addEventListener('touchmove',function(e){
+      if(!touching || !e.touches || e.touches.length!==1)return;
+      var y=e.touches[0].clientY;
+      var delta=startY-y;
+      if(Math.abs(delta)>3)moved=true;
+      if(moved){
+        var max=Math.max(0,list.scrollHeight-list.clientHeight);
+        list.scrollTop=Math.max(0,Math.min(max,startScroll+delta));
+        if(e.cancelable)e.preventDefault();
+      }
+    },{passive:false});
+    function end(){touching=false;}
+    list.addEventListener('touchend',end,{passive:true});
+    list.addEventListener('touchcancel',end,{passive:true});
+    if(window.ResizeObserver){
+      var ro=new ResizeObserver(function(){
+        var ev;
+        try{ev=new Event('scroll')}catch(_){return}
+        list.dispatchEvent(ev);
+      });
+      ro.observe(list);
+    }
+  }
+  function init(){
+    setupTouchScroll();
+    var drawer=document.getElementById('faktorinoDrawer');
+    if(drawer && window.MutationObserver){
+      new MutationObserver(setupTouchScroll).observe(drawer,{childList:true,subtree:true});
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
+</script>
 </body>
 </html>
 <script>document.addEventListener("DOMContentLoaded",()=>{try{initCustomers()}catch(e){console.error(e)}});
