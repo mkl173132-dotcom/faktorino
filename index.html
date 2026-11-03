@@ -1916,6 +1916,7 @@ body.drawer-open{overflow:hidden!important}
 فاکتورینو © ۱۴۰۵ • ☎️ پشتیبان‌گیریی: 09179690358
 </footer>
 
+<script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* Fallback CDN: اگر jsDelivr در مرورگر باز نشد، از unpkg استفاده می‌کنیم. */
@@ -2194,7 +2195,7 @@ function bytesFromBase64Url(value){const s=String(value||"").replace(/-/g,"+").r
 function readBiometricCredential(){try{return JSON.parse(localStorage.getItem(FAKTORINO_BIOMETRIC_KEY)||"null")}catch(e){return null}}
 function hasBiometricCredential(){return !!readBiometricCredential()}
 function biometricMessage(message){const el=document.getElementById("biometricStatus");if(el)el.textContent=message;else alert(message)}
-async function bioApi(path,body){const r=await fetch("/api/webauthn/"+path,{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify(body||{})});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||"ارتباط امن با سرور برقرار نشد.");return j}
+async function bioApi(path,body){const base=String(window.FAKTORINO_API_BASE_URL||"").trim().replace(/\/$/,"");if(!base||base.includes("YOUR-FAKTORINO-API"))throw new Error("آدرس سرور هنوز در config.js تنظیم نشده است.");let r;try{r=await fetch(base+"/api/webauthn/"+path,{method:"POST",headers:{"Content-Type":"application/json"},mode:"cors",credentials:"omit",body:JSON.stringify(body||{})})}catch(e){throw new Error("سرور فاکتورینو در دسترس نیست یا اتصال آن برقرار نمی‌شود.")}const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||("خطای سرور ("+r.status+")"));return j}
 async function updateBiometricAvailability(){const status=document.getElementById("biometricStatus"),btn=document.getElementById("biometricLoginButton");if(!biometricSupported()){if(status)status.textContent="برای ورود با اثر انگشت، سایت باید روی HTTPS و مرورگر سازگار باز شود.";if(btn)btn.style.display="none";return false}const available=await biometricPlatformAvailable();if(status&&!hasBiometricCredential())status.textContent=available?"این دستگاه آماده ثبت Passkey است. ابتدا با رمز وارد شو و فعال‌سازی را بزن.":"قفل بیومتریک سازگار در این دستگاه پیدا نشد.";refreshBiometricLoginButton();return available}
 async function registerBiometric(){
  if(!currentUser){alert("ابتدا با رمز عبور وارد حساب خودت شو.");return}
@@ -2228,7 +2229,7 @@ async function loginWithBiometric(){
 
 function removeBiometric(){
  const saved=readBiometricCredential();
- if(saved&&saved.accountId){fetch("/api/webauthn/remove",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify({userId:String(saved.accountId)})}).catch(()=>{});}
+ if(saved&&saved.accountId){fetch(String(window.FAKTORINO_API_BASE_URL||"").replace(/\/$/,"")+"/api/webauthn/remove",{method:"POST",headers:{"Content-Type":"application/json"},mode:"cors",credentials:"omit",body:JSON.stringify({userId:String(saved.accountId)})}).catch(()=>{});}
  localStorage.removeItem(FAKTORINO_BIOMETRIC_KEY);
  localStorage.removeItem("faktorino_biometric_v1");
  biometricMessage("Passkey این دستگاه حذف شد. برای ورود از رمز عبور استفاده کن.");

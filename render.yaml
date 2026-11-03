@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: faktorino-webauthn
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: ORIGIN
+        value: https://mkl173132-dotcom.github.io
+      - key: ALLOWED_ORIGINS
+        value: https://mkl173132-dotcom.github.io
+      - key: RP_ID
+        value: mkl173132-dotcom.github.io
+      - key: DATA_DIR
+        value: /tmp/faktorino-data
+      - key: RP_NAME
+        value: فاکتورینو
