@@ -988,7 +988,7 @@ body.drawer-open{
 #siteTransferScreen .transfer-loader span{
  display:block;height:100%;width:0;border-radius:20px;
  background:linear-gradient(90deg,#38bdf8,#818cf8,#c4b5fd);
- animation:transferFiveSeconds 5s linear forwards
+ animation:transferFiveSeconds 3s linear forwards
 }
 #siteTransferScreen .transfer-count{margin-top:13px;font-size:11px;color:#bfdbfe;letter-spacing:.3px}
 @keyframes transferFiveSeconds{from{width:0}to{width:100%}}
@@ -1159,61 +1159,11 @@ body{background:linear-gradient(180deg,#f5f8ff 0%,#f8fbff 42%,#f1f5fb 100%);colo
 #biometricStatus{margin-top:10px;color:#35618c;line-height:1.9}
 </style>
 
-
-<style id="faktorino-drawer-custom-scrollbar">
-/* نوار پیمایش باریک و قابل کشیدن داخل منوی کناری */
-#faktorinoDrawer{position:fixed!important}
-#faktorinoDrawer .drawer-links{
-  scrollbar-width:none!important;
-  -ms-overflow-style:none!important;
-  padding-left:24px!important;
-  padding-right:22px!important;
-}
-#faktorinoDrawer .drawer-links::-webkit-scrollbar{width:0!important;height:0!important;display:none!important}
-#faktorinoDrawer .drawer-scrollbar{
-  position:absolute;z-index:8;top:138px;bottom:42px;right:7px;width:12px;
-  display:flex;align-items:stretch;justify-content:center;
-  border-radius:20px;background:transparent;touch-action:none;user-select:none;
-}
-#faktorinoDrawer .drawer-scrollbar-track{
-  position:absolute;inset:0 3px;border-radius:20px;background:#e5e7eb;
-}
-#faktorinoDrawer .drawer-scrollbar-thumb{
-  position:absolute;left:3px;right:3px;top:0;height:36px;min-height:28px;
-  border-radius:20px;background:#b8b8b8;cursor:grab;
-  box-shadow:0 0 0 1px #ffffff80 inset;
-}
-#faktorinoDrawer .drawer-scrollbar-thumb:active{cursor:grabbing;background:#999}
-#faktorinoDrawer .drawer-scrollbar-arrow{
-  position:absolute;right:1px;width:0;height:0;border-left:4px solid transparent;
-  border-right:4px solid transparent;opacity:.65;pointer-events:none;
-}
-#faktorinoDrawer .drawer-scrollbar-arrow.up{top:-8px;border-bottom:5px solid #a3a3a3}
-#faktorinoDrawer .drawer-scrollbar-arrow.down{bottom:-8px;border-top:5px solid #a3a3a3}
-@media(max-width:760px){
-  #faktorinoDrawer .drawer-scrollbar{right:6px}
-}
-</style>
-
-
-<style id="faktorino-drawer-scrollbar-side-position">
-/* قرارگیری نوار پیمایش در لبه کناری منو، مطابق تصویر */
-#faktorinoDrawer .drawer-scrollbar{
-  left:7px!important;
-  right:auto!important;
-}
-@media(max-width:760px){
-  #faktorinoDrawer .drawer-scrollbar{
-    left:6px!important;
-    right:auto!important;
-  }
-}
-</style>
-\n</head>
+</head>
 
 <body>
 
-<!-- صفحه انتقال پنج‌ثانیه‌ای فاکتورینو -->
+<!-- صفحه انتقال سه‌ثانیه‌ای فاکتورینو -->
 <div id="siteTransferScreen" role="status" aria-live="polite">
  <div class="transfer-panel">
   <div class="transfer-mark">F</div>
@@ -1267,10 +1217,6 @@ body{background:linear-gradient(180deg,#f5f8ff 0%,#f8fbff 42%,#f1f5fb 100%);colo
     <button type="button" class="drawer-close" onclick="closeFaktorinoMenu()" aria-label="بستن منو">×</button>
   </div>
   <div class="drawer-caption">منوی اصلی</div>
-  <div class="drawer-arrow-controls" aria-label="پیمایش منو">
-    <button type="button" class="drawer-arrow-btn" onclick="scrollFaktorinoDrawer(-1)" aria-label="رفتن به بالای منو" title="بالا">⌃</button>
-    <button type="button" class="drawer-arrow-btn" onclick="scrollFaktorinoDrawer(1)" aria-label="رفتن به پایین منو" title="پایین">⌄</button>
-  </div>
   <nav class="nav-links drawer-links">
     <a class="nav-primary" data-section="invoice" onclick="show('invoice')">🧾 <span>ایجاد فاکتور</span></a>
     <a data-section="dashboard" onclick="show('dashboard')">📊 <span>داشبورد</span></a>
@@ -2928,38 +2874,16 @@ window.addEventListener('beforeunload',()=>{try{if(currentUser&&typeof saveDraft
 
 <script id="faktorino-full-drawer-touch-v2">
 (function(){
-  function bindDrawerTouchpadScroll(){
-    var drawer=document.getElementById('faktorinoDrawer');
-    if(!drawer || drawer.dataset.touchpadScrollBound==='1') return;
-    drawer.dataset.touchpadScrollBound='1';
-
-    /* تاچ‌پد لپ‌تاپ و چرخ موس: اسکرول مستقل خود منوی باز */
-    document.addEventListener('wheel',function(e){
-      if(!drawer.classList.contains('open')) return;
-      if(!drawer.contains(e.target)) return;
-
-      var delta=e.deltaY;
-      if(e.deltaMode===1) delta*=16;
-      else if(e.deltaMode===2) delta*=window.innerHeight;
-
-      var maxScroll=Math.max(0,drawer.scrollHeight-drawer.clientHeight);
-      if(maxScroll<=0) return;
-
-      var next=Math.max(0,Math.min(maxScroll,drawer.scrollTop+delta));
-      if(next!==drawer.scrollTop){
-        drawer.scrollTop=next;
-        if(e.cancelable) e.preventDefault();
-      }
-    },{passive:false,capture:true});
-
-    drawer.addEventListener('touchstart',function(){},{passive:true});
-    drawer.addEventListener('touchmove',function(){},{passive:true});
-  }
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',bindDrawerTouchpadScroll,{once:true});
-  }else{
-    bindDrawerTouchpadScroll();
-  }
+  var drawer=document.getElementById('faktorinoDrawer');
+  if(!drawer)return;
+  drawer.addEventListener('touchstart',function(){}, {passive:true});
+  drawer.addEventListener('touchmove',function(){}, {passive:true});
+  drawer.addEventListener('wheel',function(e){
+    if(drawer.classList.contains('open')){
+      drawer.scrollTop += e.deltaY;
+      e.preventDefault();
+    }
+  },{passive:false});
 })();
 </script>
 
@@ -2972,7 +2896,7 @@ window.addEventListener('beforeunload',()=>{try{if(currentUser&&typeof saveDraft
   window.setTimeout(function(){
    screen.classList.add('is-hidden');
    window.setTimeout(function(){if(screen.parentNode)screen.parentNode.removeChild(screen);},600);
-  },5000);
+  },3000);
  }
  if(document.readyState==='loading'){
   document.addEventListener('DOMContentLoaded',finishEntry,{once:true});
@@ -2996,257 +2920,58 @@ function toggleAuthPasswordVisibility(){
 </script>
 
 
-<script id="faktorino-drawer-custom-scrollbar-js">
-(function(){
-  function setup(){
-    var drawer=document.getElementById('faktorinoDrawer');
-    if(!drawer || drawer.dataset.customScrollbarReady==='1') return;
-    var list=drawer.querySelector('.drawer-links');
-    if(!list) return;
-    drawer.dataset.customScrollbarReady='1';
-
-    var bar=document.createElement('div');
-    bar.className='drawer-scrollbar';
-    bar.setAttribute('role','scrollbar');
-    bar.setAttribute('aria-label','پیمایش منو');
-    bar.setAttribute('aria-controls','faktorinoDrawerLinks');
-    bar.innerHTML='<div class="drawer-scrollbar-track"></div><div class="drawer-scrollbar-thumb"></div><span class="drawer-scrollbar-arrow up"></span><span class="drawer-scrollbar-arrow down"></span>';
-    if(!list.id) list.id='faktorinoDrawerLinks';
-    drawer.appendChild(bar);
-    var thumb=bar.querySelector('.drawer-scrollbar-thumb');
-    var dragging=false,startY=0,startTop=0;
-
-    function update(){
-      var viewport=list.clientHeight, total=list.scrollHeight, max=total-viewport;
-      var track=bar.clientHeight;
-      if(max<=1 || track<=0){bar.style.display='none';return}
-      bar.style.display='flex';
-      var h=Math.max(28,Math.min(track,track*viewport/total));
-      var top=(track-h)*(list.scrollTop/max);
-      thumb.style.height=h+'px';
-      thumb.style.top=top+'px';
-      bar.setAttribute('aria-valuemin','0');
-      bar.setAttribute('aria-valuemax',String(Math.max(0,Math.round(max))));
-      bar.setAttribute('aria-valuenow',String(Math.round(list.scrollTop)));
-    }
-    function setFromPointer(clientY){
-      var rect=bar.getBoundingClientRect();
-      var track=bar.clientHeight;
-      var thumbH=thumb.offsetHeight;
-      var y=Math.max(0,Math.min(track-thumbH,clientY-rect.top-thumbH/2));
-      var max=list.scrollHeight-list.clientHeight;
-      list.scrollTop=(track-thumbH)>0 ? y/(track-thumbH)*max : 0;
-    }
-    thumb.addEventListener('pointerdown',function(e){
-      dragging=true;startY=e.clientY;startTop=parseFloat(thumb.style.top)||0;
-      thumb.setPointerCapture(e.pointerId);e.preventDefault();
-    });
-    thumb.addEventListener('pointermove',function(e){
-      if(!dragging)return;
-      var track=bar.clientHeight, thumbH=thumb.offsetHeight;
-      var y=Math.max(0,Math.min(track-thumbH,startTop+(e.clientY-startY)));
-      var max=list.scrollHeight-list.clientHeight;
-      list.scrollTop=(track-thumbH)>0 ? y/(track-thumbH)*max : 0;
-    });
-    function stop(){dragging=false}
-    thumb.addEventListener('pointerup',stop);
-    thumb.addEventListener('pointercancel',stop);
-    bar.addEventListener('pointerdown',function(e){
-      if(e.target===thumb)return;
-      setFromPointer(e.clientY);e.preventDefault();
-    });
-    list.addEventListener('scroll',update,{passive:true});
-    window.addEventListener('resize',update);
-    if(window.ResizeObserver){
-      var ro=new ResizeObserver(update);ro.observe(list);ro.observe(drawer);
-    }
-    update();
-    setTimeout(update,250);
+<style id="faktorino-touch-responsive-fix">
+/* پیمایش طبیعی و لمسی در موبایل، تبلت و لپ‌تاپ؛ بدون تغییر محتوا یا آیتم‌های منو */
+html, body {
+  min-height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-y: auto;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  overflow-y: auto;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+main, .container, .page, .content, section, .faktorino-main {
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+button, a, input, select, textarea {
+  touch-action: manipulation;
+}
+.nav-links, .nav-scroll {
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.drawer-links {
+  touch-action: pan-y !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain;
+  min-height: 0;
+}
+@media (max-width: 760px) {
+  html, body { min-height: 100%; }
+  body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    touch-action: pan-y !important;
+    padding-bottom: max(78px, calc(78px + env(safe-area-inset-bottom, 0px)));
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});
-  else setup();
-})();
-</script>
-
-
-<style id="faktorino-mobile-scrollbar-fix">
-/* فضای لمس بزرگ‌تر؛ خود خط باریک و مشابه نمونه می‌ماند */
-#faktorinoDrawer .drawer-scrollbar{
-  width:26px!important;left:2px!important;right:auto!important;
-  touch-action:none!important;z-index:30!important;
+  .container { width: 100%; }
+  .table-wrap, .invoice-table-wrap, .dash-table {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+  }
 }
-#faktorinoDrawer .drawer-scrollbar-track{
-  left:11px!important;right:11px!important;
-}
-#faktorinoDrawer .drawer-scrollbar-thumb{
-  left:8px!important;right:8px!important;min-height:38px!important;
-  touch-action:none!important;
+@media (min-width: 761px) {
+  body { overflow-y: auto; }
 }
 </style>
-<script id="faktorino-mobile-scrollbar-fix-js">
-(function(){
-  function bind(){
-    var drawer=document.getElementById('faktorinoDrawer');
-    if(!drawer)return;
-    var bar=drawer.querySelector('.drawer-scrollbar');
-    var list=drawer.querySelector('.drawer-links');
-    var thumb=bar&&bar.querySelector('.drawer-scrollbar-thumb');
-    if(!bar||!list||!thumb||bar.dataset.touchBound==='1')return;
-    bar.dataset.touchBound='1';
-    var active=false, grabOffset=0;
-
-    function moveTo(y){
-      var rect=bar.getBoundingClientRect();
-      var trackH=bar.clientHeight;
-      var thumbH=thumb.offsetHeight;
-      var top=Math.max(0,Math.min(trackH-thumbH,y-rect.top-grabOffset));
-      var max=list.scrollHeight-list.clientHeight;
-      list.scrollTop=(trackH-thumbH)>0 ? top/(trackH-thumbH)*max : 0;
-    }
-    bar.addEventListener('touchstart',function(e){
-      if(!e.touches||!e.touches.length)return;
-      var t=e.touches[0];
-      var r=thumb.getBoundingClientRect();
-      grabOffset=(t.clientY>=r.top&&t.clientY<=r.bottom)?t.clientY-r.top:thumb.offsetHeight/2;
-      active=true;moveTo(t.clientY);
-      if(e.cancelable)e.preventDefault();
-    },{passive:false});
-    bar.addEventListener('touchmove',function(e){
-      if(!active||!e.touches||!e.touches.length)return;
-      moveTo(e.touches[0].clientY);
-      if(e.cancelable)e.preventDefault();
-    },{passive:false});
-    function end(){active=false}
-    bar.addEventListener('touchend',end,{passive:true});
-    bar.addEventListener('touchcancel',end,{passive:true});
-  }
-  function start(){
-    bind();
-    var drawer=document.getElementById('faktorinoDrawer');
-    if(drawer&&window.MutationObserver){
-      var observer=new MutationObserver(bind);
-      observer.observe(drawer,{childList:true,subtree:true});
-    }
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});
-  else start();
-})();
-</script>
-
-
-<style id="faktorino-real-mobile-touch-scroll-fix">
-/* اسکرول انگشتی مستقل برای فهرست منو */
-#faktorinoDrawer .drawer-links{
-  overflow-y:auto!important;
-  -webkit-overflow-scrolling:touch!important;
-  overscroll-behavior:contain!important;
-  touch-action:none!important;
-}
-#faktorinoDrawer .drawer-scrollbar,
-#faktorinoDrawer .drawer-scrollbar-thumb{touch-action:none!important}
-</style>
-<script id="faktorino-real-mobile-touch-scroll-fix-js">
-(function(){
-  function setupTouchScroll(){
-    var drawer=document.getElementById('faktorinoDrawer');
-    if(!drawer)return;
-    var list=drawer.querySelector('.drawer-links');
-    if(!list || list.dataset.realTouchScroll==='1')return;
-    list.dataset.realTouchScroll='1';
-    var startY=0, startScroll=0, touching=false, moved=false;
-    list.addEventListener('touchstart',function(e){
-      if(!drawer.classList.contains('open') || !e.touches || e.touches.length!==1)return;
-      startY=e.touches[0].clientY;
-      startScroll=list.scrollTop;
-      touching=true;
-      moved=false;
-    },{passive:true});
-    list.addEventListener('touchmove',function(e){
-      if(!touching || !e.touches || e.touches.length!==1)return;
-      var y=e.touches[0].clientY;
-      var delta=startY-y;
-      if(Math.abs(delta)>3)moved=true;
-      if(moved){
-        var max=Math.max(0,list.scrollHeight-list.clientHeight);
-        list.scrollTop=Math.max(0,Math.min(max,startScroll+delta));
-        if(e.cancelable)e.preventDefault();
-      }
-    },{passive:false});
-    function end(){touching=false;}
-    list.addEventListener('touchend',end,{passive:true});
-    list.addEventListener('touchcancel',end,{passive:true});
-    if(window.ResizeObserver){
-      var ro=new ResizeObserver(function(){
-        var ev;
-        try{ev=new Event('scroll')}catch(_){return}
-        list.dispatchEvent(ev);
-      });
-      ro.observe(list);
-    }
-  }
-  function init(){
-    setupTouchScroll();
-    var drawer=document.getElementById('faktorinoDrawer');
-    if(drawer && window.MutationObserver){
-      new MutationObserver(setupTouchScroll).observe(drawer,{childList:true,subtree:true});
-    }
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
-  else init();
-})();
-</script>
-
-<style id="faktorino-final-modern-polish">
-/* به‌روزرسانی ظاهری هماهنگ و کنترل پیمایش منو */
-:root{--fak-primary:#2459d6;--fak-primary2:#087fb9;--fak-line:#dce7f7;--fak-ink:#172b50;--fak-surface:#fff}
-body{background:linear-gradient(180deg,#f5f8ff 0%,#f7faff 55%,#eef4fc 100%)}
-.card,.kpi,.dash-kpi,.dash-card,.feature,.customer-manager,.history-item,.list-row,.finance-notice{border-radius:18px}
-.card,.kpi,.dash-kpi,.dash-card,.customer-manager{box-shadow:0 9px 26px rgba(22,55,110,.065);border-color:var(--fak-line)}
-.btn{border-radius:12px;min-height:40px}
-input,select,textarea{border-color:#cbd9ee;transition:border-color .18s,box-shadow .18s}
-input:focus,select:focus,textarea:focus{outline:none;border-color:#4f83e8;box-shadow:0 0 0 3px #3b82f61c}
-.faktorino-drawer{background:linear-gradient(180deg,#f8faff,#eff5ff);}
-.drawer-links a{border:1px solid #dce7f7!important;border-radius:15px!important;background:#fff!important;box-shadow:0 4px 12px #173e7a0b;transition:transform .18s,box-shadow .18s,border-color .18s!important}
-.drawer-links a:hover{transform:translateY(-2px);border-color:#9fc0f5!important;box-shadow:0 9px 18px #173e7a16}
-.drawer-links a.active{background:linear-gradient(115deg,#2459d6,#087fb9)!important;color:#fff!important;border-color:transparent!important;box-shadow:0 8px 18px #2459d638!important}
-.drawer-arrow-controls{position:absolute;left:12px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:14px;pointer-events:none}
-.drawer-arrow-btn{pointer-events:auto;width:48px;height:48px;border-radius:50%;border:1px solid #cfe0ff;background:linear-gradient(145deg,#fff,#f0f6ff);color:#1764db;font-size:31px;font-weight:900;line-height:1;display:grid;place-items:center;box-shadow:0 6px 18px #1d4ed81c;cursor:pointer;touch-action:manipulation;transition:transform .16s,background .16s,box-shadow .16s}
-.drawer-arrow-btn:active{transform:scale(.94);background:#eaf2ff;box-shadow:0 2px 8px #1d4ed81c}
-/* فضای کافی برای فلش‌ها؛ اسکرول عمودی طبیعی در موبایل و دسکتاپ */
-#faktorinoDrawer{position:fixed!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;touch-action:pan-y!important}
-#faktorinoDrawer .drawer-links{padding-left:68px!important;padding-right:18px!important;overflow:visible!important;touch-action:pan-y!important}
-#faktorinoDrawer .drawer-links a{flex:0 0 auto!important}
-@media(max-width:420px){.drawer-arrow-controls{left:8px;gap:12px}.drawer-arrow-btn{width:42px;height:42px;font-size:28px}#faktorinoDrawer .drawer-links{padding-left:58px!important;padding-right:12px!important}}
-@media(prefers-reduced-motion:reduce){.drawer-arrow-btn,.drawer-links a{transition:none!important}}
-</style>
-<script id="faktorino-drawer-arrow-controls-js">
-function scrollFaktorinoDrawer(direction){
-  var drawer=document.getElementById('faktorinoDrawer');
-  if(!drawer)return;
-  var amount=Math.max(220,Math.floor(drawer.clientHeight*0.62));
-  drawer.scrollBy({top:direction*amount,behavior:'smooth'});
-}
-</script>
-
-<style id="faktorino-arrows-scroll-with-menu-v2">
-/* فلش‌ها جزئی از محتوای منو هستند و همراه آن بالا و پایین می‌روند */
-#faktorinoDrawer .drawer-links{position:relative!important;}
-#faktorinoDrawer .drawer-arrow-controls{position:absolute!important;left:8px!important;right:auto!important;top:250px!important;transform:none!important;z-index:5!important;display:flex!important;flex-direction:column!important;gap:14px!important;pointer-events:none!important;}
-#faktorinoDrawer .drawer-arrow-btn{pointer-events:auto!important;}
-@media(max-width:420px){#faktorinoDrawer .drawer-arrow-controls{left:7px!important;top:220px!important;gap:12px!important;}}
-</style>
-<script id="faktorino-arrows-scroll-with-menu-js">
-(function(){
- function moveArrowsIntoMenu(){
-  var drawer=document.getElementById('faktorinoDrawer');
-  if(!drawer)return;
-  var controls=drawer.querySelector('.drawer-arrow-controls');
-  var links=drawer.querySelector('.drawer-links');
-  if(controls&&links&&controls.parentElement!==links)links.insertBefore(controls,links.firstChild);
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',moveArrowsIntoMenu,{once:true});else moveArrowsIntoMenu();
-})();
-</script>
 
 </body>
 </html>
