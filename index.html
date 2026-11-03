@@ -1345,7 +1345,7 @@ body.drawer-open{overflow:hidden!important}
     <div class="kpi"><div>وضعیت حساب</div><b id="securityAccountStatus">—</b><small id="securityAccountSub">—</small></div>
     <div class="kpi"><div>آخرین ورود</div><b id="securityLastLogin">—</b><small>روی همین دستگاه</small></div>
     <div class="kpi"><div>قفل خودکار</div><b id="securityLockStatus">—</b><small>برای حفاظت هنگام ترک دستگاه</small></div>
-    <div class="kpi"><div>نسخه امنیت</div><b>v24</b><small>حساب محلی + کنترل نشست</small></div>
+    <div class="kpi"><div>نسخه امنیت</div><b>v13</b><small>حساب محلی + Passkey دستگاه</small></div>
   </div>
   <div class="card" style="margin-top:18px">
     <h3>👤 اطلاعات حساب</h3>
@@ -1379,14 +1379,14 @@ body.drawer-open{overflow:hidden!important}
   </div>
   <div class="card" style="margin-top:18px;border:1px solid #bfdbfe;background:linear-gradient(145deg,#f8fbff,#eef6ff)">
     <h3>🔐 ورود با اثر انگشت یا چهره</h3>
-    <p class="small-note">روی این دستگاه یک کلید عبور (Passkey) بساز تا دفعه بعد با حسگر اثر انگشت، تشخیص چهره یا قفل دستگاه وارد شوی.</p>
+    <p class="small-note">روی همین دستگاه یک Passkey ثبت کن. در ورودهای بعدی، گوشی یا رایانه با اثر انگشت، تشخیص چهره یا قفل صفحه هویتت را تأیید می‌کند. این قابلیت فقط روی همین مرورگر/دستگاه ذخیره می‌شود و به HTTPS و پشتیبانی مرورگر نیاز دارد.</p>
     <button class="btn" type="button" onclick="registerBiometric()">فعال‌سازی ورود بیومتریک روی این دستگاه</button>
     <button class="btn gray" type="button" onclick="removeBiometric()" style="margin-right:8px">غیرفعال‌سازی</button>
     <p id="biometricStatus" class="small-note" aria-live="polite"></p>
   </div>
   <div class="card" style="margin-top:18px;border-color:#fecaca;background:#fffafa">
     <h3>⚠️ نکته امنیتی</h3>
-    <p class="small-note">رمز حساب محلی این نسخه در مرورگر به‌صورت هش‌شده نگهداری می‌شود؛ با این حال امنیت کامل حساب و داده‌های ابری به تنظیمات واقعی Backend و احراز هویت Supabase وابسته است. رمز را با دیگران به اشتراک نگذار.</p>
+    <p class="small-note">نکته مهم: این نسخه Passkey را برای بازکردن حساب محلی همین دستگاه به کار می‌برد. برای احراز هویت امن حساب ابری و استفاده چنددستگاهی، سرور باید challenge و امضای WebAuthn را نیز بررسی کند؛ صرفاً تأیید مرورگر جایگزین بررسی سرور نیست.</p>
   </div>
 </section>
 <section id="auth" class="container" style="display:none">
@@ -1416,7 +1416,7 @@ body.drawer-open{overflow:hidden!important}
  <small class="auth-code-hint">برای تأیید ثبت‌نام، کد نمایش‌داده‌شده را وارد کن. با زدن «چرخش کد» کد دیگری نمایش داده می‌شود.</small>
 </div>
 <button class="btn green" onclick="submitAuth()">ادامه</button>
-<button id="biometricLoginButton" class="btn gray" type="button" onclick="loginWithBiometric()" style="display:none;width:100%;margin-top:10px">♧ ورود با اثر انگشت یا تشخیص چهره</button>
+<button id="biometricLoginButton" class="btn gray" type="button" onclick="loginWithBiometric()" style="display:none;width:100%;margin-top:10px">🔐 ورود با اثر انگشت / چهره / قفل گوشی</button>
 <p class="small-note">ثبت‌نام و ورود فقط با نام، شماره موبایل و رمز عبور انجام می‌شود. ایمیل و پیامک لازم نیست. رمز عبور به‌صورت رمزنگاری‌شده در مرورگر این دستگاه نگهداری می‌شود.</p>
 </div></section>
 <div class="container">
@@ -2180,87 +2180,59 @@ async function unlockApp(){
  }
 }
 
-// ورود سریع محلی با Passkey/حسگر خود دستگاه (WebAuthn)
-const FAKTORINO_BIOMETRIC_KEY="faktorino_biometric_v1";
+// ورود بیومتریک امن با اعتبارسنجی WebAuthn در سرور
+const FAKTORINO_BIOMETRIC_KEY="faktorino_biometric_server_v1";
 function biometricSupported(){
- return !!(window.isSecureContext && window.PublicKeyCredential && navigator.credentials);
+ return !!(window.isSecureContext && window.PublicKeyCredential && navigator.credentials && typeof navigator.credentials.create==="function" && typeof navigator.credentials.get==="function");
 }
-function base64UrlFromBytes(bytes){
- let s="";new Uint8Array(bytes).forEach(b=>s+=String.fromCharCode(b));
- return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+async function biometricPlatformAvailable(){
+ if(!biometricSupported())return false;
+ try{return typeof PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable!=="function" || await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()}catch(e){return false}
 }
-function bytesFromBase64Url(value){
- const s=value.replace(/-/g,"+").replace(/_/g,"/");
- const raw=atob(s+"===".slice((s.length+3)%4));
- return Uint8Array.from(raw,c=>c.charCodeAt(0));
-}
-function hasBiometricCredential(){
- try{return !!JSON.parse(localStorage.getItem(FAKTORINO_BIOMETRIC_KEY)||"null")}catch(e){return false}
-}
-function biometricMessage(message){
- const el=document.getElementById("biometricStatus");
- if(el)el.textContent=message;
- else alert(message);
-}
+function base64UrlFromBytes(bytes){let s="";new Uint8Array(bytes).forEach(b=>s+=String.fromCharCode(b));return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"")}
+function bytesFromBase64Url(value){const s=String(value||"").replace(/-/g,"+").replace(/_/g,"/");return Uint8Array.from(atob(s+"=".repeat((4-s.length%4)%4)),c=>c.charCodeAt(0))}
+function readBiometricCredential(){try{return JSON.parse(localStorage.getItem(FAKTORINO_BIOMETRIC_KEY)||"null")}catch(e){return null}}
+function hasBiometricCredential(){return !!readBiometricCredential()}
+function biometricMessage(message){const el=document.getElementById("biometricStatus");if(el)el.textContent=message;else alert(message)}
+async function bioApi(path,body){const r=await fetch("/api/webauthn/"+path,{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify(body||{})});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||"ارتباط امن با سرور برقرار نشد.");return j}
+async function updateBiometricAvailability(){const status=document.getElementById("biometricStatus"),btn=document.getElementById("biometricLoginButton");if(!biometricSupported()){if(status)status.textContent="برای ورود با اثر انگشت، سایت باید روی HTTPS و مرورگر سازگار باز شود.";if(btn)btn.style.display="none";return false}const available=await biometricPlatformAvailable();if(status&&!hasBiometricCredential())status.textContent=available?"این دستگاه آماده ثبت Passkey است. ابتدا با رمز وارد شو و فعال‌سازی را بزن.":"قفل بیومتریک سازگار در این دستگاه پیدا نشد.";refreshBiometricLoginButton();return available}
 async function registerBiometric(){
- if(!currentUser){alert("ابتدا وارد حساب خودت شو.");return}
- if(!biometricSupported()){
-  alert("این مرورگر یا دستگاه از Passkey پشتیبانی نمی‌کند یا سایت باید با HTTPS باز شود.");
-  return;
- }
+ if(!currentUser){alert("ابتدا با رمز عبور وارد حساب خودت شو.");return}
+ if(!biometricSupported()){biometricMessage("برای ثبت اثر انگشت، سایت باید روی HTTPS اجرا شود.");return}
+ if(!await biometricPlatformAvailable()){biometricMessage("قفل صفحه یا حسگر بیومتریک سازگار در دسترس نیست.");return}
  try{
-  const challenge=crypto.getRandomValues(new Uint8Array(32));
-  const userId=crypto.getRandomValues(new Uint8Array(16));
-  const credential=await navigator.credentials.create({publicKey:{
-   challenge,rp:{name:"فاکتورینو",id:location.hostname},
-   user:{id:userId,name:currentUser.phone||"faktorino-user",displayName:currentUser.name||"کاربر فاکتورینو"},
-   pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],
-   authenticatorSelection:{authenticatorAttachment:"platform",residentKey:"preferred",userVerification:"required"},
-   timeout:60000,attestation:"none"
-  }});
-  if(!credential)throw new Error("ساخت Passkey کامل نشد.");
-  localStorage.setItem(FAKTORINO_BIOMETRIC_KEY,JSON.stringify({
-   credentialId:base64UrlFromBytes(credential.rawId),accountId:currentUser.id,
-   phone:currentUser.phone||"",createdAt:new Date().toISOString()
-  }));
-  biometricMessage("ورود بیومتریک روی این دستگاه فعال شد. دفعه بعد می‌توانی از دکمه ورود بیومتریک استفاده کنی.");
- }catch(e){
-  console.error("Passkey registration:",e);
-  alert("فعال‌سازی انجام نشد: "+(e.name==="NotAllowedError"?"عملیات لغو شد یا دستگاه قفل/حسگر را تأیید نکرد.":(e.message||"خطای Passkey")));
- }
+  const options=await bioApi("registration-options",{userId:String(currentUser.id),username:String(currentUser.phone||currentUser.id),displayName:String(currentUser.name||"کاربر فاکتورینو")});
+  options.challenge=bytesFromBase64Url(options.challenge);options.user.id=bytesFromBase64Url(options.user.id);
+  if(options.excludeCredentials)options.excludeCredentials=options.excludeCredentials.map(x=>({...x,id:bytesFromBase64Url(x.id)}));
+  const credential=await navigator.credentials.create({publicKey:options});
+  const response={id:credential.id,rawId:base64UrlFromBytes(credential.rawId),type:credential.type,response:{clientDataJSON:base64UrlFromBytes(credential.response.clientDataJSON),attestationObject:base64UrlFromBytes(credential.response.attestationObject),transports:credential.response.getTransports?credential.response.getTransports():[]},clientExtensionResults:credential.getClientExtensionResults()};
+  const verified=await bioApi("registration-verify",{userId:String(currentUser.id),response});
+  if(!verified.verified)throw new Error("تأیید ثبت Passkey در سرور انجام نشد.");
+  localStorage.setItem(FAKTORINO_BIOMETRIC_KEY,JSON.stringify({accountId:currentUser.id,createdAt:new Date().toISOString()}));
+  biometricMessage("ورود امن این دستگاه ثبت شد. دفعه بعد می‌توانی با اثر انگشت یا قفل دستگاه وارد شوی.");refreshBiometricLoginButton();
+ }catch(e){console.error(e);biometricMessage("ثبت اثر انگشت انجام نشد: "+(e.message||"خطای نامشخص"))}
 }
 async function loginWithBiometric(){
- if(!biometricSupported()){
-  alert("ورود بیومتریک در این مرورگر در دسترس نیست؛ با رمز عبور وارد شو.");
-  return;
- }
- let saved;
- try{saved=JSON.parse(localStorage.getItem(FAKTORINO_BIOMETRIC_KEY)||"null")}catch(e){}
- if(!saved?.credentialId){alert("برای این دستگاه Passkey ثبت نشده است. ابتدا با رمز وارد شو و از بخش امنیت فعالش کن.");return}
+ if(!biometricSupported()){alert("برای ورود بیومتریک، سایت را با HTTPS باز کن.");return}
+ const saved=readBiometricCredential();if(!saved){alert("ابتدا با رمز وارد شو و Passkey این دستگاه را ثبت کن.");return}
  try{
-  const assertion=await navigator.credentials.get({publicKey:{
-   challenge:crypto.getRandomValues(new Uint8Array(32)),
-   rpId:location.hostname,
-   allowCredentials:[{type:"public-key",id:bytesFromBase64Url(saved.credentialId)}],
-   userVerification:"required",timeout:60000
-  }});
-  if(!assertion || base64UrlFromBytes(assertion.rawId)!==saved.credentialId)throw new Error("کلید عبور با حساب ثبت‌شده مطابقت ندارد.");
-  const account=getLocalAccounts().find(a=>a.id===saved.accountId);
-  if(!account)throw new Error("حساب ذخیره‌شده پیدا نشد. با شماره و رمز وارد شو.");
-  localStorage.setItem("faktorino_active_account_v11",account.id);
-  currentUser={id:account.id,name:account.name,phone:account.phone,email:""};
-  localStorage.setItem("faktorino_current_v10","1");
-  const sec=getSecuritySettings();sec.lastLogin=new Date().toISOString();saveSecuritySettings(sec);
-  unlockApp();
- }catch(e){
-  console.error("Passkey login:",e);
-  alert("ورود بیومتریک انجام نشد: "+(e.name==="NotAllowedError"?"تأیید لغو شد یا زمان آن تمام شد.":(e.message||"خطای ورود")));
- }
+  const options=await bioApi("authentication-options",{userId:String(saved.accountId)});
+  options.challenge=bytesFromBase64Url(options.challenge);if(options.allowCredentials)options.allowCredentials=options.allowCredentials.map(x=>({...x,id:bytesFromBase64Url(x.id)}));
+  const assertion=await navigator.credentials.get({publicKey:options});
+  const response={id:assertion.id,rawId:base64UrlFromBytes(assertion.rawId),type:assertion.type,response:{clientDataJSON:base64UrlFromBytes(assertion.response.clientDataJSON),authenticatorData:base64UrlFromBytes(assertion.response.authenticatorData),signature:base64UrlFromBytes(assertion.response.signature),userHandle:assertion.response.userHandle?base64UrlFromBytes(assertion.response.userHandle):null},clientExtensionResults:assertion.getClientExtensionResults()};
+  const result=await bioApi("authentication-verify",{userId:String(saved.accountId),response});if(!result.verified)throw new Error("تأیید هویت در سرور ناموفق بود.");
+  const account=getLocalAccounts().find(a=>String(a.id)===String(saved.accountId));if(!account)throw new Error("حساب محلی پیدا نشد؛ با رمز عبور وارد شو.");
+  localStorage.setItem("faktorino_active_account_v11",account.id);currentUser={id:account.id,name:account.name,phone:account.phone,email:account.email||""};localStorage.setItem("faktorino_current_v10","1");const sec=getSecuritySettings();sec.lastLogin=new Date().toISOString();saveSecuritySettings(sec);await unlockApp();
+ }catch(e){console.error(e);alert("ورود بیومتریک انجام نشد: "+(e.message||"خطای نامشخص"))}
 }
+
 function removeBiometric(){
+ const saved=readBiometricCredential();
+ if(saved&&saved.accountId){fetch("/api/webauthn/remove",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify({userId:String(saved.accountId)})}).catch(()=>{});}
  localStorage.removeItem(FAKTORINO_BIOMETRIC_KEY);
- biometricMessage("ورود بیومتریک از این مرورگر حذف شد. برای ورود از رمز عبور استفاده کن.");
- const btn=document.getElementById("biometricLoginButton");if(btn)btn.style.display="none";
+ localStorage.removeItem("faktorino_biometric_v1");
+ biometricMessage("Passkey این دستگاه حذف شد. برای ورود از رمز عبور استفاده کن.");
+ refreshBiometricLoginButton();
 }
 
 async function submitAuth(){
@@ -3124,6 +3096,9 @@ body.drawer-open{overflow:hidden!important;touch-action:none}
 })();
 </script>
 
+
+// به‌روزرسانی وضعیت Passkey پس از آماده‌شدن صفحه
+document.addEventListener("DOMContentLoaded",()=>{updateBiometricAvailability().catch(()=>{});});
 </body>
 </html>
 <script>document.addEventListener("DOMContentLoaded",()=>{try{initCustomers()}catch(e){console.error(e)}});
