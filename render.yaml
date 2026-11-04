@@ -2,7 +2,7 @@ services:
   - type: web
     name: faktorino-webauthn
     runtime: node
-    plan: free
+    plan: starter
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /health
@@ -16,6 +16,10 @@ services:
       - key: RP_ID
         value: mkl173132-dotcom.github.io
       - key: DATA_DIR
-        value: /tmp/faktorino-data
+        value: /var/data/faktorino-data
       - key: RP_NAME
         value: فاکتورینو
+    disk:
+      name: faktorino-data
+      mountPath: /var/data
+      sizeGB: 1
