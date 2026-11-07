@@ -1967,6 +1967,142 @@ body.drawer-open{overflow:hidden!important;touch-action:auto!important}
 @media(prefers-reduced-motion:reduce){.fk-settings-list{transition:none!important}}
 </style>
 
+
+<style id="faktorino-premium-upgrade">
+:root{
+ --fk-ink:#172b4d;--fk-muted:#71819a;--fk-line:#dce6f2;
+ --fk-blue:#1769e8;--fk-blue2:#0e4fb8;--fk-teal:#0f9b82;
+ --fk-glass:rgba(255,255,255,.86);--fk-shadow:0 14px 38px rgba(30,64,112,.09);
+}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{
+ background:
+ radial-gradient(ellipse at 8% 4%,rgba(56,189,248,.13),transparent 34%),
+ radial-gradient(ellipse at 94% 24%,rgba(16,185,129,.11),transparent 30%),
+ linear-gradient(145deg,#f4f8ff 0%,#edf4fb 48%,#f6f9fc 100%);
+ color:var(--fk-ink);line-height:1.75;letter-spacing:-.12px;
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.28;
+ background-image:radial-gradient(#9db4d1 .65px,transparent .65px);background-size:18px 18px}
+header{background:linear-gradient(115deg,#103e83,#1769e8 58%,#148f9a);box-shadow:0 8px 28px #17477c24}
+.nav{padding-top:13px;padding-bottom:13px}
+.logo{letter-spacing:-.8px;text-shadow:0 2px 12px #001b4c35}
+.container{max-width:1240px}
+.card,.pro-note,.customer-card,.history-stat,.soon-item{
+ border:1px solid rgba(202,218,237,.9)!important;
+ background:var(--fk-glass)!important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+ border-radius:22px!important;box-shadow:var(--fk-shadow);
+}
+.card{padding:clamp(16px,2.2vw,27px)}
+.card h2,.card h3{color:#18375f;letter-spacing:-.45px}
+.section-head{gap:14px}
+.btn,button,.prof-action{
+ transition:transform .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease;
+}
+.btn{border-radius:13px;font-weight:700;box-shadow:0 5px 14px rgba(23,105,232,.10)}
+.btn:hover,.prof-action:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(23,75,145,.14)}
+.btn:active,.prof-action:active{transform:translateY(0) scale(.985)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+ outline:3px solid rgba(23,105,232,.25);outline-offset:2px
+}
+.field{gap:7px}
+.field label{font-weight:800;color:#344b6b;font-size:13px}
+input,select,textarea{
+ border:1px solid #d6e1ef!important;border-radius:13px!important;
+ background:rgba(255,255,255,.92)!important;color:#1c3558!important;
+ min-height:44px;transition:border-color .18s,box-shadow .18s,background .18s;
+}
+input:hover,select:hover,textarea:hover{border-color:#a9c4e7!important}
+input:focus,select:focus,textarea:focus{border-color:#4e91e8!important;box-shadow:0 0 0 4px rgba(23,105,232,.09)!important;background:#fff!important}
+textarea{line-height:1.9;resize:vertical}
+table{border-collapse:separate;border-spacing:0}
+th{background:#edf4fc;color:#29496f;font-weight:800}
+td,th{border-color:#e1eaf4}
+.table-wrap{border:1px solid #e0e9f4;border-radius:17px;overflow:auto;background:#fff}
+#itemsTable{min-width:760px}
+#itemsTable th{padding:14px 12px;white-space:nowrap}
+#itemsTable td{padding:10px 8px;background:rgba(255,255,255,.82)}
+#itemsTable tbody tr:hover td{background:#f5f9ff}
+#itemsTable input,#itemsTable select{min-width:82px}
+#itemsTable .item-name{min-width:180px}
+#itemsTable .item-total{font-weight:900;color:#174e91;white-space:nowrap}
+#itemsTable .btn.red{background:#fff1f2;color:#be3445;border:1px solid #ffd6dc}
+#invoice{scroll-margin-top:84px}
+#invoice>.card:first-of-type{position:relative;overflow:hidden}
+#invoice>.card:first-of-type:before{
+ content:"";position:absolute;top:0;right:0;left:0;height:4px;
+ background:linear-gradient(90deg,#13a68c,#2384ee,#745ce8)
+}
+.invoice-intro{
+ display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;
+ margin:16px 0 20px;padding:20px 22px;border:1px solid #d8e7f7;border-radius:18px;
+ background:linear-gradient(115deg,rgba(235,245,255,.94),rgba(235,251,247,.92));
+}
+.invoice-intro-copy{display:grid;gap:3px}
+.invoice-eyebrow{font-size:10px;font-weight:900;letter-spacing:1.5px;color:#2780ba;direction:ltr;text-align:right}
+.invoice-intro-copy strong{font-size:18px;color:#173d68}
+.invoice-intro-copy p{margin:0;color:#667b95;font-size:12px}
+.invoice-steps{display:flex;align-items:center;gap:9px;flex-wrap:wrap;color:#47617e;font-size:12px;font-weight:800}
+.invoice-steps span{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.invoice-steps b{display:grid;place-items:center;width:27px;height:27px;border-radius:9px;background:#fff;color:#1769e8;box-shadow:0 3px 10px #1b5ea51a}
+.invoice-steps i{width:20px;height:1px;background:#bdd2e8}
+#invoice .invoice-meta,#invoice .grid{gap:17px}
+#invoice .invoice-meta{margin-top:8px}
+#invoice .field{min-width:0}
+#invoice .pro-toolbar{margin:15px 0 18px;gap:8px}
+#invoice .pro-chip{border:1px solid #d9e8f8;background:#f4f9ff;color:#31577e;border-radius:999px;padding:7px 12px;font-weight:700}
+#advancedInvoicePanel{border-color:#d9e6f4!important}
+#advancedInvoicePanel h2{display:flex;align-items:center;gap:8px}
+#invoice .total{border:1px solid #e3ebf4;border-radius:12px;padding:11px 14px;margin:7px 0;background:rgba(247,250,254,.9)}
+#invoice .final-total{background:linear-gradient(110deg,#e8f2ff,#e8faf5);border:1px solid #bcd8f2}
+#invoice .final-total b{font-size:clamp(18px,2.5vw,24px);color:#0759b5}
+#invoice .amount-words{margin-top:12px;padding:13px 15px;border-radius:13px;background:#f2f7fd;color:#375576;border:1px dashed #c9d9ec}
+#invoice .card+.card{margin-top:18px}
+#invoice .actions,#invoice .prof-actionbar{gap:10px}
+.prof-actionbar{padding:14px;border:1px solid #dce7f3;border-radius:18px;background:rgba(248,251,255,.88)}
+.prof-action{border-radius:14px!important}
+.action-status{border-radius:12px;padding:11px 14px}
+.quick-status .mini{border-radius:14px;border:1px solid #deebf7;background:#fff}
+#history .history-stat{padding:15px}
+.soon-item{transition:transform .2s,box-shadow .2s}
+.soon-item:hover{transform:translateY(-3px);box-shadow:0 18px 36px #244b751c}
+.faktorino-drawer .drawer-links a{
+ min-height:54px!important;padding:11px 14px!important;border:1px solid #d9e5f3!important;
+ border-radius:16px!important;background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(246,250,255,.92))!important;
+ color:#294568!important;box-shadow:0 5px 15px rgba(30,64,112,.065),inset 0 1px 0 #fff!important;
+ font-weight:850!important;letter-spacing:-.15px
+}
+.faktorino-drawer .drawer-links a:before{
+ width:5px!important;height:25px!important;border-radius:8px!important;
+ background:linear-gradient(180deg,#69b8f2,#71d6b5)!important;opacity:.9
+}
+.faktorino-drawer .drawer-links a:hover{
+ border-color:#9dc3ee!important;background:linear-gradient(145deg,#fff,#edf6ff)!important;
+ box-shadow:0 9px 22px rgba(30,88,150,.12)!important;transform:translateY(-2px)!important
+}
+.faktorino-drawer .drawer-links a.active,.faktorino-drawer .drawer-links a.nav-primary.active{
+ background:linear-gradient(120deg,#0b9468,#0ba982)!important;border-color:#74d9b6!important;
+ color:#fff!important;box-shadow:0 8px 20px rgba(5,140,100,.22)!important
+}
+.faktorino-drawer .drawer-links a.active:before{background:linear-gradient(180deg,#d7fff0,#fff)!important}
+@media(max-width:700px){
+ .container{padding:14px 12px}
+ .card{border-radius:17px!important;padding:15px}
+ .invoice-intro{padding:15px;gap:13px}
+ .invoice-intro-copy strong{font-size:16px}
+ .invoice-steps{gap:6px;font-size:11px}
+ .invoice-steps i{width:10px}
+ #invoice .invoice-meta,#invoice .grid{grid-template-columns:1fr!important}
+ #invoice .field[style*="grid-column"]{grid-column:auto!important}
+ #invoice .total{padding:10px 11px}
+ .prof-actionbar{display:grid;grid-template-columns:1fr 1fr}
+ .prof-action{min-width:0}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
+</style>
+
 </head>
 
 <body>
@@ -2225,9 +2361,18 @@ body.drawer-open{overflow:hidden!important;touch-action:auto!important}
     <div class="soon-item"><div style="font-size:25px">🔁</div><b>فاکتور دوره‌ای</b><span>صدور خودکار فاکتورهای ماهانه و هفتگی برای مشتریان ثابت.</span></div>
     <div class="soon-item available-item" data-open-section="inventory" role="button" tabindex="0"><div style="font-size:25px">📦</div><b>انبار هوشمند</b><div class="available-status">✓ اضافه شده</div><span>موجودی کالا، هشدار کمبود و گردش کالا.</span></div>
     <div class="soon-item available-item" data-open-section="report" role="button" tabindex="0"><div style="font-size:25px">📈</div><b>تحلیل هوشمند فروش</b><div class="available-status">✓ اضافه شده</div><span>پرفروش‌ترین کالاها، مشتریان برتر و روند فروش.</span></div>
-    <div class="soon-item"><div style="font-size:25px">📱</div><b>اپلیکیشن موبایل</b><span>نسخه موبایل سریع و ساده برای صدور فاکتور در هرجا.</span></div>
+    <div class="soon-item available-item" data-open-section="mobileApp" role="button" tabindex="0" aria-label="مشاهده و نصب اپلیکیشن موبایل"><div style="font-size:25px">📱</div><b>اپلیکیشن موبایل</b><div class="available-status">✓ اضافه شده</div><span>نصب فاکتورینو روی گوشی و استفاده سریع، حتی از صفحه اصلی.</span></div>
     <div class="soon-item available-item" data-open-section="send" role="button" tabindex="0"><div style="font-size:25px">🌐</div><b>لینک اختصاصی فاکتور</b><div class="available-status">✓ اضافه شده</div><span>ارسال لینک امن فاکتور برای مشتری و مشاهده آنلاین.</span></div>
   </div>
+</section>
+
+<section id="mobileApp" class="card fk-mobile-app-section" style="display:none">
+<div class="fk-mobile-hero"><div class="fk-mobile-app-icon" aria-hidden="true">📱</div><div class="fk-mobile-hero-copy"><span class="fk-mobile-eyebrow">FAKTORINO MOBILE</span><h2>اپلیکیشن موبایل فاکتورینو</h2><p>فاکتورینو را روی صفحه اصلی گوشی نصب کن تا مثل یک اپلیکیشن مستقل، سریع و همیشه در دسترس باشد.</p><span class="fk-mobile-ready"><i></i> آماده استفاده روی موبایل</span></div></div>
+<div class="fk-mobile-install-panel"><div class="fk-mobile-install-copy"><h3>نصب فاکتورینو روی گوشی</h3><p id="fkMobileInstallStatus">با توجه به مرورگر و دستگاهت، روش نصب مناسب نمایش داده می‌شود.</p></div><button type="button" class="btn green fk-mobile-install-btn" id="fkMobileInstallBtn" onclick="faktorinoInstallApp()">＋ نصب اپلیکیشن</button></div>
+<div class="fk-mobile-methods">
+<article class="fk-mobile-method"><div class="fk-mobile-method-icon">🤖</div><h3>اندروید</h3><ol><li>فاکتورینو را با Chrome باز کن.</li><li>روی «نصب اپلیکیشن» بزن؛ یا از منوی سه‌نقطه، گزینه «Install app» یا «افزودن به صفحه اصلی» را انتخاب کن.</li><li>نصب را تأیید کن تا آیکون فاکتورینو به گوشی اضافه شود.</li></ol></article>
+<article class="fk-mobile-method"><div class="fk-mobile-method-icon">🍎</div><h3>آیفون و آیپد</h3><ol><li>این صفحه را در مرورگر Safari باز کن.</li><li>دکمه Share یا اشتراک‌گذاری را بزن.</li><li>گزینه Add to Home Screen یا «افزودن به صفحه اصلی» را انتخاب و تأیید کن.</li></ol></article></div>
+<div class="fk-mobile-note"><span>🔒</span><p><b>نکته مهم:</b> نصب، نسخه جداگانه‌ای از اطلاعات نمی‌سازد؛ فاکتورینو همان برنامه و حساب کاربری شماست. برای نصب از طریق مرورگر، سایت باید با اتصال امن HTTPS باز شده باشد.</p></div>
 </section>
 
 <section id="invoice">
@@ -2256,6 +2401,10 @@ body.drawer-open{overflow:hidden!important;touch-action:auto!important}
 
 <div class="card">
 <h2>🧾 ایجاد فاکتور <span id="draftBadge" class="draft-badge" style="display:none">پیش‌نویس ذخیره شد</span></h2>
+<div class="invoice-intro no-print">
+ <div class="invoice-intro-copy"><span class="invoice-eyebrow">FAKTORINO • INVOICE STUDIO</span><strong>صدور فاکتور، دقیق و حرفه‌ای</strong><p>اطلاعات طرفین را ثبت کن، کالاها و خدمات را اضافه کن و پیش از ذخیره، مبلغ نهایی را بررسی کن.</p></div>
+ <div class="invoice-steps"><span><b>۱</b> اطلاعات</span><i></i><span><b>۲</b> اقلام</span><i></i><span><b>۳</b> بررسی و ثبت</span></div>
+</div>
 <div class="pro-toolbar no-print">
 <span class="pro-chip">نسخه حرفه‌ای فاکتور</span><span class="pro-chip">محاسبه خودکار</span><span class="pro-chip">آماده چاپ A4/A5</span>
 </div>
@@ -3182,7 +3331,8 @@ async function runInvoiceAction(btn,action){
  try{
   if(action==="save"){
    setActionStatus("در حال ذخیره فاکتور...","info");
-   await saveInvoice();
+   const saved=await saveInvoice();
+   if(saved===false){setActionStatus("ذخیره انجام نشد؛ اطلاعات را بررسی کن.","error");return;}
    setActionStatus("فاکتور با موفقیت ذخیره شد ✓","success");
   }else if(action==="duplicate"){
    duplicateCurrentInvoice();
@@ -3267,17 +3417,17 @@ function renderCustomers(){
 function initCustomers(){customerCache=getLocalCustomers();renderCustomers()}
 
 async function saveInvoice(){
- if(!validateInvoiceFields())return;
- if(!currentUser){alert("ابتدا ثبت‌نام یا ورود کن.");show("auth");return}
+ if(!validateInvoiceFields())return false;
+ if(!currentUser){alert("برای ذخیره فاکتور، ابتدا وارد حساب کاربری شو یا ثبت‌نام کن.");show("auth");return false}
  const isNew=editId===null;
  if(isNew)document.getElementById("number").value=getNextInvoiceNumber();
  const i=getInvoice();
- if(!i.items.length || i.items.every(x=>!String(x.name||"").trim())){alert("حداقل یک کالا یا خدمت وارد کن.");return}
+ if(!i.items.length || i.items.every(x=>!String(x.name||"").trim())){alert("برای ثبت فاکتور، حداقل نام یک کالا یا خدمت را وارد کن.");return false}
  i.id=isNew?(crypto.randomUUID?crypto.randomUUID():`local-${Date.now()}-${Math.random().toString(36).slice(2)}`):editId;
  const list=readLocalInvoices();
  const idx=list.findIndex(x=>String(x.id)===String(i.id));
  if(idx>=0)list[idx]=i; else list.unshift(i);
- if(!writeLocalInvoices(list)){alert("فاکتور ذخیره نشد؛ ابتدا فضای مرورگر را آزاد کن یا از اطلاعات پشتیبان بگیر.");return;}
+ if(!writeLocalInvoices(list)){alert("فاکتور ذخیره نشد؛ فضای ذخیره‌سازی مرورگر کافی نیست. پس از تهیه نسخه پشتیبان، فضای مرورگر را آزاد کن.");return false;}
  invoices=list;
  if(typeof applyInvoiceStockMovements==="function")applyInvoiceStockMovements(i);
  if(typeof logAccountingActivity==="function")logAccountingActivity("ذخیره/ویرایش فاکتور",`شماره ${i.number}`);
@@ -3292,6 +3442,7 @@ async function saveInvoice(){
   }
  }catch(e){console.warn("cloud save skipped",e)}
  alert("فاکتور با موفقیت ذخیره شد و در سوابق فاکتورها قرار گرفت ✅");
+ return true;
 }
 
 function statusBadge(s){return s==="paid"?'<span class="badge-status status-paid">پرداخت کامل</span>':s==="partial"?'<span class="badge-status status-partial">پرداخت بخشی</span>':'<span class="badge-status status-pending">پرداخت نشده</span>'}
@@ -3536,7 +3687,7 @@ function show(section){
  if(document.body.classList.contains("auth-locked") && section!=="auth") section="auth";
  const sectionMap={catalog:"catalogSection"};
  const targetId=sectionMap[section]||section;
- ["invoice","dashboard","history","report","finance","customers","legacyCustomers","legacyCatalog","catalogSection","backup","send","security","team","plans","about","auth","receivables","inventory","accountingTools"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=id===targetId?"block":"none"});
+ ["invoice","dashboard","history","report","finance","customers","legacyCustomers","legacyCatalog","catalogSection","backup","send","security","team","plans","about","auth","receivables","inventory","accountingTools","mobileApp"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=id===targetId?"block":"none"});
  document.querySelectorAll('.nav-links a[data-section], .quick-access [data-section]').forEach(a=>a.classList.toggle('active',a.dataset.section===section));
  closeFaktorinoMenu();
  if(section==="dashboard")updateDashboard();if(section==="history")renderHistory();if(section==="report")updateReport();if(section==="finance")renderFinance();if(section==="customers")renderCustomers();if(section==="catalog")renderCatalog();if(section==="team")renderTeam();if(section==="backup")renderBackupInfo();if(section==="send")updateSendPanel();if(section==="security")renderSecurityPanel();if(section==="receivables")renderReceivables();if(section==="inventory")renderInventory();if(section==="accountingTools")renderAccountingTools();
@@ -4197,6 +4348,14 @@ table tbody tr:hover{background:#eff6ff}
     <div class="fk-detail-card" style="text-align:center;padding:24px 14px"><div style="font-size:42px;margin-bottom:8px">✓</div><h4 style="font-size:17px;color:#15966a">برنامه شما به‌روز است</h4><p>نسخه نصب‌شده: ${APP_VERSION}</p><p>در حال حاضر نسخه جدیدتری برای دریافت در این بخش اعلام نشده است.</p></div>`);
  };
 })();
+</script>
+
+
+<style id="faktorino-mobile-app-premium">
+.fk-mobile-app-section{overflow:hidden!important}.fk-mobile-hero{display:flex;align-items:center;gap:20px;padding:clamp(20px,4vw,34px);border-radius:22px;background:radial-gradient(circle at 8% 10%,rgba(255,255,255,.34),transparent 28%),linear-gradient(125deg,#102e67,#1769b4 58%,#0f9b83);color:#fff;position:relative;isolation:isolate}.fk-mobile-hero:after{content:"";position:absolute;width:220px;height:220px;border:1px solid #ffffff26;border-radius:50%;left:-60px;bottom:-145px;box-shadow:0 0 0 22px #ffffff0b,0 0 0 45px #ffffff08;z-index:-1}.fk-mobile-app-icon{width:82px;height:82px;flex:0 0 82px;border-radius:23px;display:grid;place-items:center;font-size:42px;background:linear-gradient(145deg,#fff,#dceaff);box-shadow:0 12px 28px #061b4c55;border:1px solid #ffffff9c}.fk-mobile-eyebrow{font-size:10px;letter-spacing:2px;font-weight:900;color:#bde9ff}.fk-mobile-hero h2{margin:5px 0 8px!important;color:#fff!important;font-size:clamp(20px,3vw,27px)!important}.fk-mobile-hero p{margin:0;color:#e8f4ff;line-height:1.9;font-size:13px;max-width:650px}.fk-mobile-ready{display:inline-flex;align-items:center;gap:7px;margin-top:13px;padding:6px 11px;border-radius:999px;background:#ffffff20;border:1px solid #ffffff40;font-size:11px;font-weight:800}.fk-mobile-ready i{width:7px;height:7px;border-radius:50%;background:#65f2b1;box-shadow:0 0 0 4px #65f2b122}.fk-mobile-install-panel{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0;padding:18px 20px;border:1px solid #cfe2f4;border-radius:18px;background:linear-gradient(120deg,#f0f8ff,#f2fffb)}.fk-mobile-install-copy h3{margin:0 0 6px;font-size:16px;color:#17365d}.fk-mobile-install-copy p{margin:0;color:#61748b;font-size:12px;line-height:1.8}.fk-mobile-install-btn{white-space:nowrap;min-width:155px}.fk-mobile-methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fk-mobile-method{padding:18px;border:1px solid #e0e9f3;border-radius:17px;background:linear-gradient(150deg,#fff,#f8fbff);box-shadow:0 7px 20px #17365d0a}.fk-mobile-method-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:#eaf3ff;font-size:22px;margin-bottom:10px}.fk-mobile-method h3{margin:0 0 9px;color:#18365b;font-size:15px}.fk-mobile-method ol{margin:0;padding-right:20px;color:#586b80;font-size:12px;line-height:2.1}.fk-mobile-note{display:flex;align-items:flex-start;gap:10px;margin-top:15px;padding:13px 15px;border-radius:14px;background:#fff9e9;border:1px solid #f4e2ae;color:#72571c;font-size:12px;line-height:1.9}.fk-mobile-note p{margin:0}@media(max-width:600px){.fk-mobile-hero{align-items:flex-start;gap:13px;padding:18px}.fk-mobile-app-icon{width:58px;height:58px;flex-basis:58px;border-radius:17px;font-size:30px}.fk-mobile-install-panel{align-items:stretch;flex-direction:column;padding:15px}.fk-mobile-install-btn{width:100%}.fk-mobile-methods{grid-template-columns:1fr}.fk-mobile-method{padding:15px}}@media(prefers-reduced-motion:reduce){.fk-mobile-app-section *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+<script id="faktorino-mobile-install">
+(function(){let installPrompt=null;const statusEl=()=>document.getElementById('fkMobileInstallStatus');const installBtn=()=>document.getElementById('fkMobileInstallBtn');function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;}function updateInstallUI(){const st=statusEl(),btn=installBtn();if(!st||!btn)return;if(isStandalone()){st.textContent='فاکتورینو روی این دستگاه نصب شده و آماده استفاده است.';btn.textContent='✓ اپلیکیشن نصب شده';btn.disabled=true;return;}btn.disabled=false;if(installPrompt){st.textContent='نصب مستقیم برای این مرورگر آماده است. دکمه زیر را بزن.';btn.textContent='＋ نصب اپلیکیشن';return;}const ua=navigator.userAgent||'';if(/iPhone|iPad|iPod/i.test(ua)){st.textContent='برای نصب در آیفون، راهنمای «آیفون و آیپد» را در پایین صفحه دنبال کن.';btn.textContent='راهنمای نصب آیفون';return;}if(!window.isSecureContext){st.textContent='برای فعال‌شدن نصب مستقیم، برنامه باید از نشانی امن HTTPS باز شود. می‌توانی از راهنمای مرورگر هم استفاده کنی.';btn.textContent='راهنمای نصب';return;}st.textContent='اگر مرورگر نصب مستقیم را پیشنهاد نداد، از منوی مرورگر گزینه «افزودن به صفحه اصلی» را انتخاب کن.';btn.textContent='راهنمای نصب';}window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;updateInstallUI();});window.addEventListener('appinstalled',()=>{installPrompt=null;updateInstallUI();});window.faktorinoInstallApp=async function(){if(isStandalone()){updateInstallUI();return;}if(installPrompt){const prompt=installPrompt;installPrompt=null;try{await prompt.prompt();const choice=await prompt.userChoice;const st=statusEl();if(st)st.textContent=choice&&choice.outcome==='accepted'?'درخواست نصب تأیید شد؛ مراحل نصب را در پنجره مرورگر کامل کن.':'نصب فعلاً انجام نشد؛ هر زمان خواستی دوباره اقدام کن.';}catch(err){const st=statusEl();if(st)st.textContent='مرورگر نتوانست پنجره نصب را باز کند؛ از راهنمای نصب پایین صفحه استفاده کن.';}updateInstallUI();return;}const ua=navigator.userAgent||'';const st=statusEl();if(st)st.textContent=/iPhone|iPad|iPod/i.test(ua)?'در Safari دکمه اشتراک‌گذاری را بزن و «افزودن به صفحه اصلی» را انتخاب کن.':'منوی سه‌نقطه مرورگر را باز کن و «Install app» یا «افزودن به صفحه اصلی» را انتخاب کن.';};document.addEventListener('DOMContentLoaded',updateInstallUI);window.addEventListener('pageshow',updateInstallUI);if(window.matchMedia){const mq=window.matchMedia('(display-mode: standalone)');if(mq.addEventListener)mq.addEventListener('change',updateInstallUI);else if(mq.addListener)mq.addListener(updateInstallUI);}updateInstallUI();})();
 </script>
 
 </body>
