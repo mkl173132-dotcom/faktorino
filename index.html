@@ -2193,6 +2193,7 @@ td,th{border-color:#e1eaf4}
     <a data-section="send" onclick="show('send')"><span class="menu-float-icon">📤</span> <span>ارسال فاکتور</span></a>
     <a data-section="history" onclick="show('history')"><span class="menu-float-icon">📚</span> <span>آرشیو فاکتورها</span></a>
     <a data-section="receivables" onclick="show('receivables')"><span class="menu-float-icon">💳</span> <span>بدهی و اقساط</span></a>
+     <a data-section="installments" onclick="show('installments')"><span class="menu-float-icon">🗓️</span> <span>دفتر مدیریت اقساط</span></a>
     <a data-section="report" onclick="show('report')"><span class="menu-float-icon">📈</span> <span>گزارش فروش</span></a>
     <a data-section="inventory" onclick="show('inventory')"><span class="menu-float-icon">📦</span> <span>انبارداری</span></a>
     <a data-section="finance" onclick="show('finance')"><span class="menu-float-icon">💹</span> <span>مدیریت مالی</span></a>
@@ -2707,7 +2708,7 @@ td,th{border-color:#e1eaf4}
 <label class="btn gray" style="display:inline-block;cursor:pointer">⬆️ بازیابی پشتیبان‌گیری<input id="backupFile" type="file" accept="application/json,.json" onchange="importBackup(event)" style="display:none"></label>
 </div>
 <div id="backupInfo" class="pro-note" style="margin-top:15px">هنوز پشتیبان‌گیری جدیدی در این دستگاه ثبت نشده است.</div>
-<div class="pro-note" style="margin-top:10px">پشتیبان‌گیری شامل فاکتورها، مشتریان، کالاها و خدمات، تنظیمات مهر و امضا و پیش‌نویس حساب فعلی است. فایل پشتیبان‌گیری را در جای امن نگهداری کن.</div>
+<div class="pro-note" style="margin-top:10px">پشتیبان‌گیری شامل فاکتورها، مشتریان، کالاها و خدمات، تنظیمات مهر و امضا، پیش‌نویس حساب و برنامه‌های اقساط و سوابق پرداخت آن‌ها است. فایل پشتیبان‌گیری را در جای امن نگهداری کن.</div>
 <div class="pro-note" style="margin-top:10px"><b>☎️ پشتیبان‌گیریی فاکتورینو: 09179690358</b><br><span class="small-note">برای راهنمایی و رفع مشکل می‌توانی با این شماره تماس بگیری.</span></div>
 </section>
 
@@ -3574,7 +3575,8 @@ function exportBackup(){
    accountingPayments:backupLocalKey(`faktorino_accounting_payments_v1_${currentUser.id}`)||[],
    accountingReturns:backupLocalKey(`faktorino_accounting_returns_v1_${currentUser.id}`)||[],
    accountingActivity:backupLocalKey(`faktorino_accounting_activity_v1_${currentUser.id}`)||[],
-   invoiceNumberSettings:backupLocalKey(`faktorino_invoice_number_settings_v1_${currentUser.id}`)||{}
+   invoiceNumberSettings:backupLocalKey(`faktorino_invoice_number_settings_v1_${currentUser.id}`)||{},
+   installmentPlans:backupLocalKey(`faktorino_installment_plans_${currentUser.id}`)||[]
  };
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json;charset=utf-8"});
  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`faktorino-backup-${todayLocal()}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);
@@ -3596,7 +3598,7 @@ async function importBackup(e){
    if(d.signatureSettings)localStorage.setItem("faktorino_signature_settings",JSON.stringify(d.signatureSettings));
    if(Array.isArray(d.team))localStorage.setItem(`faktorino_team_${currentUser.id}`,JSON.stringify(d.team));
    if(d.draft)localStorage.setItem(`faktorino_draft_${currentUser.id}`,JSON.stringify(d.draft));
-   for(const [field,suffix] of [["expenses","expenses_v30"],["inventory","inventory_v1"],["accountingPayments","accounting_payments_v1"],["accountingReturns","accounting_returns_v1"],["accountingActivity","accounting_activity_v1"],["invoiceNumberSettings","invoice_number_settings_v1"]]){
+   for(const [field,suffix] of [["expenses","expenses_v30"],["inventory","inventory_v1"],["accountingPayments","accounting_payments_v1"],["accountingReturns","accounting_returns_v1"],["accountingActivity","accounting_activity_v1"],["invoiceNumberSettings","invoice_number_settings_v1"],["installmentPlans","installment_plans"]]){
     if(d[field]!==undefined)localStorage.setItem(`faktorino_${suffix}_${currentUser.id}`,JSON.stringify(d[field]));
    }
    let ok=0, skipped=0;
@@ -3687,10 +3689,10 @@ function show(section){
  if(document.body.classList.contains("auth-locked") && section!=="auth") section="auth";
  const sectionMap={catalog:"catalogSection"};
  const targetId=sectionMap[section]||section;
- ["invoice","dashboard","history","report","finance","customers","legacyCustomers","legacyCatalog","catalogSection","backup","send","security","team","plans","about","auth","receivables","inventory","accountingTools","mobileApp"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=id===targetId?"block":"none"});
+ ["invoice","dashboard","history","report","finance","customers","legacyCustomers","legacyCatalog","catalogSection","backup","send","security","team","plans","about","auth","receivables","installments","inventory","accountingTools","mobileApp"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=id===targetId?"block":"none"});
  document.querySelectorAll('.nav-links a[data-section], .quick-access [data-section]').forEach(a=>a.classList.toggle('active',a.dataset.section===section));
  closeFaktorinoMenu();
- if(section==="dashboard")updateDashboard();if(section==="history")renderHistory();if(section==="report")updateReport();if(section==="finance")renderFinance();if(section==="customers")renderCustomers();if(section==="catalog")renderCatalog();if(section==="team")renderTeam();if(section==="backup")renderBackupInfo();if(section==="send")updateSendPanel();if(section==="security")renderSecurityPanel();if(section==="receivables")renderReceivables();if(section==="inventory")renderInventory();if(section==="accountingTools")renderAccountingTools();
+ if(section==="dashboard")updateDashboard();if(section==="history")renderHistory();if(section==="report")updateReport();if(section==="finance")renderFinance();if(section==="customers")renderCustomers();if(section==="catalog")renderCatalog();if(section==="team")renderTeam();if(section==="backup")renderBackupInfo();if(section==="send")updateSendPanel();if(section==="security")renderSecurityPanel();if(section==="receivables")renderReceivables();if(section==="installments")renderInstallments();if(section==="inventory")renderInventory();if(section==="accountingTools")renderAccountingTools();
  updateQuickStatus();
  window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -3818,6 +3820,66 @@ window.addEventListener('beforeunload',()=>{try{if(currentUser&&typeof saveDraft
  <div class="section-head"><div><h2>💳 بدهی، اقساط و دریافت‌ها</h2><p class="small-note">مانده فاکتورهای فروش را ببین و پرداخت‌های جزئی را ثبت کن.</p></div><button class="btn primary" onclick="renderReceivables()">به‌روزرسانی</button></div>
  <div class="form-grid"><label>جستجوی مشتری یا شماره فاکتور<input id="receivableSearch" oninput="renderReceivables()" placeholder="نام یا شماره فاکتور"></label><label>وضعیت<select id="receivableFilter" onchange="renderReceivables()"><option value="open">فقط مانده‌دار</option><option value="all">همه فاکتورها</option><option value="paid">تسویه‌شده</option></select></label></div>
  <div id="receivableSummary" class="dash-kpi-grid"></div><div id="receivablesList"></div>
+
+</section>
+
+<section id="installments" class="card" style="display:none">
+<div class="section-head"><div><h2>🗓️ دفتر مدیریت اقساط</h2><p class="small-note">قراردادها، سررسیدها، دریافت‌ها و مانده بدهی مشتریان را در یک دفتر مستقل مدیریت کن.</p></div><div class="actions"><button class="btn gray" type="button" onclick="renderInstallments()">به‌روزرسانی</button></div></div>
+<div class="fak-installment-panel">
+ <div class="section-head" style="margin-top:24px">
+  <div><h3>🗓️ برنامه اقساط و سررسیدها</h3><p class="small-note">برای هر مشتری برنامه اقساط بساز، پرداخت‌ها را ثبت کن و سررسیدها را پیگیری کن.</p></div>
+  <div class="actions"><button class="btn primary" type="button" onclick="openInstallmentForm()">＋ برنامه اقساط جدید</button><button class="btn gray" type="button" onclick="exportInstallmentsCsv()">خروجی CSV</button></div>
+ </div>
+ <div id="installmentKpis" class="dash-kpi-grid"></div>
+ <div class="fak-ins-overview-head"><div><h4>دفتر برنامه‌های اقساط</h4><p>نمای کلی قراردادها، میزان وصول و مانده هر برنامه</p></div><span class="fak-ins-ledger-tag">دفتر مالی</span></div>
+ <div id="installmentPlans"></div>
+ <div class="form-grid fak-installment-filters">
+  <label>جستجو<input id="installmentSearch" oninput="renderInstallments()" placeholder="مشتری، فاکتور یا توضیحات"></label>
+  <label>وضعیت<select id="installmentFilter" onchange="renderInstallments()"><option value="all">همه اقساط</option><option value="open">پرداخت‌نشده</option><option value="partial">دارای پرداخت جزئی</option><option value="paid">تسویه‌شده</option><option value="overdue">سررسیدگذشته</option><option value="soon">سررسید ۷ روز آینده</option></select></label>
+ </div>
+ <div id="installmentList"></div>
+ <div class="fak-installment-help"><b>راهنمای وضعیت‌ها:</b> سررسید گذشته با رنگ قرمز، نزدیک سررسید با رنگ نارنجی و تسویه‌شده با رنگ سبز نمایش داده می‌شود. اطلاعات این بخش در حافظه همین مرورگر و حساب کاربری فعلی ذخیره می‌شود.</div>
+ <div id="installmentFormWrap" class="modal-backdrop" style="display:none">
+  <div class="modal-card fak-installment-modal">
+   <div class="section-head"><div><h3 id="installmentFormTitle">ساخت برنامه اقساط</h3><p class="small-note">مبلغ کل را وارد کن تا اقساط به‌صورت خودکار ساخته شوند.</p></div><button class="btn" type="button" onclick="closeInstallmentForm()">✕</button></div>
+   <form id="installmentForm" onsubmit="saveInstallmentPlan(event)">
+    <div class="form-grid">
+     <label>نام مشتری *<input id="insCustomer" required maxlength="120" placeholder="نام مشتری"></label>
+     <label>شماره فاکتور / قرارداد<input id="insInvoice" maxlength="80" placeholder="مثلاً INV-1005"></label>
+     <label>مبلغ کل (تومان) *<input id="insTotal" type="number" min="1" step="1" required></label>
+     <label>تعداد اقساط *<input id="insCount" type="number" min="1" max="120" value="3" required></label>
+     <label>تاریخ اولین سررسید *<input id="insFirstDue" type="date" required></label>
+     <label>فاصله اقساط<select id="insInterval"><option value="1">ماهانه</option><option value="2">هر دو ماه</option><option value="3">سه‌ماهه</option><option value="7">هفتگی</option><option value="14">دو هفته یک‌بار</option><option value="30">هر ۳۰ روز</option></select></label>
+     <label class="fak-full">توضیحات<textarea id="insNotes" rows="2" maxlength="500" placeholder="توضیحات اختیاری"></textarea></label>
+    </div>
+    <div class="actions"><button class="btn primary" type="submit">ساخت و ذخیره اقساط</button><button class="btn" type="button" onclick="closeInstallmentForm()">انصراف</button></div>
+   </form>
+  </div>
+ </div>
+ <div id="installmentPlanEditWrap" class="modal-backdrop" style="display:none">
+  <div class="modal-card fak-installment-modal">
+   <div class="section-head"><div><h3>ویرایش مشخصات قرارداد</h3><p class="small-note">مشخصات برنامه را ویرایش کن؛ مبالغ و سوابق پرداخت اقساط تغییر نمی‌کنند.</p></div><button class="btn" type="button" onclick="closeInstallmentPlanEdit()">✕</button></div>
+   <form onsubmit="saveInstallmentPlanEdit(event)"><input type="hidden" id="insEditPlanId">
+    <div class="form-grid"><label>نام مشتری *<input id="insEditCustomer" required maxlength="120"></label><label>شماره فاکتور / قرارداد<input id="insEditInvoice" maxlength="80"></label><label class="fak-full">توضیحات<textarea id="insEditNotes" rows="3" maxlength="500"></textarea></label></div>
+    <div class="actions"><button class="btn primary" type="submit">ذخیره تغییرات</button><button class="btn" type="button" onclick="closeInstallmentPlanEdit()">انصراف</button></div>
+   </form>
+  </div>
+ </div>
+ <div id="installmentPaymentWrap" class="modal-backdrop" style="display:none">
+  <div class="modal-card fak-installment-modal">
+   <div class="section-head"><h3>ثبت پرداخت قسط</h3><button class="btn" type="button" onclick="closeInstallmentPayment()">✕</button></div>
+   <form onsubmit="saveInstallmentPayment(event)">
+    <input type="hidden" id="insPayId">
+    <div id="insPayInfo" class="fak-installment-help"></div>
+    <div class="form-grid"><label>مبلغ پرداختی (تومان) *<input id="insPayAmount" type="number" min="1" step="1" required></label><label>تاریخ پرداخت *<input id="insPayDate" type="date" required></label><label class="fak-full">روش پرداخت<select id="insPayMethod"><option>نقدی</option><option>کارت‌به‌کارت</option><option>انتقال بانکی</option><option>چک</option><option>سایر</option></select></label><label class="fak-full">یادداشت<input id="insPayNote" maxlength="250" placeholder="شماره پیگیری یا توضیح"></label></div>
+    <div class="actions"><button class="btn primary" type="submit">ثبت پرداخت</button><button class="btn" type="button" onclick="closeInstallmentPayment()">انصراف</button></div>
+   </form>
+  </div>
+ </div>
+ <div id="installmentHistoryWrap" class="modal-backdrop" style="display:none">
+  <div class="modal-card fak-installment-modal"><div class="section-head"><h3>سوابق پرداخت قسط</h3><button class="btn" onclick="closeInstallmentHistory()">✕</button></div><div id="installmentHistoryContent"></div></div>
+ </div>
+
 </section>
 <section id="inventory" class="card" style="display:none">
  <div class="section-head"><div><h2>📦 انبارداری و موجودی کالا</h2><p class="small-note">کالا، موجودی، حد هشدار و بهای خرید را ثبت کن. این اطلاعات در همین مرورگر ذخیره می‌شوند.</p></div><button class="btn primary" onclick="openInventoryForm()">➕ افزودن کالا</button></div>
@@ -4356,6 +4418,108 @@ table tbody tr:hover{background:#eff6ff}
 </style>
 <script id="faktorino-mobile-install">
 (function(){let installPrompt=null;const statusEl=()=>document.getElementById('fkMobileInstallStatus');const installBtn=()=>document.getElementById('fkMobileInstallBtn');function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;}function updateInstallUI(){const st=statusEl(),btn=installBtn();if(!st||!btn)return;if(isStandalone()){st.textContent='فاکتورینو روی این دستگاه نصب شده و آماده استفاده است.';btn.textContent='✓ اپلیکیشن نصب شده';btn.disabled=true;return;}btn.disabled=false;if(installPrompt){st.textContent='نصب مستقیم برای این مرورگر آماده است. دکمه زیر را بزن.';btn.textContent='＋ نصب اپلیکیشن';return;}const ua=navigator.userAgent||'';if(/iPhone|iPad|iPod/i.test(ua)){st.textContent='برای نصب در آیفون، راهنمای «آیفون و آیپد» را در پایین صفحه دنبال کن.';btn.textContent='راهنمای نصب آیفون';return;}if(!window.isSecureContext){st.textContent='برای فعال‌شدن نصب مستقیم، برنامه باید از نشانی امن HTTPS باز شود. می‌توانی از راهنمای مرورگر هم استفاده کنی.';btn.textContent='راهنمای نصب';return;}st.textContent='اگر مرورگر نصب مستقیم را پیشنهاد نداد، از منوی مرورگر گزینه «افزودن به صفحه اصلی» را انتخاب کن.';btn.textContent='راهنمای نصب';}window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;updateInstallUI();});window.addEventListener('appinstalled',()=>{installPrompt=null;updateInstallUI();});window.faktorinoInstallApp=async function(){if(isStandalone()){updateInstallUI();return;}if(installPrompt){const prompt=installPrompt;installPrompt=null;try{await prompt.prompt();const choice=await prompt.userChoice;const st=statusEl();if(st)st.textContent=choice&&choice.outcome==='accepted'?'درخواست نصب تأیید شد؛ مراحل نصب را در پنجره مرورگر کامل کن.':'نصب فعلاً انجام نشد؛ هر زمان خواستی دوباره اقدام کن.';}catch(err){const st=statusEl();if(st)st.textContent='مرورگر نتوانست پنجره نصب را باز کند؛ از راهنمای نصب پایین صفحه استفاده کن.';}updateInstallUI();return;}const ua=navigator.userAgent||'';const st=statusEl();if(st)st.textContent=/iPhone|iPad|iPod/i.test(ua)?'در Safari دکمه اشتراک‌گذاری را بزن و «افزودن به صفحه اصلی» را انتخاب کن.':'منوی سه‌نقطه مرورگر را باز کن و «Install app» یا «افزودن به صفحه اصلی» را انتخاب کن.';};document.addEventListener('DOMContentLoaded',updateInstallUI);window.addEventListener('pageshow',updateInstallUI);if(window.matchMedia){const mq=window.matchMedia('(display-mode: standalone)');if(mq.addEventListener)mq.addEventListener('change',updateInstallUI);else if(mq.addListener)mq.addListener(updateInstallUI);}updateInstallUI();})();
+</script>
+
+
+<style id="faktorino-installment-pro-style">
+.fak-installment-panel{margin-top:22px;padding:18px;border:1px solid rgba(100,130,180,.22);border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.76),rgba(235,243,255,.58));box-shadow:0 12px 32px rgba(30,65,120,.08)}
+.fak-installment-panel .section-head{align-items:center;gap:12px;flex-wrap:wrap}
+.fak-installment-panel .actions{display:flex;gap:8px;flex-wrap:wrap}
+.fak-installment-panel .fak-installment-filters{margin:14px 0}
+.fak-installment-panel .table-wrap{overflow-x:auto;border-radius:14px}
+.fak-installment-panel table{min-width:850px;width:100%}
+.fak-installment-panel th,.fak-installment-panel td{padding:11px 10px;vertical-align:middle}
+.fak-full{grid-column:1/-1}
+.fak-installment-help{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(80,125,190,.08);color:var(--muted,#64748b);font-size:13px;line-height:1.9}
+.fak-ins-status{display:inline-flex;padding:5px 10px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap}
+.fak-ins-status.paid{background:#dcfce7;color:#166534}.fak-ins-status.partial{background:#dbeafe;color:#1d4ed8}.fak-ins-status.overdue{background:#fee2e2;color:#b91c1c}.fak-ins-status.soon{background:#ffedd5;color:#c2410c}.fak-ins-status.open{background:#e2e8f0;color:#475569}
+.fak-installment-modal{max-width:720px;width:min(720px,94vw);max-height:90vh;overflow:auto}
+.fak-ins-actions{display:flex;gap:6px;flex-wrap:wrap}
+.fak-ins-actions .btn{padding:7px 9px;font-size:12px}
+@media(max-width:650px){.fak-installment-panel{padding:12px;margin-inline:-3px}.fak-installment-panel .section-head{align-items:stretch}.fak-installment-panel .actions .btn{flex:1}.fak-installment-modal{padding:15px}.fak-installment-panel .dash-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Classic financial ledger theme */
+.fak-installment-panel{background:linear-gradient(155deg,#fffdf8,#f7f3e9)!important;border:1px solid #d9cfb8!important;border-radius:13px!important;box-shadow:0 9px 26px rgba(52,43,25,.07)!important;color:#292b30}
+.fak-installment-panel h3,.fak-ins-overview-head h4{font-family:inherit;color:#26364b;letter-spacing:-.2px}
+.fak-installment-panel .small-note{color:#77766f}
+.fak-ins-overview-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:20px 0 10px;padding:13px 15px;border:1px solid #e2d8c3;border-right:4px solid #9a7b45;border-radius:9px;background:#f8f4ea}
+.fak-ins-overview-head h4{margin:0 0 4px;font-size:15px}.fak-ins-overview-head p{margin:0;color:#77766f;font-size:12px}
+.fak-ins-ledger-tag{font-size:11px;font-weight:800;color:#806331;background:#eee4cf;border:1px solid #dfcfad;padding:5px 9px;border-radius:5px;white-space:nowrap}
+.fak-installment-panel .dash-kpi{border:1px solid #e4dccb!important;border-radius:9px!important;background:#fffefa!important;box-shadow:0 3px 10px rgba(52,43,25,.035)!important}
+.fak-installment-panel .table-wrap{border:1px solid #e4dccb;background:#fffefa}
+.fak-installment-panel table{border-collapse:separate;border-spacing:0}
+.fak-installment-panel th{background:#f0eadc;color:#4e4a40;font-weight:800;border-bottom:1px solid #ded3bd}
+.fak-installment-panel td{border-bottom:1px solid #eee8dc;color:#393a3b}
+.fak-installment-panel tr:last-child td{border-bottom:0}
+.fak-ins-status{display:inline-block;padding:5px 8px;border-radius:5px;font-size:11px;font-weight:800;white-space:nowrap}
+.fak-ins-status.paid{background:#e4eee5;color:#315c3b}.fak-ins-status.partial{background:#e8edf5;color:#365477}.fak-ins-status.overdue{background:#f6e5e1;color:#963e31}.fak-ins-status.soon{background:#f5eddc;color:#8a6424}.fak-ins-status.open{background:#ecebe7;color:#62615b}
+.fak-ins-actions{display:flex;gap:5px;flex-wrap:wrap}.fak-ins-actions .btn{padding:6px 9px;font-size:11px;border-radius:6px}
+.fak-ins-plan-card{border:1px solid #e2d8c6;border-radius:9px;background:#fffefa;padding:13px 14px;margin:9px 0;display:grid;grid-template-columns:minmax(170px,1.2fr) repeat(3,minmax(100px,.7fr)) auto;gap:12px;align-items:center}
+.fak-ins-plan-name{font-weight:850;color:#2d3d50}.fak-ins-plan-name small{display:block;font-weight:500;color:#858075;margin-top:4px}
+.fak-ins-plan-metric{font-size:12px;color:#77736b}.fak-ins-plan-metric b{display:block;color:#343b43;font-size:13px;margin-top:3px}
+.fak-ins-progress{height:6px;border-radius:99px;background:#eee9df;overflow:hidden;margin-top:7px}.fak-ins-progress span{display:block;height:100%;background:#8b754b;border-radius:99px}
+.fak-ins-plan-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.fak-ins-plan-actions button{font-size:11px;padding:6px 8px;border-radius:6px}
+.fak-ins-history-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #eee8dc}.fak-ins-history-row:last-child{border-bottom:0}
+.fak-installment-modal{background:#fffdf8;border:1px solid #d9cfb8;border-radius:12px;box-shadow:0 20px 60px #17130d33}
+.fak-installment-modal label{color:#514d44}.fak-installment-modal input,.fak-installment-modal select,.fak-installment-modal textarea{border-color:#d9d0c0;background:#fffefa;border-radius:7px}
+.fak-installment-help{background:#f5f0e5;border:1px solid #e5dac4;color:#686052;border-radius:8px}
+@media(max-width:850px){.fak-ins-plan-card{grid-template-columns:1fr 1fr}.fak-ins-plan-name{grid-column:1/-1}.fak-ins-plan-actions{grid-column:1/-1;justify-content:flex-start}}
+@media(max-width:520px){.fak-ins-overview-head{align-items:flex-start}.fak-ins-plan-card{grid-template-columns:1fr 1fr;padding:11px}.fak-ins-plan-actions button{flex:1}.fak-installment-panel .table-wrap{overflow-x:auto}}
+</style>
+
+<script id="faktorino-installment-pro-engine">
+(()=>{
+ const $=id=>document.getElementById(id);
+ const userKey=()=>`faktorino_installment_plans_${(window.currentUser&&currentUser.id)||'guest'}`;
+ const read=()=>{try{const v=JSON.parse(localStorage.getItem(userKey())||'[]');return Array.isArray(v)?v:[]}catch(e){return[]}};
+ const write=a=>localStorage.setItem(userKey(),JSON.stringify(a));
+ const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+ const money=n=>Number(n||0).toLocaleString('fa-IR')+' تومان';
+ const esc=s=>typeof escapeHtml==='function'?escapeHtml(String(s??'')):String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const parseDate=s=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(String(s||'')))return null;const d=new Date(s+'T12:00:00');if(Number.isNaN(d.getTime()))return null;return d.getFullYear()===Number(s.slice(0,4))&&d.getMonth()+1===Number(s.slice(5,7))&&d.getDate()===Number(s.slice(8,10))?d:null};
+ const dayDiff=s=>{const d=parseDate(s);if(!d)return 999999;const n=parseDate(today());return Math.round((d-n)/86400000)};
+ const status=i=>i.paid>=i.amount?'paid':i.paid>0?'partial':dayDiff(i.due)<0?'overdue':dayDiff(i.due)<=7?'soon':'open';
+ const all=()=>read().flatMap(p=>(p.items||[]).map(i=>({...i,planId:p.id,customer:p.customer,invoice:p.invoice,notes:p.notes})));
+ window.renderInstallmentPlans=()=>{const root=$('installmentPlans');if(!root)return;const plans=read();if(!plans.length){root.innerHTML='<div class="empty-state">هنوز برنامه‌ای ثبت نشده است.</div>';return}root.innerHTML=plans.map(p=>{const items=p.items||[],total=items.reduce((a,i)=>a+Number(i.amount||0),0),paid=items.reduce((a,i)=>a+Number(i.paid||0),0),remaining=Math.max(0,total-paid),pct=total?Math.min(100,paid/total*100):0;return `<article class="fak-ins-plan-card"><div class="fak-ins-plan-name">${esc(p.customer||'بدون نام')}<small>${esc(p.invoice||'بدون شماره قرارداد')} · ${items.length.toLocaleString('fa-IR')} قسط</small><div class="fak-ins-progress"><span style="width:${pct.toFixed(1)}%"></span></div></div><div class="fak-ins-plan-metric">مبلغ کل<b>${money(total)}</b></div><div class="fak-ins-plan-metric">وصول‌شده<b>${money(paid)}</b></div><div class="fak-ins-plan-metric">مانده<b>${money(remaining)}</b></div><div class="fak-ins-plan-actions"><button class="btn gray" type="button" onclick="editInstallmentPlan('${esc(p.id)}')">ویرایش</button><button class="btn red" type="button" onclick="deleteInstallmentPlan('${esc(p.id)}')">حذف برنامه</button></div></article>`}).join('')};
+ window.editInstallmentPlan=pid=>{const p=read().find(x=>x.id===pid);if(!p)return;$('insEditPlanId').value=pid;$('insEditCustomer').value=p.customer||'';$('insEditInvoice').value=p.invoice||'';$('insEditNotes').value=p.notes||'';$('installmentPlanEditWrap').style.display='flex'};
+ window.closeInstallmentPlanEdit=()=>{$('installmentPlanEditWrap').style.display='none'};
+ window.saveInstallmentPlanEdit=e=>{e.preventDefault();const plans=read(),p=plans.find(x=>x.id===$('insEditPlanId').value);if(!p)return;const customer=$('insEditCustomer').value.trim();if(!customer){alert('نام مشتری الزامی است.');return}p.customer=customer;p.invoice=$('insEditInvoice').value.trim();p.notes=$('insEditNotes').value.trim();write(plans);closeInstallmentPlanEdit();renderInstallments();alert('مشخصات قرارداد ذخیره شد.')};
+ window.deleteInstallmentPlan=pid=>{const plans=read(),p=plans.find(x=>x.id===pid);if(!p)return;if(!confirm(`تمام برنامه اقساط ${p.customer} و سوابق پرداخت آن حذف شود؟ این کار قابل بازگشت نیست.`))return;write(plans.filter(x=>x.id!==pid));renderInstallments()};
+ window.editInstallmentDue=(pid,iid)=>{const plans=read(),p=plans.find(x=>x.id===pid),i=p?.items.find(x=>x.id===iid);if(!i)return;const value=prompt('تاریخ جدید سررسید را با قالب YYYY-MM-DD وارد کن:',i.due);if(value===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(value)||!parseDate(value)){alert('تاریخ معتبر نیست. نمونه: 2026-12-25');return}i.due=value;write(plans);renderInstallments()};
+ window.openInstallmentForm=()=>{$('installmentForm').reset();$('insFirstDue').value=today();$('insCount').value=3;$('installmentFormWrap').style.display='flex'};
+ window.closeInstallmentForm=()=>{$('installmentFormWrap').style.display='none'};
+ window.saveInstallmentPlan=e=>{
+  e.preventDefault();
+  const customer=$('insCustomer').value.trim(),total=Number($('insTotal').value),count=Number($('insCount').value),first=$('insFirstDue').value,interval=Number($('insInterval').value);
+  if(!customer||!Number.isFinite(total)||total<=0||!Number.isInteger(count)||count<1||count>120||!parseDate(first)){alert('اطلاعات واردشده معتبر نیست.');return}
+  const base=Math.floor(total/count),items=[];
+  for(let n=0;n<count;n++){const d=parseDate(first);if(interval===1||interval===2||interval===3){const day=d.getDate();d.setDate(1);d.setMonth(d.getMonth()+n*interval);const last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();d.setDate(Math.min(day,last));}else d.setDate(d.getDate()+n*interval);const due=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;items.push({id:`${Date.now()}_${n}_${Math.random().toString(36).slice(2,7)}`,number:n+1,amount:n===count-1?total-base*(count-1):base,paid:0,due,payments:[]})}
+  const plans=read();plans.unshift({id:`plan_${Date.now()}_${Math.random().toString(36).slice(2,8)}`,customer,invoice:$('insInvoice').value.trim(),notes:$('insNotes').value.trim(),createdAt:today(),total,items});write(plans);closeInstallmentForm();renderInstallments();alert('برنامه اقساط با موفقیت ذخیره شد.');
+ };
+ window.renderInstallments=()=>{
+  const root=$('installmentList');if(!root)return;
+  const rows=all(),q=($('installmentSearch')?.value||'').trim().toLowerCase(),filter=$('installmentFilter')?.value||'all';
+  const sum=rows.reduce((s,i)=>s+i.amount,0),paid=rows.reduce((s,i)=>s+i.paid,0),overdue=rows.filter(i=>status(i)==='overdue').reduce((s,i)=>s+i.amount-i.paid,0),soon=rows.filter(i=>status(i)==='soon').reduce((s,i)=>s+i.amount-i.paid,0);
+  $('installmentKpis').innerHTML=[['کل اقساط',money(sum),'🧾'],['دریافت‌شده',money(paid),'💰'],['مانده اقساط',money(sum-paid),'⏳'],['سررسید گذشته',money(overdue),'⚠️'],['سررسید ۷ روز آینده',money(soon),'📅']].map(x=>`<div class="dash-kpi"><div class="ico">${x[2]}</div><div class="label">${x[0]}</div><div class="value">${x[1]}</div></div>`).join('');
+  let filtered=rows.filter(i=>(!q||(i.customer+' '+i.invoice+' '+i.notes).toLowerCase().includes(q)));
+  filtered=filtered.filter(i=>filter==='all'||(filter==='overdue'?status(i)==='overdue':filter==='soon'?status(i)==='soon':status(i)===filter));
+  filtered.sort((a,b)=>String(a.due).localeCompare(String(b.due)));
+  if(!filtered.length){root.innerHTML='<div class="empty-state">قسطی مطابق این فیلتر وجود ندارد.</div>';renderInstallmentPlans();return}
+  root.innerHTML=`<div class="table-wrap"><table><thead><tr><th>مشتری / قرارداد</th><th>قسط</th><th>سررسید</th><th>مبلغ قسط</th><th>پرداختی</th><th>مانده</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody>${filtered.map(i=>{const st=status(i),labels={paid:'تسویه‌شده',partial:'پرداخت جزئی',overdue:'سررسید گذشته',soon:'نزدیک سررسید',open:'در انتظار'};return `<tr><td><b>${esc(i.customer)}</b><div class="small-note">${esc(i.invoice||'بدون شماره قرارداد')}</div></td><td>${Number(i.number).toLocaleString('fa-IR')}</td><td>${esc(i.due)}</td><td>${money(i.amount)}</td><td>${money(i.paid)}</td><td><b>${money(Math.max(0,i.amount-i.paid))}</b></td><td><span class="fak-ins-status ${st}">${labels[st]}</span></td><td><div class="fak-ins-actions">${i.paid<i.amount?`<button class="btn primary" onclick="openInstallmentPayment('${esc(i.planId)}','${esc(i.id)}')">ثبت پرداخت</button>`:''}<button class="btn gray" onclick="editInstallmentDue('${esc(i.planId)}','${esc(i.id)}')">سررسید</button><button class="btn gray" onclick="showInstallmentHistory('${esc(i.planId)}','${esc(i.id)}')">سوابق</button><button class="btn red" onclick="deleteInstallment('${esc(i.planId)}','${esc(i.id)}')">حذف قسط</button></div></td></tr>`}).join('')}</tbody></table></div>`;
+  renderInstallmentPlans();
+ };
+ window.openInstallmentPayment=(planId,itemId)=>{const p=read().find(x=>x.id===planId),i=p?.items.find(x=>x.id===itemId);if(!i)return;const remain=i.amount-i.paid;$('insPayId').value=planId+'|'+itemId;$('insPayAmount').value=remain;$('insPayAmount').max=remain;$('insPayDate').value=today();$('insPayNote').value='';$('insPayInfo').textContent=`${p.customer} – قسط ${i.number} | مانده قابل پرداخت: ${money(remain)}`;$('installmentPaymentWrap').style.display='flex'};
+ window.closeInstallmentPayment=()=>{$('installmentPaymentWrap').style.display='none'};
+ window.saveInstallmentPayment=e=>{e.preventDefault();const [pid,iid]=$('insPayId').value.split('|'),amount=Number($('insPayAmount').value),date=$('insPayDate').value,plans=read(),p=plans.find(x=>x.id===pid),i=p?.items.find(x=>x.id===iid);if(!i||!Number.isFinite(amount)||amount<=0||amount>Number(i.amount)-Number(i.paid)+0.000001||!parseDate(date)){alert('مبلغ یا تاریخ پرداخت معتبر نیست.');return}i.paid+=amount;i.payments=Array.isArray(i.payments)?i.payments:[];i.payments.push({amount,date,method:$('insPayMethod').value,note:$('insPayNote').value.trim(),createdAt:new Date().toISOString()});write(plans);closeInstallmentPayment();renderInstallments();alert('پرداخت با موفقیت ثبت شد.')};
+ window.showInstallmentHistory=(pid,iid)=>{const p=read().find(x=>x.id===pid),i=p?.items.find(x=>x.id===iid);if(!i)return;const ps=i.payments||[];$('installmentHistoryContent').innerHTML=`<p><b>${esc(p.customer)}</b> – قسط ${i.number}</p><p>مبلغ: ${money(i.amount)} | پرداخت‌شده: ${money(i.paid)}</p>${ps.length?`<div class="table-wrap"><table><thead><tr><th>تاریخ</th><th>مبلغ</th><th>روش</th><th>یادداشت</th><th>عملیات</th></tr></thead><tbody>${ps.map((x,n)=>`<tr><td>${esc(x.date)}</td><td>${money(x.amount)}</td><td>${esc(x.method)}</td><td>${esc(x.note||'—')}</td><td><button class="btn red" type="button" onclick="removeInstallmentPayment('${esc(pid)}','${esc(iid)}',${n})">ابطال ثبت</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty-state">هنوز پرداختی ثبت نشده است.</div>'}`;$('installmentHistoryWrap').style.display='flex'};
+ window.removeInstallmentPayment=(pid,iid,index)=>{if(!confirm('این ثبت پرداخت از سوابق حذف و مبلغ آن از پرداختی قسط کم شود؟'))return;const plans=read(),p=plans.find(x=>x.id===pid),i=p?.items.find(x=>x.id===iid);if(!i||!Array.isArray(i.payments)||!i.payments[index])return;const [removed]=i.payments.splice(index,1);i.paid=Math.max(0,Number(i.paid||0)-Number(removed.amount||0));write(plans);closeInstallmentHistory();renderInstallments();alert('ثبت پرداخت با موفقیت اصلاح شد.')};
+ window.closeInstallmentHistory=()=>{$('installmentHistoryWrap').style.display='none'};
+ window.deleteInstallment=(pid,iid)=>{if(!confirm('این قسط و سوابق پرداخت آن حذف شود؟'))return;const plans=read(),p=plans.find(x=>x.id===pid);if(!p)return;p.items=p.items.filter(x=>x.id!==iid);if(!p.items.length){const ix=plans.indexOf(p);plans.splice(ix,1)}write(plans);renderInstallments()};
+ window.exportInstallmentsCsv=()=>{const rows=all();if(!rows.length){alert('اطلاعاتی برای خروجی وجود ندارد.');return}const data=[['مشتری','شماره فاکتور','شماره قسط','سررسید','مبلغ','پرداختی','مانده','وضعیت','تعداد تراکنش'],...rows.map(i=>[i.customer,i.invoice,i.number,i.due,i.amount,i.paid,Math.max(0,i.amount-i.paid),status(i),(i.payments||[]).length])];const csv='\uFEFF'+data.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='faktorino-installments.csv';a.click();URL.revokeObjectURL(url)};
+ const old=window.renderReceivables;window.renderReceivables=function(){if(typeof old==='function')old();renderInstallments()};
+ document.addEventListener('DOMContentLoaded',()=>{try{renderInstallments()}catch(err){console.error('Installment module:',err)}});
+ window.addEventListener('storage',e=>{if(e.key===userKey())renderInstallments()});
+})();
 </script>
 
 </body>
