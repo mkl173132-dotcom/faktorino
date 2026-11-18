@@ -1,12 +1,16 @@
 {
   "name": "faktorino-web",
-  "version": "14.0.0",
+  "version": "15.5.0",
   "private": true,
   "type": "module",
-  "scripts": {"start": "node server.mjs"},
+  "scripts": {
+    "start": "node server.mjs"
+  },
   "dependencies": {
     "@simplewebauthn/server": "^13.2.2",
     "express": "^4.21.2"
   },
-  "engines": {"node": ">=20"}
+  "engines": {
+    "node": ">=20"
+  }
 }
