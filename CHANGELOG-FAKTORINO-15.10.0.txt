@@ -1,0 +1,11 @@
+FAKTORINO 15.10.0 — CINEMATIC ENTERPRISE LOADING
+
+Base: Factorino 15.9.0 Enterprise Login.
+
+Changes:
+- Replaced the startup/loading screen with a cinematic enterprise-tech identity.
+- Added a custom FIRAN emblem, letter-by-letter wordmark, restrained startup status and progress bar.
+- Added subtle grid, scan and ambient lighting effects designed to remain lightweight.
+- Preserved the existing three-second transition and handoff behavior.
+- Preserved login, registration, tutorial, account storage, invoice, PDF, print, menus and all other application logic.
+- This is a visual loading-screen update only.

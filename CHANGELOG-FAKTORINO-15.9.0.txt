@@ -1,0 +1,11 @@
+FAKTORINO 15.9.0 — ENTERPRISE LOGIN / REGISTER
+
+Changes:
+- Redesigned only the login and registration presentation in an enterprise style.
+- Added a restrained FIRAN / FACTORINO brand panel with navy visual identity.
+- Improved form spacing, labels, inputs, tabs, primary action and mobile layout.
+- Kept existing authentication fields, element IDs, buttons, event handlers and JavaScript logic.
+- No invoice, dashboard, menu, storage, account, PDF, print or business features were intentionally changed.
+- This is a visual update only; it does not add server-side authentication or cloud synchronization.
+
+Base: Factorino 15.8.0

@@ -1,0 +1,17 @@
+FAKTORINO 15.16.0 - ORANGE 3D WELCOME
+
+- Replaced the previous dark loading panel with a clean white intro screen.
+- Added orange 3D FACTORINO letter-by-letter animation and Persian slogan.
+- Added Persian speech synthesis attempt after the wordmark animation, with an on-screen playback fallback if the browser blocks autoplay.
+- Intro duration is approximately 6.5 seconds.
+- Existing app sections, account logic, and other application scripts are preserved.
+- Browser autoplay restrictions still apply; a user click may be required to hear speech.
+
+FAKTORINO 15.16.0 - WHITE COMPLETE PRODUCTIVITY UPDATE
+
+- Preserved the white page background and removed all audio playback behavior.
+- Existing dashboard, invoice printing/PDF workflow, customer management, invoice search, and history filters are retained.
+- Added local IndexedDB automatic snapshots (keeps the two newest snapshots per account), manual snapshot and local restore controls.
+- Added a dashboard due-date and unpaid-invoice reminder panel with optional browser notifications.
+- Added date-range sales reporting and CSV export.
+- Automatic snapshots are stored on the current browser/device only; download a full backup periodically for off-device safety.
