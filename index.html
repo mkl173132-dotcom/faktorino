@@ -2590,6 +2590,249 @@ html, body { background:#fff !important; color:#172033; }
 #siteTransferScreen h2 { color:#292929 !important; }
 #siteTransferScreen p { color:#666 !important; }
 </style>
+
+<style id="faktorino-15-17-menu-mobile-repair">
+/* Scoped repair: drawer/menu and mobile navigation only. Core app logic is untouched. */
+#faktorinoDrawer{
+  position:fixed!important;inset:0 0 0 auto!important;
+  width:min(410px,92vw)!important;max-width:92vw!important;
+  height:100vh!important;height:100dvh!important;max-height:100dvh!important;
+  box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+  overflow:hidden!important;padding:0 0 env(safe-area-inset-bottom,0px)!important;
+  border-radius:0!important;
+}
+#faktorinoDrawer .drawer-head{
+  position:relative!important;z-index:2!important;flex:0 0 auto!important;
+  min-height:82px!important;padding:12px 16px!important;
+}
+#faktorinoDrawer .drawer-scroll-area{
+  display:block!important;flex:1 1 0!important;min-height:0!important;height:auto!important;
+  width:100%!important;overflow-x:hidden!important;overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;
+  touch-action:pan-y!important;padding:12px 14px 22px!important;
+  box-sizing:border-box!important;scrollbar-width:thin!important;
+}
+#faktorinoDrawer .drawer-scroll-controls{display:none!important}
+#faktorinoDrawer .drawer-links{
+  display:flex!important;flex-direction:column!important;gap:8px!important;
+  width:100%!important;height:auto!important;max-height:none!important;min-height:0!important;
+  overflow:visible!important;padding:0!important;margin:0!important;
+}
+#faktorinoDrawer .drawer-links a{
+  display:flex!important;align-items:center!important;justify-content:flex-start!important;
+  width:100%!important;min-width:0!important;min-height:50px!important;
+  box-sizing:border-box!important;padding:9px 12px!important;gap:11px!important;
+  border-radius:13px!important;font-size:14px!important;line-height:1.5!important;
+  white-space:normal!important;overflow-wrap:anywhere!important;
+  border-right:3px solid var(--menu-accent,#4385e8)!important;
+}
+#faktorinoDrawer .drawer-links a .menu-float-icon{
+  display:grid!important;place-items:center!important;flex:0 0 34px!important;
+  width:34px!important;height:34px!important;border-radius:10px!important;font-size:17px!important;
+}
+#faktorinoDrawer .drawer-links a span:last-child{flex:1 1 auto!important;min-width:0!important}
+#faktorinoDrawer .drawer-links a.active{
+  background:linear-gradient(110deg,#eaf3ff,#f5f9ff)!important;
+  color:#174a9b!important;border-color:#3b82f6!important;
+  box-shadow:0 4px 12px rgba(37,99,235,.10)!important;
+}
+#faktorinoDrawer .drawer-foot{flex:0 0 auto!important}
+#drawerBackdrop{z-index:1200!important}
+#faktorinoDrawer{z-index:1201!important}
+body.drawer-open{overflow:hidden!important;overscroll-behavior:none!important}
+#menuToggle{min-width:44px!important;min-height:44px!important;touch-action:manipulation}
+@media(max-width:600px){
+  #faktorinoDrawer{width:min(430px,94vw)!important;max-width:94vw!important}
+  #faktorinoDrawer .drawer-head{min-height:74px!important;padding:10px 13px!important}
+  #faktorinoDrawer .drawer-brand strong{font-size:19px!important}
+  #faktorinoDrawer .drawer-logo{width:42px!important;height:42px!important;font-size:27px!important}
+  #faktorinoDrawer .drawer-scroll-area{padding:10px 11px calc(18px + env(safe-area-inset-bottom,0px))!important}
+  #faktorinoDrawer .drawer-links{
+    display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    align-items:stretch!important;gap:8px!important;
+  }
+  #faktorinoDrawer .drawer-links a{
+    min-height:66px!important;padding:8px 7px!important;gap:6px!important;
+    flex-direction:column!important;justify-content:center!important;text-align:center!important;
+    font-size:11px!important;line-height:1.4!important;border-right:0!important;
+    border-top:3px solid var(--menu-accent,#4385e8)!important;border-radius:13px!important;
+  }
+  #faktorinoDrawer .drawer-links a .menu-float-icon{
+    flex:0 0 30px!important;width:30px!important;height:30px!important;
+    font-size:16px!important;border-radius:9px!important;
+  }
+  #faktorinoDrawer .drawer-links a span:last-child{width:100%!important}
+  .mobile-bottom-nav{
+    position:fixed!important;left:8px!important;right:8px!important;
+    bottom:calc(7px + env(safe-area-inset-bottom,0px))!important;z-index:1100!important;
+    display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:4px!important;padding:6px!important;border:1px solid #dbe5f2!important;
+    border-radius:17px!important;background:rgba(255,255,255,.97)!important;
+    box-shadow:0 8px 28px rgba(15,35,70,.16)!important;
+    -webkit-backdrop-filter:blur(14px)!important;backdrop-filter:blur(14px)!important;
+  }
+  .mobile-bottom-nav button{
+    min-width:0!important;min-height:52px!important;padding:6px 2px!important;
+    border:0!important;border-radius:12px!important;background:transparent!important;
+    color:#475569!important;font-size:10px!important;line-height:1.3!important;
+    touch-action:manipulation!important;
+  }
+  .mobile-bottom-nav button b{display:block!important;font-size:18px!important;margin-bottom:2px!important}
+  .mobile-bottom-nav button.new-invoice{
+    background:linear-gradient(135deg,#16a34a,#059669)!important;color:#fff!important;
+    box-shadow:0 4px 12px rgba(5,150,105,.22)!important;
+  }
+  .mobile-bottom-nav button.active:not(.new-invoice){background:#eaf2ff!important;color:#1d4ed8!important;font-weight:800!important}
+  body{padding-bottom:calc(82px + env(safe-area-inset-bottom,0px))!important}
+}
+@media(max-width:360px){
+  #faktorinoDrawer .drawer-links{gap:6px!important}
+  #faktorinoDrawer .drawer-links a{font-size:10px!important;min-height:62px!important}
+  .mobile-bottom-nav{left:5px!important;right:5px!important;padding:4px!important}
+  .mobile-bottom-nav button{font-size:9px!important}
+}
+@media(max-height:520px) and (max-width:760px){
+  #faktorinoDrawer .drawer-head{min-height:60px!important}
+  #faktorinoDrawer .drawer-links a{min-height:56px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #faktorinoDrawer,#faktorinoDrawer *,.mobile-bottom-nav *{transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+
+
+<style id="faktorino-15-18-drawer-right-side">
+/* Final direction override: the main drawer opens from the RIGHT edge. */
+.faktorino-drawer#faktorinoDrawer{
+  position:fixed!important;
+  top:0!important;right:0!important;bottom:0!important;left:auto!important;
+  margin:0!important;
+  border-radius:20px 0 0 20px!important;
+  border-left:1px solid #d9e5f7!important;
+  border-right:0!important;
+  transform:translate3d(105%,0,0)!important;
+  visibility:hidden!important;
+  transition:transform .28s cubic-bezier(.2,.75,.25,1),visibility .28s!important;
+}
+.faktorino-drawer#faktorinoDrawer.open{
+  right:0!important;left:auto!important;
+  transform:translate3d(0,0,0)!important;
+  visibility:visible!important;
+}
+@media(max-width:600px){
+  .faktorino-drawer#faktorinoDrawer{
+    right:0!important;left:auto!important;
+    width:min(430px,94vw)!important;max-width:94vw!important;
+    border-radius:18px 0 0 18px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .faktorino-drawer#faktorinoDrawer{transition:none!important}
+}
+</style>
+
+
+<style id="faktorino-15-19-left-drawer-premium-settings">
+/* Main drawer: opens from LEFT edge and slides into the page. */
+.faktorino-drawer#faktorinoDrawer{
+  position:fixed!important;top:0!important;bottom:0!important;
+  left:0!important;right:auto!important;margin:0!important;
+  width:min(410px,90vw)!important;max-width:90vw!important;
+  height:100vh!important;height:100dvh!important;max-height:100dvh!important;
+  border-radius:0 20px 20px 0!important;
+  border-left:0!important;border-right:1px solid rgba(148,190,235,.48)!important;
+  transform:translate3d(-105%,0,0)!important;
+  visibility:hidden!important;
+  transition:transform .34s cubic-bezier(.22,.78,.22,1),visibility .34s!important;
+  will-change:transform;
+}
+.faktorino-drawer#faktorinoDrawer.open{
+  left:0!important;right:auto!important;
+  transform:translate3d(0,0,0)!important;visibility:visible!important;
+}
+#drawerBackdrop.open{opacity:1!important;visibility:visible!important}
+#faktorinoDrawer .drawer-head{flex:0 0 auto!important}
+#faktorinoDrawer .drawer-scroll-area{min-height:0!important}
+#faktorinoSettingsPanel{
+  position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+  display:none;flex-direction:column!important;overflow:hidden!important;
+  border-radius:inherit!important;box-sizing:border-box!important;
+  z-index:40!important;
+}
+#faktorinoSettingsPanel.open{
+  display:flex!important;
+  animation:fkSettingsFullOpen .32s cubic-bezier(.22,.78,.22,1) both!important;
+}
+@keyframes fkSettingsFullOpen{
+  from{opacity:0;transform:translate3d(14px,0,0) scale(.992);filter:blur(2px)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0)}
+}
+#faktorinoSettingsPanel .fk-settings-head{
+  flex:0 0 auto!important;min-height:76px!important;height:auto!important;
+  padding:12px 14px!important;gap:10px!important;
+  box-sizing:border-box!important;
+}
+#faktorinoSettingsPanel .fk-settings-list,
+#faktorinoSettingsPanel .fk-detail-view{
+  flex:1 1 0!important;min-height:0!important;height:auto!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;
+  touch-action:pan-y!important;scrollbar-width:thin!important;
+  padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))!important;
+  box-sizing:border-box!important;
+}
+#faktorinoSettingsPanel .fk-settings-item{
+  min-height:68px!important;border-radius:16px!important;
+  transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease,border-color .2s ease,background .2s ease!important;
+}
+#faktorinoSettingsPanel .fk-settings-item:hover{
+  transform:translateY(-1px)!important;
+  box-shadow:0 8px 20px rgba(36,72,125,.10)!important;
+}
+#faktorinoSettingsPanel .fk-settings-item:active{transform:scale(.985)!important}
+#faktorinoSettingsPanel .fk-settings-close,
+#faktorinoSettingsPanel .fk-detail-back,
+#faktorinoSettingsOpen{
+  min-width:44px!important;min-height:44px!important;touch-action:manipulation!important;
+}
+#faktorinoSettingsPanel button:focus-visible,
+#faktorinoSettingsOpen:focus-visible{
+  outline:3px solid rgba(37,99,235,.35)!important;outline-offset:2px!important;
+}
+#faktorinoSettingsPanel .fk-color-settings{max-width:100%!important;box-sizing:border-box!important}
+#faktorinoSettingsPanel .fk-color-swatches{
+  display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+#faktorinoSettingsPanel .fk-custom-color-row{flex-wrap:wrap!important}
+@media(max-width:600px){
+  .faktorino-drawer#faktorinoDrawer{
+    width:min(430px,94vw)!important;max-width:94vw!important;
+    border-radius:0 18px 18px 0!important;
+  }
+  #faktorinoSettingsPanel .fk-settings-head{
+    min-height:70px!important;padding:10px 11px!important;
+  }
+  #faktorinoSettingsPanel .fk-settings-title{font-size:16px!important;gap:7px!important}
+  #faktorinoSettingsPanel .fk-settings-title .fk-gear{width:35px!important;height:35px!important}
+  #faktorinoSettingsPanel .fk-settings-list{padding:11px 10px calc(20px + env(safe-area-inset-bottom,0px))!important;gap:9px!important}
+  #faktorinoSettingsPanel .fk-settings-item{min-height:64px!important;padding:9px 10px!important}
+  #faktorinoSettingsPanel .fk-settings-icon{width:38px!important;height:38px!important;flex-basis:38px!important}
+  #faktorinoSettingsPanel .fk-color-swatches{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  #faktorinoSettingsPanel .fk-detail-view{padding:11px 10px calc(22px + env(safe-area-inset-bottom,0px))!important}
+}
+@media(max-width:360px){
+  #faktorinoSettingsPanel .fk-settings-title{font-size:14px!important}
+  #faktorinoSettingsPanel .fk-settings-item{gap:8px!important}
+  #faktorinoSettingsPanel .fk-settings-copy strong{font-size:13px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .faktorino-drawer#faktorinoDrawer,#faktorinoSettingsPanel.open,
+  #faktorinoSettingsPanel .fk-settings-item{transition:none!important;animation:none!important}
+}
+</style>
+
 </head>
 
 <body>
